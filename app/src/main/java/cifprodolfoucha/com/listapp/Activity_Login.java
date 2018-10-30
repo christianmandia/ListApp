@@ -3,7 +3,7 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class Login extends Activity {
+public class Activity_Login extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
