@@ -7,68 +7,78 @@
     tools:context=".Activity_Registro">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/etEmail_Registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="84dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="112dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="240dp"
+        android:id="@+id/tvCorreo_Registro"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.974"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/correo"
+        app:layout_constraintBottom_toTopOf="@+id/etEmail_Registro"
+        app:layout_constraintEnd_toEndOf="@+id/etEmail_Registro"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etEmail_Registro" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/etContraseña_Registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.012"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmail_Registro" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvContraseña_Registro"
+        android:layout_width="0dp"
         android:layout_height="18dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="84dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:text="@string/contraseña"
+        app:layout_constraintBottom_toTopOf="@+id/etContraseña_Registro"
+        app:layout_constraintEnd_toEndOf="@+id/etContraseña_Registro"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/etContraseña_Registro" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnCrearCuenta_Registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="92dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        android:layout_marginTop="56dp"
+        android:text="@string/botón"
+        app:layout_constraintEnd_toEndOf="@+id/etContraseña_Registro"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/etContraseña_Registro"
+        app:layout_constraintTop_toBottomOf="@+id/etContraseña_Registro" />
+
+    <TextView
+        android:id="@+id/tvLogin_Registro"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="@+id/btnCrearCuenta_Registro"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="@+id/btnCrearCuenta_Registro"
+        app:layout_constraintTop_toBottomOf="@+id/btnCrearCuenta_Registro" />
 </android.support.constraint.ConstraintLayout>

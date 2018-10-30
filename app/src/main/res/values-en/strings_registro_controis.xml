@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="correo">Your e-mail</string>
+    <string name="contraseña">Your password</string>
+    <string name="botón">Create account</string>
+    <string name="login">I`ve got an account</string>
+</resources>
