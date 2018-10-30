@@ -8,6 +8,6 @@ public class Activity_Ajustes extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__ajustes);
+        setContentView(R.layout.layout__ajustes);
     }
 }
