@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ListApp</string>
+    <string name="nombreLogin">Nombre</string>
+    <string name="passLogin">Password</string>
+    <string name="loginBoton">Conectarse</string>
+    <string name="registrarseBoton">Registrarse</string>
 </resources>
