@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nomeArtículo">Nombre del artículo</string>
+    <string name="cantidadArtículo">Cantidad</string>
+    <string name="precioArtículo">Precio</string>
+    <string name="notasArtículo">Notas</string>
+</resources>
