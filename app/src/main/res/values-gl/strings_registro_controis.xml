@@ -4,4 +4,11 @@
     <string name="contraseña">O teu contrasinal</string>
     <string name="botón">Crear conta</string>
     <string name="login">Xa teño unha conta</string>
+
+    <string name="nombreLogin">Nome</string>
+    <string name="passLogin">Contrasinal</string>
+    <string name="loginBoton">Conectarse</string>
+    <string name="registrarseBoton">Rexistrarse</string>
+    <string name="botonEliminarLista">Eliminar</string>
+    <string name="botonAñadirLista">Engadir</string>
 </resources>

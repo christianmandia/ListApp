@@ -5,4 +5,10 @@
     <string name="botón">Crear cuenta</string>
     <string name="login">Ya tengo una cuenta</string>
 
+    <string name="nombreLogin">Nombre</string>
+    <string name="passLogin">Contraseña</string>
+    <string name="loginBoton">Conectarse</string>
+    <string name="registrarseBoton">Registrarse</string>
+    <string name="botonEliminarLista">Eliminar</string>
+    <string name="botonAñadirLista">Añadir</string>
 </resources>

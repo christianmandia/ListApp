@@ -4,4 +4,11 @@
     <string name="contraseña">Your password</string>
     <string name="botón">Create account</string>
     <string name="login">I`ve got an account</string>
+
+    <string name="nombreLogin">Name</string>
+    <string name="passLogin">Password</string>
+    <string name="loginBoton">Login</string>
+    <string name="registrarseBoton">Register</string>
+    <string name="botonEliminarLista">Delete</string>
+    <string name="botonAñadirLista">Add</string>
 </resources>
