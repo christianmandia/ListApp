@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="correo">Tu correo electrónico</string>
-    <string name="contraseña">Tu contraseña</string>
-    <string name="botón">Crear cuenta</string>
-    <string name="login">Ya tengo una cuenta</string>
-
-    <string name="nombreLogin">Nombre</string>
-    <string name="passLogin">Contraseña</string>
-    <string name="loginBoton">Conectarse</string>
-    <string name="registrarseBoton">Registrarse</string>
-    <string name="botonEliminarLista">Eliminar</string>
-    <string name="botonAñadirLista">Añadir</string>
+    <string name="registroCorreo">Tu correo electrónico</string>
+    <string name="registroContraseña">Tu contraseña</string>
+    <string name="registroBotón">Crear cuenta</string>
+    <string name="registroLogin">Ya tengo una cuenta</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nombreLogin">Nome</string>
+    <string name="passLogin">Contrasinal</string>
+    <string name="loginBoton">Conectarse</string>
+    <string name="registrarseBoton">Rexistrarse</string>
+    <string name="botonEliminarLista">Eliminar</string>
+    <string name="botonAñadirLista">Engadir</string>
+</resources>
