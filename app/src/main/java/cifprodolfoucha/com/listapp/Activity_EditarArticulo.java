@@ -3,11 +3,11 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class Activity_Ajustes extends Activity {
+public class Activity_EditarArticulo extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout__ajustes);
+        setContentView(R.layout.activity__editar_articulo);
     }
 }

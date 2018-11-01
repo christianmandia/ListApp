@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_EditarArticulo">
+
+    <TextView
+        android:id="@+id/tvNombreArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/nomeArtículo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCantidadArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/cantidadArtículo"
+        app:layout_constraintStart_toStartOf="@+id/etNombreArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo" />
+
+    <TextView
+        android:id="@+id/tvPrecioArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/precioArtículo"
+        app:layout_constraintEnd_toEndOf="@+id/etNombreArticulo"
+        app:layout_constraintHorizontal_bias="0.74"
+        app:layout_constraintStart_toEndOf="@+id/etNombreArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo" />
+
+    <TextView
+        android:id="@+id/tvNotasArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/notasArtículo"
+        app:layout_constraintEnd_toEndOf="@+id/etCantidadArticulo"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="@+id/etCantidadArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo" />
+
+    <EditText
+        android:id="@+id/etNombreArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="@+id/tvNombreArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreArticulo" />
+
+    <EditText
+        android:id="@+id/etCantidadArticulo"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="@+id/tvCantidadArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticulo" />
+
+    <EditText
+        android:id="@+id/etPrecioArticulo"
+        android:layout_width="68dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/tvPrecioArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo" />
+
+    <EditText
+        android:id="@+id/etNotasArticulo"
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="@+id/tvNotasArticulo"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="@+id/tvNotasArticulo"
+        app:layout_constraintTop_toBottomOf="@+id/tvNotasArticulo" />
+
+</android.support.constraint.ConstraintLayout>
