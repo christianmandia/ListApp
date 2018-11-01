@@ -12,18 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="140dp"
         android:text="@string/botónElemento"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/lvElementosLista_ListaDefault"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@+id/lvElementosLista_ListaDefault"
-        app:layout_constraintTop_toBottomOf="@+id/lvElementosLista_ListaDefault" />
+        app:layout_constraintStart_toStartOf="@+id/lvElementosLista_ListaDefault" />
 
     <ListView
         android:id="@+id/lvElementosLista_ListaDefault"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCrearElemento_ListaDefault"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

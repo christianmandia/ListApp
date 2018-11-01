@@ -4,4 +4,5 @@
     <string name="cantidadArtículo">Cantidade</string>
     <string name="precioArtículo">Precio</string>
     <string name="notasArtículo">Notas</string>
+    <string name="botonEditaArtículo">Editar</string>
 </resources>

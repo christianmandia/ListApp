@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activity_MisListas"
+            android:label="."></activity>
+        <activity android:name=".Activity_EditarArticulo"></activity>
+        <activity android:name=".Activity_Login"></activity>
+        <activity android:name=".Activity_Registro"></activity>
+        <activity android:name=".Activity_Ajustes"></activity>
     </application>
 
 </manifest>

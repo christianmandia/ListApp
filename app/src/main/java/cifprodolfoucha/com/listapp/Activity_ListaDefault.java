@@ -2,9 +2,12 @@ package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +50,34 @@ public class Activity_ListaDefault extends Activity {
         //Escoitador
         lvFroitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+*/
+        final ListView lvElListaD=findViewById(R.id.lvElementosLista_ListaDefault);
+
+        lvElListaD.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo);
+                if(c.isChecked()){
+                    c.setChecked(false);
+                }else{
+                    c.setChecked(true);
+                }
+
+
+
+
+            }
+
+
+        });
+        lvElListaD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+
+        });
+        /*
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO Auto-generated method stub
@@ -55,6 +86,7 @@ public class Activity_ListaDefault extends Activity {
 
             }
         });
+
  */
 
 
