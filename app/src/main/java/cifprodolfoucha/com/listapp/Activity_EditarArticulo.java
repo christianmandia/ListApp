@@ -8,6 +8,6 @@ public class Activity_EditarArticulo extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__editar_articulo);
+        setContentView(R.layout.activity_editar_articulo);
     }
 }

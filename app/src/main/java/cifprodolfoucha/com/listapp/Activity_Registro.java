@@ -8,6 +8,6 @@ public class Activity_Registro extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout__registro);
+        setContentView(R.layout.layout_registro);
     }
 }

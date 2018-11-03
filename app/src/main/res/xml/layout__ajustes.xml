@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    android:title="EXEMPLO DE SETTINGS">
+
+    <PreferenceCategory
+        android:key="preferencia_idListas"
+        android:title="@string/ajustesListas">
+
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idListasFondo"
+            android:title="@string/cambiarFondo" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferencia_idNotificaciones"
+        android:title="@string/ajustesNotificaciones">
+
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idEditarNotificaciones"
+            android:title="@string/editarNotificaciones" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preferencia_idGenerales"
+        android:title="@string/ajustesGenerales">
+        <SwitchPreference
+            android:defaultValue=" "
+            android:key="preferencia_idPantalla"
+            android:title="@string/mantenerEncendido" />
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idCerrarSesion"
+            android:title="@string/cerrarSesión"/>
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idVersion"
+            android:title="@string/version"
+            android:summary="@string/versionActual"/>
+    </PreferenceCategory>
+</PreferenceScreen>

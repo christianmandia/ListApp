@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_ListaDefault">
+        <activity android:name=".Activity_ListaDefault"
+            android:label="Cosas">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,9 +20,9 @@
 
         <activity android:name=".Activity_MisListas"
             android:label="."></activity>
-        <activity android:name=".Activity_EditarArticulo"></activity>
-        <activity android:name=".Activity_Login"></activity>
         <activity android:name=".Activity_Registro"></activity>
+        <activity android:name=".Activity_Login"></activity>
+        <activity android:name=".Activity_EditarArticulo"></activity>
         <activity android:name=".Activity_Ajustes"></activity>
     </application>
 

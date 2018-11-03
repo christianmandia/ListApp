@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Item" />
-    <item android:title="Item" />
-    <item android:title="Item" />
+    <item
+        android:id="@+id/Login"
+        android:title="@string/MenuLogin"
+        />
+    <item
+        android:id="@+id/recargar"
+        android:title="@string/MenuDescargarListas"></item>
+    <item
+        android:id="@+id/ajustes"
+        android:title="@string/MenuAjustes"
+        />
 </menu>

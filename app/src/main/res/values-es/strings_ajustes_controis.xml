@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ajustesNotificaciones">Preferencias de Notificaciones</string>
+    <string name="editarNotificaciones">Editar notificaciones</string>
+    <string name="ajustesListas">Listas</string>
+    <string name="cambiarFondo">Cambiar background</string>
+    <string name="ajustesGenerales">Generales</string>
+    <string name="mantenerEncendido">Mantener pantalla encendida</string>
+    <string name="cerrarSesión">Cerrar Sesión</string>
+    <string name="version">Versión</string>
+    <string name="versionActual">0.0.1</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MenuCompartir">Compartir Lista</string>
+    <string name="MenuMostraPrecios">Mostrar Precios</string>
+    <string name="MenuEliminarComprados">Eliminar Artículos Comprados</string>
+    <string name="MenuEliminarLista">Eliminar Lista</string>
+</resources>

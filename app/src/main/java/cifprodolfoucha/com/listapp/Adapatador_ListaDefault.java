@@ -12,10 +12,10 @@ import android.widget.TextView;
 public class Adapatador_ListaDefault extends ArrayAdapter {
 
 
-    String[] articulos;
-    int[] cantidad;
-    double[] precio;
-    Context mContext;
+    private String[] articulos;
+    private int[] cantidad;
+    private double[] precio;
+    private Context mContext;
 
     public Adapatador_ListaDefault(Context context, String[]articulos,int[]cantidad,double[]precio) {
         super(context, R.layout.layout_elemento_listadefault2);       // Enviamos o layout que imos utilizar
@@ -52,9 +52,9 @@ public class Adapatador_ListaDefault extends ArrayAdapter {
             LayoutInflater mInflater = (LayoutInflater) mContext.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.layout_elemento_listadefault2, parent, false);
-            viewFila.mCheck = (CheckedTextView) convertView.findViewById(R.id.ctvNombreArticulo);
-            viewFila.mCantidad = (TextView) convertView.findViewById(R.id.tvCantidadArticuloLista);
-            viewFila.mPrecio = (TextView) convertView.findViewById(R.id.tvPrecioArticuloLista);
+            viewFila.mCheck = (CheckedTextView) convertView.findViewById(R.id.ctvNombreArticulo_ElementoListaDefault);
+            viewFila.mCantidad = (TextView) convertView.findViewById(R.id.tvCantidadArticuloLista_ElementoListaDefault);
+            viewFila.mPrecio = (TextView) convertView.findViewById(R.id.tvPrecioArticuloLista_ElementoListaDefault);
             convertView.setTag(viewFila);
         } else {
             viewFila = (Adapatador_ListaDefault.ViewHolder) convertView.getTag();
