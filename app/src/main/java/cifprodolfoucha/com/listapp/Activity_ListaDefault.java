@@ -1,12 +1,21 @@
 package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class Activity_ListaDefault extends Activity {
 
@@ -47,9 +56,18 @@ public class Activity_ListaDefault extends Activity {
 
     private void xestionarEventos(){
 
+        final Button btnAñadirElemento=findViewById(R.id.btnCrearElemento_ListaDefault);
+        btnAñadirElemento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOGO_ENTRADA_TEXTO);
+            }
+        });
+
  /*       ListView lvFroitas = findViewById(R.id.lvElementosLista_ListaDefault);
         //Escoitador
         lvFroitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
 
 */
         final ListView lvElListaD=findViewById(R.id.lvElementosLista_ListaDefault);
@@ -74,6 +92,7 @@ public class Activity_ListaDefault extends Activity {
         lvElListaD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showDialog(DIALOGO_TRES_BOTONS);
                 return false;
             }
 
@@ -93,6 +112,72 @@ public class Activity_ListaDefault extends Activity {
 
 
     }
+
+
+    private static final int DIALOGO_TRES_BOTONS = 1;
+    private static final int DIALOGO_ENTRADA_TEXTO = 2;
+
+    private AlertDialog.Builder venta;
+
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIALOGO_TRES_BOTONS:
+                venta = new AlertDialog.Builder(this);
+                venta.setIcon(android.R.drawable.ic_dialog_info);
+                venta.setTitle("Eliminar");
+                venta.setMessage("Está seguro de que desea eliminar este elemnto?");
+                venta.setCancelable(false);
+                venta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                        /* Sentencias se o usuario preme Si */
+                        // Toast.makeText(getApplicationContext(), "Premeches 'Si'", 1).show();
+                    }
+                });
+                venta.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                        /* Sentencias se o usuario preme Non */
+                        //  Toast.makeText(getApplicationContext(), "Premeches'Non'", 1).show();
+                    }
+                });
+                return venta.create();
+
+
+            case DIALOGO_ENTRADA_TEXTO:
+
+                // Primeiro preparamos o interior da ventá de diálogo inflando o seu
+                // fichero XML
+                String infService = Context.LAYOUT_INFLATER_SERVICE;
+                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
+                // Inflamos o compoñente composto definido no XML
+                View inflador = li.inflate(R.layout.dlg_nuevoelemento_listadefault, null);
+                // Buscamos os compoñentes dentro do Diálogo
+
+                final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento);
+
+                venta = new AlertDialog.Builder(this);
+                venta.setTitle("Insertar nuevo elemento");
+                // Asignamos o contido dentro do diálogo (o que inflamos antes)
+                venta.setView(inflador);
+                // Non se pode incluír unha mensaxe dentro deste tipo de diálogo!!!
+
+                venta.setPositiveButton("Listo", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                        //Toast.makeText(getApplicationContext(), "Escribiches nome: '" + etNome.getText().toString() + "'. Contrasinal: '" + etContrasinal.getText().toString() + "' e premeches 'Aceptar'",
+                        //        Toast.LENGTH_LONG).show();
+                    }
+                });
+                venta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                        // Toast.makeText(getApplicationContext(), "Premeches en 'Cancelar'", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                return venta.create();
+                //return null;
+        }
+        return null;
+    }
+
 
 
     @Override
