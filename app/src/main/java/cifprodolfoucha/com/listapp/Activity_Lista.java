@@ -125,7 +125,7 @@ public class Activity_Lista extends Activity {
                 venta = new AlertDialog.Builder(this);
                 venta.setIcon(android.R.drawable.ic_dialog_info);
                 venta.setTitle("Eliminar");
-                venta.setMessage("Está seguro de que desea eliminar este elemnto?");
+                venta.setMessage("Está seguro de que desea eliminar este elemento?");
                 venta.setCancelable(false);
                 venta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
@@ -155,7 +155,7 @@ public class Activity_Lista extends Activity {
                 final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento);
 
                 venta = new AlertDialog.Builder(this);
-                venta.setTitle("Insertar nuevo elemento");
+                venta.setTitle("Insertar nuevo artículo");
                 // Asignamos o contido dentro do diálogo (o que inflamos antes)
                 venta.setView(inflador);
                 // Non se pode incluír unha mensaxe dentro deste tipo de diálogo!!!
