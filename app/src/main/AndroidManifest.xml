@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_ListaDefault"
-            android:label="Cosas">
+        <activity android:name=".Activity_MisListas"
+            android:label="Mis Listas">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity_MisListas"
+        <activity android:name=".Activity_Lista"
             android:label="."></activity>
         <activity android:name=".Activity_Registro"></activity>
         <activity android:name=".Activity_Login"></activity>

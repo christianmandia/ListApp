@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Activity_ListaDefault extends Activity {
+public class Activity_Lista extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,15 +160,10 @@ public class Activity_ListaDefault extends Activity {
                 venta.setView(inflador);
                 // Non se pode incluír unha mensaxe dentro deste tipo de diálogo!!!
 
-                venta.setPositiveButton("Listo", new DialogInterface.OnClickListener() {
+                venta.setNeutralButton("Listo", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
                         //Toast.makeText(getApplicationContext(), "Escribiches nome: '" + etNome.getText().toString() + "'. Contrasinal: '" + etContrasinal.getText().toString() + "' e premeches 'Aceptar'",
                         //        Toast.LENGTH_LONG).show();
-                    }
-                });
-                venta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                        // Toast.makeText(getApplicationContext(), "Premeches en 'Cancelar'", Toast.LENGTH_LONG).show();
                     }
                 });
 
