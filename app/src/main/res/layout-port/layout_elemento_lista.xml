@@ -7,9 +7,9 @@
 
 
     <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ctvNombreArticulo_ElementoListaDefault"
+        android:id="@+id/ctvNombreArticulo_ElementoLista"
         android:layout_width="0dp"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:layout_height="45dp"
         android:checkMark="@null"
         android:drawableStart="?android:attr/textCheckMarkInverse"
         android:gravity="center_vertical"
@@ -29,7 +29,7 @@
         app:layout_constraintGuide_percent="0.60" />
 
     <TextView
-        android:id="@+id/tvCantidadArticuloLista_ElementoListaDefault"
+        android:id="@+id/tvCantidadArticuloLista_ElementoLista"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -45,7 +45,7 @@
         app:layout_constraintGuide_percent="0.80" />
 
     <TextView
-        android:id="@+id/tvPrecioArticuloLista_ElementoListaDefault"
+        android:id="@+id/tvPrecioArticuloLista_ElementoLista"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"

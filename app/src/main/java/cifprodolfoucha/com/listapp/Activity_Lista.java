@@ -3,17 +3,17 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Activity_Lista extends Activity {
 
@@ -38,15 +38,25 @@ public class Activity_Lista extends Activity {
 
 */
     private void cargarLista(){
-        String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
-        int[] cantidad={1,2,10,0,0,4};
-        double[] precio={0.5,15,30,0,20,0};
+        //String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
+        //int[] cantidad={1,2,10,0,0,4};
+        //double[] precio={0.5,15,30,0,20,0};
 
 
-        ListView lista = findViewById(R.id.lvElementosLista_ListaDefault);
+        ListView lista = findViewById(R.id.lvElementosLista_Lista);
 
-        Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
-        lista.setAdapter(meuAdaptador);
+        //Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
+        //lista.setAdapter(meuAdaptador);
+
+        ArrayList<Articulo> articulos=new ArrayList();
+        articulos.add(new Articulo("pilas AA",false,1,0.5,""));
+        articulos.add(new Articulo("articulo2",true,3,15,""));
+        articulos.add(new Articulo("mazá",true,10,30,""));
+        articulos.add(new Articulo("articulo4",false,0,0,""));
+        articulos.add(new Articulo("articulo5",true,0,20,""));
+        articulos.add(new Articulo("articulo6",false,4,0,""));
+        Adapatador_Lista adaptador=new Adapatador_Lista(this,articulos);
+        lista.setAdapter(adaptador);
 
     }
 
@@ -54,11 +64,18 @@ public class Activity_Lista extends Activity {
 
     private void xestionarEventos(){
 
-        final Button btnAñadirElemento=findViewById(R.id.btnCrearElemento_ListaDefault);
+
+        Bundle bundle=new Bundle();
+
+        final Button btnAñadirElemento=findViewById(R.id.btnCrearElemento_Lista);
         btnAñadirElemento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(DIALOGO_ENTRADA_TEXTO);
+//                showDialog(TEXTO);
+                Intent nuevoArticulo=new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
+
+
+                startActivity(nuevoArticulo);
             }
         });
 
@@ -68,12 +85,12 @@ public class Activity_Lista extends Activity {
 
 
 */
-        final ListView lvElListaD=findViewById(R.id.lvElementosLista_ListaDefault);
+        final ListView lvElListaD=findViewById(R.id.lvElementosLista_Lista);
 
         lvElListaD.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo_ElementoListaDefault);
+                CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo_ElementoLista);
                 if(c.isChecked()){
                     c.setChecked(false);
                 }else{
@@ -90,7 +107,7 @@ public class Activity_Lista extends Activity {
         lvElListaD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialog(DIALOGO_TRES_BOTONS);
+                showDialog(BOTONES);
                 return false;
             }
 
@@ -112,14 +129,14 @@ public class Activity_Lista extends Activity {
     }
 
 
-    private static final int DIALOGO_TRES_BOTONS = 1;
-    private static final int DIALOGO_ENTRADA_TEXTO = 2;
+    private static final int BOTONES = 1;
+    private static final int TEXTO = 2;
 
     private AlertDialog.Builder venta;
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case DIALOGO_TRES_BOTONS:
+            case BOTONES:
                 venta = new AlertDialog.Builder(this);
                 venta.setIcon(android.R.drawable.ic_dialog_info);
                 venta.setTitle("Eliminar");
@@ -139,8 +156,8 @@ public class Activity_Lista extends Activity {
                 });
                 return venta.create();
 
-
-            case DIALOGO_ENTRADA_TEXTO:
+/*
+            case TEXTO:
 
                 // Primeiro preparamos o interior da ventá de diálogo inflando o seu
                 // fichero XML
@@ -150,7 +167,7 @@ public class Activity_Lista extends Activity {
                 View inflador = li.inflate(R.layout.dlg_nuevoelemento_listadefault, null);
                 // Buscamos os compoñentes dentro do Diálogo
 
-                final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento);
+                final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento0000000000);
 
                 venta = new AlertDialog.Builder(this);
                 venta.setTitle("Insertar nuevo artículo");
@@ -167,7 +184,10 @@ public class Activity_Lista extends Activity {
 
                 return venta.create();
                 //return null;
+*/
         }
+
+
         return null;
     }
 

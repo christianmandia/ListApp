@@ -8,27 +8,25 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-public class Adapatador_ListaDefault extends ArrayAdapter {
+import java.util.ArrayList;
+
+public class Adapatador_Lista extends ArrayAdapter {
 
 
-    private String[] articulos;
-    private int[] cantidad;
-    private double[] precio;
+    private ArrayList<Articulo> articulos;
     private Context mContext;
 
-    public Adapatador_ListaDefault(Context context, String[]articulos,int[]cantidad,double[]precio) {
+    public Adapatador_Lista(Context context, ArrayList<Articulo>articulos) {
         super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
 
         this.articulos = articulos;
-        this.cantidad = cantidad;
-        this.precio = precio;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
         //return super.getCount();
-        return articulos.length;       // Poderíamos poñer tamén o número de imaxes.
+        return articulos.size();       // Poderíamos poñer tamén o número de imaxes.
     }
 
     @Override
@@ -45,8 +43,9 @@ public class Adapatador_ListaDefault extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
         //return super.getView(position, convertView, parent);
+        Articulo articulo=articulos.get(position);
 
-        Adapatador_ListaDefault.ViewHolder viewFila = new Adapatador_ListaDefault.ViewHolder();
+        Adapatador_Lista.ViewHolder viewFila = new Adapatador_Lista.ViewHolder();
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,21 +55,36 @@ public class Adapatador_ListaDefault extends ArrayAdapter {
             viewFila.mPrecio = (TextView) convertView.findViewById(R.id.tvPrecioArticuloLista_ElementoLista);
             convertView.setTag(viewFila);
         } else {
-            viewFila = (Adapatador_ListaDefault.ViewHolder) convertView.getTag();
+            viewFila = (Adapatador_Lista.ViewHolder) convertView.getTag();
         }
-        viewFila.mCheck.setText(articulos[position]);
 
-        if(cantidad[position]!=0) {
-            viewFila.mCantidad.setText(cantidad[position]+"");
+        viewFila.mCheck.setText(articulo.getNombre());
+
+        if(articulo.getCantidad()!=0) {
+            viewFila.mCantidad.setText(articulo.getCantidad()+"");
         }else{
             viewFila.mCantidad.setText("1");
         }
 
-        if(precio[position]!=0) {
-            viewFila.mPrecio.setText(precio[position] + "€");
+        if(articulo.getPrecio()!=0) {
+            viewFila.mPrecio.setText(articulo.getPrecio() + "€");
         }else{
             viewFila.mPrecio.setText("");
         }
+
+        if(articulo.getNotas().length()!=0){
+
+        }else{
+
+        }
+
+        if(articulo.isSeleccionado()){
+            viewFila.mCheck.setChecked(true);
+        }else{
+            viewFila.mCheck.setChecked(false);
+        }
+
+
 
         return convertView;
     }

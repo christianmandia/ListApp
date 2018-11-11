@@ -3,13 +3,7 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckedTextView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import android.widget.Toast;
 
 public class Activity_NuevoArticulo extends Activity {
 /*
