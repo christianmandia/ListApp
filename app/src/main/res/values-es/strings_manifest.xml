@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="labelCrearArticulo">Crear Nuevo Artículo</string>
+    <string name="labelCrearLista">Crear Nueva Lista</string>
+</resources>

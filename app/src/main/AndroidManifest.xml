@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_Lista"
+        <activity
+            android:name=".Activity_Lista"
             android:label="Cosas">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,13 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activity_MisListas"
-            android:label="."></activity>
-        <activity android:name=".Activity_Registro"></activity>
-        <activity android:name=".Activity_Login"></activity>
-        <activity android:name=".Activity_EditarArticulo"></activity>
-        <activity android:name=".Activity_Ajustes"></activity>
+        <activity
+            android:name=".Activity_MisListas"
+            android:label="." />
+        <activity android:name=".Activity_Registro" />
+        <activity android:name=".Activity_Login" />
+        <activity android:name=".Activity_EditarArticulo" />
+        <activity android:name=".Activity_Ajustes" />
+        <activity
+            android:name=".Activity_NuevaLista"
+            android:label="@string/labelCrearLista"></activity>
+        <activity android:name=".Activity_NuevoArticulo"
+            android:label="@string/labelCrearArticulo"></activity>
     </application>
 
 </manifest>
