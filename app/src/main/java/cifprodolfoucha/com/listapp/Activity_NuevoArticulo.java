@@ -20,7 +20,7 @@ public class Activity_NuevoArticulo extends Activity {
 ArrayList<Articulo> articulos=new ArrayList();
 ArrayList<Articulo> articulos2=new ArrayList();
 
-
+String prueba;
 
     private void xestionarEventos(){
 
@@ -48,7 +48,7 @@ ArrayList<Articulo> articulos2=new ArrayList();
                 for(Articulo a:articulos){
 
                     if(a.getNombre().toLowerCase().equals(etNombre.getText().toString().toLowerCase())) {
-                        llamadas();
+                        //llamadas();
                         encontrado=true;
                     }
 
@@ -56,18 +56,19 @@ ArrayList<Articulo> articulos2=new ArrayList();
 
                 if(!encontrado){
                     EditText etCantidad=(EditText)findViewById(R.id.etCantidadArticulo_NuevoArticuloArticulo);
-                    EditText etPrecio=(EditText)findViewById(R.id.etPrecioArticulo_EditarArticulo);
+                    EditText etPrecio=(EditText)findViewById(R.id.etPrecioArticulo_NuevoArticulo);
                     EditText etNotas=(EditText)findViewById(R.id.etNotasArticulo_NuevoArticulo);
                     int cantidad=0;
                     double precio=0;
                     if(!etCantidad.getText().toString().isEmpty()){
                         cantidad=Integer.parseInt(etCantidad.getText().toString());
-                    }/*
+                    }
                     if(!etPrecio.getText().toString().isEmpty()){
                         precio=Double.parseDouble(etPrecio.getText().toString());
                     }
-*/
-                    Articulo a=new Articulo(etNombre.getText().toString(),false,cantidad,0,etNotas.getText().toString());
+
+                    //llamadas(etPrecio.getText().toString());
+                    Articulo a=new Articulo(etNombre.getText().toString(),false,cantidad,precio,etNotas.getText().toString());
                     articulos2.add(a);
                     Intent datos = new Intent();
                     datos.putExtra(Activity_Lista.NEWArticulos,articulos2);
@@ -97,8 +98,8 @@ ArrayList<Articulo> articulos2=new ArrayList();
         });
     }
 
-    public void llamadas(){
-        Toast.makeText(this,"aAAAAAAAAAAAAAAAAAAAA",Toast.LENGTH_LONG);
+    public void llamadas(String texto){
+        Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

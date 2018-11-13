@@ -114,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArtículo" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/etPrecioArticulo_NuevoArticulo"
         android:layout_width="129dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
