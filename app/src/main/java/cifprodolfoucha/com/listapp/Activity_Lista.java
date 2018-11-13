@@ -55,6 +55,12 @@ public class Activity_Lista extends Activity {
         articulos.add(new Articulo("articulo4",false,0,0,""));
         articulos.add(new Articulo("articulo5",true,0,20,""));
         articulos.add(new Articulo("articulo6",false,4,0,""));
+        articulos.add(new Articulo("pilas AA",false,1,0.5,""));
+        articulos.add(new Articulo("articulo2",true,3,15,""));
+        articulos.add(new Articulo("mazá",true,10,30,""));
+        articulos.add(new Articulo("articulo4",false,0,0,""));
+        articulos.add(new Articulo("articulo5",true,0,20,""));
+        articulos.add(new Articulo("articulo6",false,4,0,""));
         Adapatador_Lista adaptador=new Adapatador_Lista(this,articulos);
         lista.setAdapter(adaptador);
 
