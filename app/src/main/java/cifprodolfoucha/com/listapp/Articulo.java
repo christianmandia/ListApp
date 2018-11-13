@@ -1,6 +1,8 @@
 package cifprodolfoucha.com.listapp;
 
-public class Articulo {
+import java.io.Serializable;
+
+public class Articulo  implements Serializable {
     private String nombre;
     private boolean seleccionado;
     private int cantidad;

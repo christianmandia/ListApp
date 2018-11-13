@@ -11,32 +11,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Activity_Lista extends Activity {
 
+    public final static String NEWArticulos= "nuevo";
+    private static final int COD_PETICION = 33;
+    final ArrayList<Articulo> articulos=new ArrayList();
+    Adapatador_Lista adaptador=null;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_listadefault, menu);
         return true;
     }
-/*
-    private void cargarListas(){
-        //Fonte de datos
-        String[] froitas = new String[] { "Pera", "Mazá", "Plátano" };
-
-        //Enlace do adaptador coa fonte de datos
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, R.layout.layout_elemento_listadefault, froitas);
-
-        ListView lvFroitas = findViewById(R.id.lvElementosLista_ListaDefault);
-        //Enlace do adaptador co ListView
-        lvFroitas.setAdapter(adaptador);
-    }
-
-*/
     private void cargarLista(){
         //String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
         //int[] cantidad={1,2,10,0,0,4};
@@ -48,7 +40,7 @@ public class Activity_Lista extends Activity {
         //Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
         //lista.setAdapter(meuAdaptador);
 
-        ArrayList<Articulo> articulos=new ArrayList();
+
         articulos.add(new Articulo("pilas AA",false,1,0.5,""));
         articulos.add(new Articulo("articulo2",true,3,15,""));
         articulos.add(new Articulo("mazá",true,10,30,""));
@@ -61,7 +53,7 @@ public class Activity_Lista extends Activity {
         articulos.add(new Articulo("articulo4",false,0,0,""));
         articulos.add(new Articulo("articulo5",true,0,20,""));
         articulos.add(new Articulo("articulo6",false,4,0,""));
-        Adapatador_Lista adaptador=new Adapatador_Lista(this,articulos);
+        adaptador=new Adapatador_Lista(this,articulos);
         lista.setAdapter(adaptador);
 
     }
@@ -79,24 +71,21 @@ public class Activity_Lista extends Activity {
             public void onClick(View v) {
 //                showDialog(TEXTO);
                 Intent nuevoArticulo=new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
-
-
-                startActivity(nuevoArticulo);
+                nuevoArticulo.putExtra("lista",articulos);
+                //startActivity(nuevoArticulo);
+                startActivityForResult(nuevoArticulo,COD_PETICION);
             }
         });
 
- /*       ListView lvFroitas = findViewById(R.id.lvElementosLista_ListaDefault);
-        //Escoitador
-        lvFroitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 
-*/
         final ListView lvElListaD=findViewById(R.id.lvElementosLista_Lista);
 
         lvElListaD.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo_ElementoLista);
+
                 if(c.isChecked()){
                     c.setChecked(false);
                 }else{
@@ -199,6 +188,23 @@ public class Activity_Lista extends Activity {
 
 
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == COD_PETICION) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra(Activity_Lista.NEWArticulos)) {
+                   // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
+                    ArrayList<Articulo> articulos2=(ArrayList<Articulo>)data.getSerializableExtra("nuevo");
+                    Toast.makeText(this, articulos2.size()+"", Toast.LENGTH_SHORT).show();
+                    for(Articulo a:articulos2){articulos.add(a);adaptador.notifyDataSetChanged();}
+
+
+                }
+
+            }
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
