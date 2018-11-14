@@ -1,4 +1,4 @@
-package cifprodolfoucha.com.listapp;
+package cifprodolfoucha.com.listapp.Adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
+
+import cifprodolfoucha.com.listapp.R;
 
 public class Adapatador_ListaDefault extends ArrayAdapter {
 

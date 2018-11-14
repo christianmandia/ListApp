@@ -6,26 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".Activity_Lista">
 
-    <Button
-        android:id="@+id/btnCrearElemento_Lista"
+
+    <ImageButton
+        android:id="@+id/ibtnNuevoElemento_Lista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/botónElemento"
+        android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/lvElementosLista_Lista"
+        app:layout_constraintEnd_toEndOf="@+id/rvElementosLista_Lista"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@+id/lvElementosLista_Lista" />
+        app:layout_constraintStart_toStartOf="@+id/rvElementosLista_Lista" />
 
-    <ListView
-        android:id="@+id/lvElementosLista_Lista"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvElementosLista_Lista"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCrearElemento_Lista"
+        app:layout_constraintBottom_toTopOf="@+id/ibtnNuevoElemento_Lista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

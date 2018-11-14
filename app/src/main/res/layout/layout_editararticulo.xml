@@ -10,7 +10,7 @@
         android:id="@+id/tvNombreArticulo_EditarArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nomeArtículo"
+        android:text="@string/str_editarArticulo_control_nomeArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toTopOf="@+id/guideline13" />
 
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/cantidadArtículo"
+        android:text="@string/str_editarArticulo_control_cantidadArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_EditarArticulo" />
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/precioArtículo"
+        android:text="@string/str_editarArticulo_control_precioArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline14"
         app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_EditarArticulo" />
 
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/notasArtículo"
+        android:text="@string/str_editarArticulo_control_notasArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_EditarArticulo" />
 
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="98dp"
         android:layout_marginTop="40dp"
-        android:text="@string/botonEditaArtículo"
+        android:text="@string/str_editarArticulo_control_botonEditaArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toBottomOf="@+id/etNotasArticulo_EditarArticulo" />
 

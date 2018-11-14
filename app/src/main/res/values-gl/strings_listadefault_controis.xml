@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="botónElemento">Engadir elemento</string>
+    <string name="str_lista_control_botónElemento">Engadir elemento</string>
 
 
 </resources>

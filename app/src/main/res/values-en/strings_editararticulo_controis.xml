@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nomeArtículo">Item name</string>
-    <string name="cantidadArtículo">Amount</string>
-    <string name="precioArtículo">Prize</string>
-    <string name="notasArtículo">Notes</string>
-    <string name="botonEditaArtículo">Edit</string>
+    <string name="str_editarArticulo_control_nomeArtículo">Item name</string>
+    <string name="str_editarArticulo_control_cantidadArtículo">Amount</string>
+    <string name="str_editarArticulo_control_precioArtículo">Prize</string>
+    <string name="str_editarArticulo_control_notasArtículo">Notes</string>
+    <string name="str_editarArticulo_control_botonEditaArtículo">Edit</string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_main_ajustesNotificaciones">Preferences Notifications</string>
+    <string name="pref_main_editarNotificaciones">Edit notifications</string>
+    <string name="pref_main_ajustesListas">Lists</string>
+    <string name="pref_main_cambiarFondo">Change background</string>
+    <string name="pref_main_ajustesGenerales">General</string>
+    <string name="pref_main_mantenerEncendido">Keep screen</string>
+    <string name="pref_main_cerrarSesión">Sign off</string>
+    <string name="pref_main_version">Version</string>
+    <string name="pref_main_versionActual">0.0.1</string>
+</resources>

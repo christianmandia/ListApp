@@ -4,38 +4,38 @@
 
     <PreferenceCategory
         android:key="preferencia_idListas"
-        android:title="@string/ajustesListas">
+        android:title="@string/pref_main_ajustesListas">
 
         <EditTextPreference
             android:defaultValue=" "
             android:key="preferencia_idListasFondo"
-            android:title="@string/cambiarFondo" />
+            android:title="@string/pref_main_cambiarFondo" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="preferencia_idNotificaciones"
-        android:title="@string/ajustesNotificaciones">
+        android:title="@string/pref_main_ajustesNotificaciones">
 
         <EditTextPreference
             android:defaultValue=" "
             android:key="preferencia_idEditarNotificaciones"
-            android:title="@string/editarNotificaciones" />
+            android:title="@string/pref_main_editarNotificaciones" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="preferencia_idGenerales"
-        android:title="@string/ajustesGenerales">
+        android:title="@string/pref_main_ajustesGenerales">
         <SwitchPreference
             android:defaultValue=" "
             android:key="preferencia_idPantalla"
-            android:title="@string/mantenerEncendido" />
+            android:title="@string/pref_main_mantenerEncendido" />
         <EditTextPreference
             android:defaultValue=" "
             android:key="preferencia_idCerrarSesion"
-            android:title="@string/cerrarSesión"/>
+            android:title="@string/pref_main_cerrarSesión"/>
         <EditTextPreference
             android:defaultValue=" "
             android:key="preferencia_idVersion"
-            android:title="@string/version"
-            android:summary="@string/versionActual"/>
+            android:title="@string/pref_main_version"
+            android:summary="@string/pref_main_versionActual"/>
     </PreferenceCategory>
 </PreferenceScreen>

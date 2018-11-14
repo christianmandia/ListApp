@@ -7,21 +7,21 @@
     tools:context=".Activity_NuevoArticulo">
 
     <EditText
-        android:id="@+id/etNombreArticulo_NuevoArtículo"
+        android:id="@+id/etNombreArticulo_NuevoArticulo"
         android:layout_width="151dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tvArtículo_NuevoAtículo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvArticulo_NuevoAticulo" />
 
     <TextView
-        android:id="@+id/tvArtículo_NuevoAtículo"
+        android:id="@+id/tvArticulo_NuevoAticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/nomeArtículo"
+        android:text="@string/str_nuevoArticulo_control_nomeArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toTopOf="@+id/guideline16" />
 
@@ -55,7 +55,7 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <ImageButton
-        android:id="@+id/ibtn_CancelarNuevoElemento"
+        android:id="@+id/ibtn_CancelarNuevoArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline15" />
 
     <ImageButton
-        android:id="@+id/ibtn_GuardarNuevoArtículo"
+        android:id="@+id/ibtn_GuardarNuevoArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -76,7 +76,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline17" />
 
     <ImageButton
-        android:id="@+id/ibtn_GuardarNuevoArtículo_Comtinuar"
+        android:id="@+id/ibtn_GuardarNuevoArticuloYContinuar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -90,12 +90,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/cantidadArtículo"
+        android:text="@string/str_nuevoArticulo_control_cantidadArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArtículo" />
+        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
     <EditText
-        android:id="@+id/etCantidadArticulo_NuevoArticuloArticulo"
+        android:id="@+id/etCantidadArticulo_NuevoArticulo"
         android:layout_width="91dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -109,9 +109,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/precioArtículo"
+        android:text="@string/str_nuevoArticulo_control_precioArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArtículo" />
+        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
     <EditText
         android:id="@+id/etPrecioArticulo_NuevoArticulo"
@@ -124,19 +124,19 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo_NuevoArticulo" />
 
     <ImageButton
-        android:id="@+id/ibtn_AñadirFoto_NuevoArtículo"
+        android:id="@+id/ibtn_AñadirFoto_NuevoArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/ivImagenArtículo_NuevoArtículo"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImagenArticulo_NuevoArticulo"
         app:layout_constraintStart_toEndOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/ivImagenArtículo_NuevoArtículo" />
+        app:layout_constraintTop_toTopOf="@+id/ivImagenArticulo_NuevoArticulo" />
 
     <ImageView
-        android:id="@+id/ivImagenArtículo_NuevoArtículo"
+        android:id="@+id/ivImagenArticulo_NuevoArticulo"
         android:layout_width="120dp"
         android:layout_height="112dp"
         android:layout_marginStart="28dp"
@@ -161,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/notasArtículo"
+        android:text="@string/str_nuevoArticulo_control_notasArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_NuevoArticuloArticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_NuevoArticulo" />
 </android.support.constraint.ConstraintLayout>

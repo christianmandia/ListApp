@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="registroCorreo">Your e-mail</string>
-    <string name="registroContraseña">Your password</string>
-    <string name="registroBotón">Create account</string>
-    <string name="registroLogin">I"'"ve got an account</string>
+    <string name="str_registro_control_Correo">Your e-mail</string>
+    <string name="str_registro_control_Contraseña">Your password</string>
+    <string name="str_registro_control_Botón">Create account</string>
+    <string name="str_registro_control_IrALogin">Already have got an account</string>
 </resources>
