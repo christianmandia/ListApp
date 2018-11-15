@@ -12,4 +12,12 @@
         android:id="@+id/ajustes"
         android:title="@string/MenuAjustes"
         />
+    <item
+    android:id="@+id/CompartirLista"
+    android:layout_width="wrap_content"
+    android:icon="@drawable/ic_refresh"
+    android:showAsAction="always"
+    android:title="@string/MenuCompartir">
+
+</item>
 </menu>
