@@ -1,15 +1,28 @@
 package cifprodolfoucha.com.listapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
+
+
+import static android.support.v4.content.FileProvider.getUriForFile;
+
 
 public class Activity_NuevoArticulo extends Activity {
 /*
@@ -23,11 +36,17 @@ ArrayList<Articulo> articulos2=new ArrayList();
 
 String prueba;
 
+    private String nomeFoto="foto.jpg";
+
+    private int REQUEST_CODE_GRAVACION_OK = 1;
+    private final int CODIGO_IDENTIFICADOR=1;
     private void xestionarEventos(){
 
         final ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
         final ImageButton ibtn_Guardar=findViewById(R.id.ibtn_GuardarNuevoArticulo);
         final ImageButton ibtn_GuardarYContinuar=findViewById(R.id.ibtn_GuardarNuevoArticuloYContinuar);
+        final ImageButton ibtn_Foto=findViewById(R.id.ibtn_AñadirFoto_NuevoArticulo);
+
 
         //final EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_NuevoArtículo);
 
@@ -55,6 +74,37 @@ String prueba;
             public void onClick(View v) {
                 añadirArticulo();
                 borrarDatos();
+            }
+        });
+
+
+        ibtn_Foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File arquivo = new File(ruta,nomeFoto);
+
+                Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intento.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivo));
+                startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
+                */
+                File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File arquivo = new File(ruta,nomeFoto);
+
+                Uri contentUri=null;
+                if (Build.VERSION.SDK_INT >= 24) {
+                    contentUri = getUriForFile(getApplicationContext(), getApplicationContext()
+                            .getPackageName() + ".provider", arquivo);
+                }
+                else {
+                    contentUri = Uri.fromFile(arquivo);
+                }
+
+                Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+
+                startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
             }
         });
     }
@@ -122,7 +172,30 @@ String prueba;
     }
 
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_GRAVACION_OK) {
+            if (resultCode == RESULT_OK) {
+                // Saca foto
+                File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File arquivo = new File(ruta, nomeFoto);
+                if (!arquivo.exists()) return;          // Non hai foto
 
+                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+                Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
+                imgview.setImageBitmap(bitmap);
+            }
+
+        }
+    }
+
+    public void pedirPermiso(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
+        }
+
+    }
+   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,5 +203,6 @@ String prueba;
 
         articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista");
         xestionarEventos();
+        pedirPermiso();
     }
 }
