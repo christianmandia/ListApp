@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activity_NuevoArticulo">
+
+        <EditText
+            android:id="@+id/etNombreArticulo_NuevoArticulo"
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/tvArticulo_NuevoAticulo" />
+
+        <TextView
+            android:id="@+id/tvArticulo_NuevoAticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/str_nuevoArticulo_control_nomeArtículo"
+            app:layout_constraintStart_toStartOf="@+id/guideline15"
+            app:layout_constraintTop_toTopOf="@+id/guideline16" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.052083332"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="423dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <ImageButton
+            android:id="@+id/ibtn_CancelarNuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/guideline21" />
+
+        <ImageButton
+            android:id="@+id/ibtn_GuardarNuevoArticuloYContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="15dp"
+            android:src="@android:drawable/ic_media_next"
+            app:layout_constraintEnd_toStartOf="@+id/guideline18"
+            app:layout_constraintTop_toBottomOf="@+id/guideline21" />
+
+        <TextView
+            android:id="@+id/tvCantidadArticulo_NuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/str_nuevoArticulo_control_cantidadArtículo"
+            app:layout_constraintStart_toEndOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
+
+        <EditText
+            android:id="@+id/etCantidadArticulo_NuevoArticulo"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticulo_NuevoArticulo" />
+
+        <TextView
+            android:id="@+id/tvPrecioArticulo_NuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/str_nuevoArticulo_control_precioArtículo"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
+            app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
+
+        <EditText
+            android:id="@+id/etPrecioArticulo_NuevoArticulo"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo_NuevoArticulo" />
+
+        <ImageButton
+            android:id="@+id/ibtn_AñadirFoto_NuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:src="@android:drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="@+id/ivImagenArticulo_NuevoArticulo"
+            app:layout_constraintStart_toEndOf="@+id/guideline17"
+            app:layout_constraintTop_toTopOf="@+id/ivImagenArticulo_NuevoArticulo" />
+
+        <ImageView
+            android:id="@+id/ivImagenArticulo_NuevoArticulo"
+            android:layout_width="120dp"
+            android:layout_height="112dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:src="@android:drawable/ic_menu_report_image"
+            app:layout_constraintStart_toEndOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/etNotasArticulo_NuevoArticulo" />
+
+        <EditText
+            android:id="@+id/etNotasArticulo_NuevoArticulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/guideline18"
+            app:layout_constraintStart_toEndOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/tvNotasArticulo_NuevoArticulo" />
+
+        <TextView
+            android:id="@+id/tvNotasArticulo_NuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_nuevoArticulo_control_notasArtículo"
+            app:layout_constraintStart_toEndOf="@+id/guideline15"
+            app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_NuevoArticulo" />
+
+        <ImageButton
+            android:id="@+id/ibtn_GuardarNuevoArticulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="15dp"
+            android:src="@android:drawable/ic_menu_save"
+            app:layout_constraintEnd_toStartOf="@+id/guideline17"
+            app:layout_constraintHorizontal_bias="0.203"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
+            app:layout_constraintTop_toBottomOf="@+id/guideline21" />
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

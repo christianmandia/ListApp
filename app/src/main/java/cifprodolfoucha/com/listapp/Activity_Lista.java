@@ -25,14 +25,20 @@ public class Activity_Lista extends Activity {
     private static final int COD_PETICION = 33;
     ArrayList<Articulo> articulos=new ArrayList();
 
+    Menu m=null;
     //Adapatador_Lista adaptador=null;
     Adaptador_ListaRV adaptador=null;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_listadefault, menu);
+
+        m=menu;
+
         return true;
     }
+
+
     private void cargarLista(){
         //String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
         //int[] cantidad={1,2,10,0,0,4};
@@ -73,6 +79,7 @@ public class Activity_Lista extends Activity {
                 }
 
                 lista.getAdapter().notifyDataSetChanged();
+
 
                 /*
                 if(c.isChecked()){
