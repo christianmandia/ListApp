@@ -1,11 +1,14 @@
 package cifprodolfoucha.com.listapp.Adaptadores;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,7 +46,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         Context context= parent.getContext();
         LayoutInflater inflater=LayoutInflater.from(context);
 
-        View v=inflater.inflate(R.layout.layout_elemento_lista,parent,false);
+        //View v=inflater.inflate(R.layout.layout_elemento_lista,parent,false);
+        View v=inflater.inflate(R.layout.layout_elemento_listacimagen,parent,false);
 
         v.setOnClickListener(this);
 
@@ -83,6 +87,7 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         CheckedTextView mCheck=holder.mCTVArticulo;
         TextView mCantidad=holder.mTVCantidadArticulo;
         TextView mPrecio=holder.mTVPrecioArticulo;
+        ImageView mImagen=holder.mIVImagenArticulo;
 
         mCheck.setText(articulo.getNombre());
 
@@ -111,6 +116,13 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             mCheck.setChecked(false);
         }
 
+        if(!articulo.riExiste()){
+            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
+            mImagen.setImageBitmap(bitmap);
+        }else{
+
+        }
+
     }
 
     @Override
@@ -125,17 +137,24 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         public CheckedTextView mCTVArticulo;
         public TextView mTVCantidadArticulo;
         public TextView mTVPrecioArticulo;
+        /**/
+        public ImageView mIVImagenArticulo;
 
-        int posicion;
 
 
         public ReciclerViewHolder_Lista(View itemView) {
             super(itemView);
 
+            /*
             mCTVArticulo=(CheckedTextView)itemView.findViewById(R.id.ctvNombreArticulo_ElementoLista);
             mTVCantidadArticulo=(TextView)itemView.findViewById(R.id.tvCantidadArticuloLista_ElementoLista);
             mTVPrecioArticulo=(TextView)itemView.findViewById(R.id.tvPrecioArticuloLista_ElementoLista);
-
+            */
+            mCTVArticulo=(CheckedTextView)itemView.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
+            mTVCantidadArticulo=(TextView)itemView.findViewById(R.id.tvCantidadArticuloLista_ElementoLista2);
+            mTVPrecioArticulo=(TextView)itemView.findViewById(R.id.tvPrecioArticuloLista_ElementoLista2);
+            /**/
+            mIVImagenArticulo=(ImageView)itemView.findViewById(R.id.ivImagenArticulo_ElementoLista2);
         }
 /*
         @Override

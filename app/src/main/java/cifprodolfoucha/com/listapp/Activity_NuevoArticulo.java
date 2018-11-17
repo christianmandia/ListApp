@@ -3,6 +3,7 @@ package cifprodolfoucha.com.listapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -37,9 +40,11 @@ ArrayList<Articulo> articulos2=new ArrayList();
 String prueba;
 
     private String nomeFoto="foto.jpg";
-
+    private String rutaArquivo="";
     private int REQUEST_CODE_GRAVACION_OK = 1;
     private final int CODIGO_IDENTIFICADOR=1;
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+
     private void xestionarEventos(){
 
         final ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
@@ -90,10 +95,19 @@ String prueba;
                 startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
                 */
                 File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                Time now=new Time();
+                now.setToNow();
+                nomeFoto="img-"+now+".jpg";
                 File arquivo = new File(ruta,nomeFoto);
 
                 Uri contentUri=null;
                 if (Build.VERSION.SDK_INT >= 24) {
+                    if (checkSelfPermission(Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                MY_CAMERA_REQUEST_CODE);
+                    }
+
                     contentUri = getUriForFile(getApplicationContext(), getApplicationContext()
                             .getPackageName() + ".provider", arquivo);
                 }
@@ -102,9 +116,10 @@ String prueba;
                 }
 
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
 
-                startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
+                startActivityForResult(intento, 0);
             }
         });
     }
@@ -148,7 +163,12 @@ String prueba;
             }
 
             //llamadas(etPrecio.getText().toString());
-            Articulo a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString());
+            Articulo a =null;
+            if(!rutaArquivo.equals("")){
+                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
+            }else {
+                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString());
+            }
             articulos2.add(a);
             /*
             Intent datos = new Intent();
@@ -173,16 +193,20 @@ String prueba;
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GRAVACION_OK) {
-            if (resultCode == RESULT_OK) {
+        if(requestCode ==0 && resultCode == RESULT_OK)
+        { {
                 // Saca foto
+
                 File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 File arquivo = new File(ruta, nomeFoto);
                 if (!arquivo.exists()) return;          // Non hai foto
 
+                rutaArquivo=arquivo.getAbsolutePath();
                 ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
-                Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
+                Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
                 imgview.setImageBitmap(bitmap);
+                //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
+
             }
 
         }
@@ -192,9 +216,32 @@ String prueba;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
+            //requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
         }
 
     }
+/*
+    @Override
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_CAMERA_REQUEST_CODE) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+
+            } else {
+
+                //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
+    }
+*/
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +249,7 @@ String prueba;
         setContentView(R.layout.layout_nuevoarticulo);
 
         articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista");
-        xestionarEventos();
         pedirPermiso();
+        xestionarEventos();
     }
 }

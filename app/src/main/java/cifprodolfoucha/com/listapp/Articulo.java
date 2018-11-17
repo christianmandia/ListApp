@@ -8,6 +8,7 @@ public class Articulo  implements Serializable {
     private int cantidad;
     private double precio;
     private String notas;
+    private String rutaImagen="";
 
 
     public Articulo() {
@@ -22,8 +23,29 @@ public class Articulo  implements Serializable {
         this.cantidad = cantidad;
         this.precio = precio;
         this.notas = notas;
+
+    }
+    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio, String notas,String rutaImagen) {
+        this.nombre = nombre;
+        this.seleccionado = seleccionado;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.notas = notas;
+        this.rutaImagen= rutaImagen;
+
     }
 
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public boolean riExiste(){
+        return rutaImagen.equals("");
+    }
 
     public String getNombre() {
         return nombre;
