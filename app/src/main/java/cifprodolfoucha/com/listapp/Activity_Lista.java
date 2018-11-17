@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Adaptadores.Adapatador_Lista;
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_ListaRV;
+import cifprodolfoucha.com.listapp.Modelos.Articulo;
 
 public class Activity_Lista extends Activity {
 

@@ -1,4 +1,4 @@
-package cifprodolfoucha.com.listapp;
+package cifprodolfoucha.com.listapp.Modelos;
 
 import java.io.Serializable;
 

@@ -27,9 +27,11 @@
         <activity android:name=".Activity_Ajustes" />
         <activity
             android:name=".Activity_NuevaLista"
-            android:label="@string/labelCrearLista"></activity>
-        <activity android:name=".Activity_NuevoArticulo"
-            android:label="@string/labelCrearArticulo"></activity>
+            android:label="@string/labelCrearLista" />
+        <activity
+            android:name=".Activity_NuevoArticulo"
+            android:label="@string/labelCrearArticulo" />
+        <activity android:name=".Activity_GestionCategoria" />
     </application>
 
 </manifest>

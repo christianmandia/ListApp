@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tvNombre_CrearLista">Nome</string>
+    <string name="tvCategoria_CrearLista">Categoria</string>
+</resources>

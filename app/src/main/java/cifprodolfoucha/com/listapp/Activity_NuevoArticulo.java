@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import cifprodolfoucha.com.listapp.Modelos.Articulo;
 
 public class Activity_NuevoArticulo extends Activity {
 /*
