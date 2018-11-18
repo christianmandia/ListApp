@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/spnCategorias_mislistas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/ibtnAñadir_MisListas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

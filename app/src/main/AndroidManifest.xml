@@ -28,8 +28,8 @@
         </provider>
 
         <activity
-            android:name=".Activity_Lista"
-            android:label="Cosas">
+
+            android:name=".Activity_MisListas">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,11 +37,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity_MisListas"
-            android:label="." />
+            android:name=".Activity_Lista" />
         <activity android:name=".Activity_Registro" />
         <activity android:name=".Activity_Login" />
-        <activity android:name=".Activity_EditarArticulo" />
         <activity android:name=".Activity_Ajustes" />
         <activity
             android:name=".Activity_NuevaLista"

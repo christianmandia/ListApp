@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/spnCategorias_mislistas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/ibtnAñadir_MisListas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -65,7 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinner3"
+        app:layout_constraintEnd_toStartOf="@+id/spnCategorias_mislistas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8"
         app:srcCompat="@android:drawable/ic_input_add" />

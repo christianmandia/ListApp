@@ -42,7 +42,7 @@
         app:layout_constraintGuide_percent="0.39" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ibtnAñadir_MisListas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spnCategorias_mislistas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
