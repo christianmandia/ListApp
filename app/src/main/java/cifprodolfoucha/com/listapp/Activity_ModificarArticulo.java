@@ -248,6 +248,7 @@ public class Activity_ModificarArticulo extends Activity {
     private String sImagen="";
     private boolean Cant;
     private boolean Pre;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

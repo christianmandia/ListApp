@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_ListaRV;
 import cifprodolfoucha.com.listapp.Adaptadores.ItemClickSupport;
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
+import cifprodolfoucha.com.listapp.Modelos.Lista;
 
 public class Activity_Lista extends Activity{
 
@@ -32,7 +33,8 @@ public class Activity_Lista extends Activity{
     public final static String NEWArticulo= "nuevo articulo";
     private static final int COD_PETICION = 33;
     private static final int COD_PETICION_MODIFICACION=34;
-    ArrayList<Articulo> articulos=new ArrayList();
+    private Lista listaRecibida=new Lista();
+    private ArrayList<Articulo> articulos=new ArrayList();
 
     Articulo articuloSeleccionado=null;
     int prevPos=-1;
@@ -65,16 +67,20 @@ public class Activity_Lista extends Activity{
         //Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
         //lista.setAdapter(meuAdaptador);
 
-
+/*
         articulos.add(new Articulo("pilas AA",false,1,0.5,""));
         articulos.add(new Articulo("articulo2",true,3,15,""));
         articulos.add(new Articulo("mazá",true,10,30,""));
         articulos.add(new Articulo("articulo4",false,1,0,""));
         articulos.add(new Articulo("articulo5",true,1,20,""));
         articulos.add(new Articulo("articulo6",false,4,0,""));
+*/
 //        adaptador=new Adapatador_Lista(this,articulos);
 
-        adaptador=new Adaptador_ListaRV(articulos);
+        //adaptador=new Adaptador_ListaRV(articulos);
+
+        articulos=listaRecibida.getArticulos();
+        adaptador = new Adaptador_ListaRV(articulos);
 
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,32 +233,28 @@ public class Activity_Lista extends Activity{
     private static final int ELIMINAR = 1;
     private static final int TEXTO = 2;
 
-    private AlertDialog.Builder venta;
+    private AlertDialog.Builder d;
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case ELIMINAR:
-                venta = new AlertDialog.Builder(this);
-                venta.setIcon(android.R.drawable.ic_dialog_info);
-                venta.setTitle("Eliminar");
-                venta.setMessage("Está seguro de que desea eliminar este elemento?");
-                venta.setCancelable(false);
-                venta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                d = new AlertDialog.Builder(this);
+                d.setIcon(android.R.drawable.ic_dialog_info);
+                d.setTitle("Eliminar");
+                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setCancelable(false);
+                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
                         articulos.remove(articuloSeleccionado);
                         adaptador.notifyItemRemoved(prevPos);
-                        /* Sentencias se o usuario preme Si */
-                        // Toast.makeText(getApplicationContext(), "Premeches 'Si'", 1).show();
                     }
                 });
-                venta.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
-                        /* Sentencias se o usuario preme Non */
-                        //  Toast.makeText(getApplicationContext(), "Premeches'Non'", 1).show();
                     }
                 });
-                return venta.create();
+                return d.create();
 
 /*
             case TEXTO:
@@ -267,20 +269,20 @@ public class Activity_Lista extends Activity{
 
                 final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento0000000000);
 
-                venta = new AlertDialog.Builder(this);
-                venta.setTitle("Insertar nuevo artículo");
+                d = new AlertDialog.Builder(this);
+                d.setTitle("Insertar nuevo artículo");
                 // Asignamos o contido dentro do diálogo (o que inflamos antes)
-                venta.setView(inflador);
+                d.setView(inflador);
                 // Non se pode incluír unha mensaxe dentro deste tipo de diálogo!!!
 
-                venta.setNeutralButton("Listo", new DialogInterface.OnClickListener() {
+                d.setNeutralButton("Listo", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
                         //Toast.makeText(getApplicationContext(), "Escribiches nome: '" + etNome.getText().toString() + "'. Contrasinal: '" + etContrasinal.getText().toString() + "' e premeches 'Aceptar'",
                         //        Toast.LENGTH_LONG).show();
                     }
                 });
 
-                return venta.create();
+                return d.create();
                 //return null;
 */
         }
@@ -386,12 +388,15 @@ public class Activity_Lista extends Activity{
         //articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
         //prevPos=recuperaEstado.getInt("prevPos");
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_lista);
-        cargarLista();
+        listaRecibida=(Lista)getIntent().getSerializableExtra("list");
+
         xestionarEventos();
+        cargarLista();
     }
 
 }

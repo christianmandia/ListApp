@@ -1,9 +1,13 @@
 package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,33 +30,96 @@ import cifprodolfoucha.com.listapp.Modelos.Lista;
 public class Activity_MisListas extends Activity {
 
     private ArrayList<Lista> listas=null;
+    Menu m=null;
+    private Lista lista1;
+    private int pos;
+    private Adaptador_Categorias miAdaptador;
+    private ListView lista;
+    private int COD_LOGIN=30;
+    private int RESULT_LOGIN=10;
 
     public void gestionEventos(){
-        ListView lista = findViewById(R.id.lvmislistas_mislistas);
+        lista = findViewById(R.id.lvmislistas_mislistas);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?>adapter,View v, int position, long id){
                 //ItemClicked item = adapter.getItemAtPosition(position);
 
+
                 //Intent intent = new Intent(Activity.this,destinationActivity.class);
                 //based on item add info to intent
                 //startActivity(intent);
                 //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_LONG).show();
                 Lista lista1=listas.get(position);
-
+                pos=position;
                 Intent intento=new Intent(getApplicationContext(),Activity_Lista.class);
                 intento.putExtra("list",lista1);
                 startActivity(intento);
 
 
             }
+
+        });
+        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showDialog(ELIMINAR);
+                return true;
+            }
         });
     }
+
+
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
+        switch(item.getItemId()){
+            case R.id.Login:
+
+                Intent login=new Intent(getApplicationContext(), Activity_Login.class);
+                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                //startActivityForResult(login,COD_LOGIN);
+                startActivity(login);
+                return true;
+            default:return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private AlertDialog.Builder d;
+    private static final int ELIMINAR = 1;
+
+
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case ELIMINAR:
+                d = new AlertDialog.Builder(this);
+                d.setIcon(android.R.drawable.ic_dialog_info);
+                d.setTitle("Eliminar");
+                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setCancelable(false);
+                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+/*
+                        listas.remove(lista1);
+                        miAdaptador.notifyDataSetChanged();
+*/
+                    }
+                });
+                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                    }
+                });
+                return d.create();
+        }
+        return null;
+    }
+
+            @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_menu, menu);
+        m=menu;
         return true;
     }
 
@@ -87,10 +154,24 @@ public class Activity_MisListas extends Activity {
         categorias1.add(new Categoria("categoria3","imagen3"));
         categorias1.add(new Categoria("categoria4","imagen4"));
 
-        Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,categorias1);
+        miAdaptador=new Adaptador_Categorias(this,categorias1);
         categorias.setAdapter(miAdaptador);
     }
 
+
+    public final static String Login= "login";
+    public final static String Pass= "pass";
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*
+        if (requestCode == COD_LOGIN) {
+            if (resultCode == RESULT_LOGIN) {
+                if (data.hasExtra(Activity_Lista.Login && Activity_Lista.Pass){
+
+                }
+            }
+        }
+        */
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
