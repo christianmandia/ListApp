@@ -5,10 +5,16 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.hardware.camera2.params.BlackLevelPattern;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
@@ -17,17 +23,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_ListaRV;
+import cifprodolfoucha.com.listapp.Adaptadores.ItemClickSupport;
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
 
-public class Activity_Lista extends Activity {
+public class Activity_Lista extends Activity{
 
     public final static String NEWArticulos= "nuevo";
+    public final static String NEWArticulo= "nuevo articulo";
     private static final int COD_PETICION = 33;
+    private static final int COD_PETICION_MODIFICACION=34;
     ArrayList<Articulo> articulos=new ArrayList();
 
+    Articulo articuloSeleccionado=null;
+    int prevPos=-1;
+
     Menu m=null;
+
     //Adapatador_Lista adaptador=null;
     Adaptador_ListaRV adaptador=null;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,8 +69,8 @@ public class Activity_Lista extends Activity {
         articulos.add(new Articulo("pilas AA",false,1,0.5,""));
         articulos.add(new Articulo("articulo2",true,3,15,""));
         articulos.add(new Articulo("mazá",true,10,30,""));
-        articulos.add(new Articulo("articulo4",false,0,0,""));
-        articulos.add(new Articulo("articulo5",true,0,20,""));
+        articulos.add(new Articulo("articulo4",false,1,0,""));
+        articulos.add(new Articulo("articulo5",true,1,20,""));
         articulos.add(new Articulo("articulo6",false,4,0,""));
 //        adaptador=new Adapatador_Lista(this,articulos);
 
@@ -66,49 +80,45 @@ public class Activity_Lista extends Activity {
             @Override
             public void onClick(View v) {
 
-                CheckedTextView c = (CheckedTextView)v.findViewById(R.id.ctvNombreArticulo_ElementoLista);
+                if(prevPos!=-1 && articulos.get(prevPos).isMarcado()) {
+                    //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
+                    articulos.get(prevPos).setMarcado(false);
+                    adaptador.notifyItemChanged(prevPos);
+                    setMenuDefecto();
+                }
+
+                CheckedTextView c = (CheckedTextView)v.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
 
                 Articulo a=articulos.get(lista.getChildAdapterPosition(v));
                 //Toast.makeText(getApplicationContext(),a.isSeleccionado()+"",Toast.LENGTH_LONG).show();
+                if(!a.isMarcado()){
                 if(a.isSeleccionado()){
                     a.setSeleccionado(false);
                     c.setChecked(false);
                 }else{
                     a.setSeleccionado(true);
                     c.setChecked(true);
-                }
+                }}
 
                 lista.getAdapter().notifyDataSetChanged();
-
-
-                /*
-                if(c.isChecked()){
-                    c.setChecked(false);
-                }else{
-                    c.setChecked(true);
+                if(prevPos!=-1) {
+                    lista.getAdapter().notifyItemChanged(prevPos);
                 }
-                */
+
             }
         });
-/*
-        adaptador.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showDialog(BOTONES);
-                return false;
-            }
-        });
-*/
         lista.setAdapter(adaptador);
 
 
         lista.setLayoutManager(new LinearLayoutManager(this));
+
 
     }
 
 
 
     private void xestionarEventos(){
+
 
 
         Bundle bundle=new Bundle();
@@ -119,8 +129,8 @@ public class Activity_Lista extends Activity {
             public void onClick(View v) {
 //                showDialog(TEXTO);
                 Intent nuevoArticulo=new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
-                ArrayList<Articulo> a2= (ArrayList<Articulo>) articulos.clone();
-                nuevoArticulo.putExtra("lista",a2);
+                //ArrayList<Articulo> a2= (ArrayList<Articulo>) articulos.clone();
+                nuevoArticulo.putExtra("lista",articulos);
                 //startActivity(nuevoArticulo);
                 startActivityForResult(nuevoArticulo,COD_PETICION);
             }
@@ -130,69 +140,98 @@ public class Activity_Lista extends Activity {
 
         final android.support.v7.widget.RecyclerView rvElListaD=findViewById(R.id.rvElementosLista_Lista);
 
-        /*
+        ItemClickSupport.addTo(rvElListaD).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
             @Override
-            public void onClick(View view) {
-                CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo_ElementoLista);
+            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
 
-                if(c.isChecked()){
-                    c.setChecked(false);
-                }else{
-                    c.setChecked(true);
+                articuloSeleccionado=articulos.get(position);
+
+                //Arreglo chapuza
+                if(prevPos!=-1 && prevPos!=position && articulos.get(prevPos).isMarcado()) {
+                    //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
+                    articulos.get(prevPos).setMarcado(false);
+                    adaptador.notifyItemChanged(prevPos);
                 }
-            }
-        });
-        rvElListaD.setOnLongClickListener(new AdapterView.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                showDialog(BOTONES);
-                return false;
-            }
-        });
-        */
-/*
-        lvElListaD.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckedTextView c = (CheckedTextView)view.findViewById(R.id.ctvNombreArticulo_ElementoLista);
+                //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_SHORT).show();
 
-                if(c.isChecked()){
-                    c.setChecked(false);
+                //v.setBackgroundColor(0xFF00FF00);
+                if(articuloSeleccionado.isMarcado()){
+                    articuloSeleccionado.setMarcado(false);
+                    setMenuDefecto();
                 }else{
-                    c.setChecked(true);
+                    articuloSeleccionado.setMarcado(true);
+                    setMenu2();
                 }
+                //v.setBackground(null);
+                ////////////////
 
-
-
-
+                adaptador.notifyItemChanged(position);
+                prevPos=position;
+                return true;
             }
 
 
         });
-        lvElListaD.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialog(BOTONES);
-                return false;
-            }
 
-        });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
+        switch(item.getItemId()){
+            case R.id.EditarArticulo:
+                //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
+                articulos.get(prevPos).setMarcado(false);
+                adaptador.notifyItemChanged(prevPos);
+                setMenuDefecto();
 
- */
-
-
-
+                Intent modificarArticulo=new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
+                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                modificarArticulo.putExtra("articulo",articuloSeleccionado);
+                startActivityForResult(modificarArticulo,COD_PETICION_MODIFICACION);
+                return true;
+            case R.id.EliminarArticulo:
+                showDialog(ELIMINAR);
+                return true;
+            case R.id.MostrarArticulo:
+                Intent mostrarArticulo=new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
+                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                mostrarArticulo.putExtra("articulo",articuloSeleccionado);
+                startActivity(mostrarArticulo);
+                return true;
+            default:return super.onOptionsItemSelected(item);
+        }
     }
 
 
-    private static final int BOTONES = 1;
+    private void setMenuDefecto(){
+        m.setGroupVisible(R.id.GrupoOpciones,true);
+        m.setGroupVisible(R.id.GrupoGArticulo,false);
+        /*
+        m.findItem(R.id.MostrarArticulo).setVisible(false);
+        m.findItem(R.id.EditarArticulo).setVisible(false);
+        m.findItem(R.id.EliminarArticulo).setVisible(false);
+        m.findItem(R.id.CompartirLista).setVisible(true);
+        */
+    }
+    private void setMenu2(){
+        m.setGroupVisible(R.id.GrupoOpciones,false);
+        m.setGroupVisible(R.id.GrupoGArticulo,true);
+        /*
+        m.findItem(R.id.CompartirLista).setVisible(false);
+        m.findItem(R.id.MostrarArticulo).setVisible(true);
+        m.findItem(R.id.EditarArticulo).setVisible(true);
+        m.findItem(R.id.EliminarArticulo).setVisible(true);
+        */
+    }
+
+    private static final int ELIMINAR = 1;
     private static final int TEXTO = 2;
 
     private AlertDialog.Builder venta;
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case BOTONES:
+            case ELIMINAR:
                 venta = new AlertDialog.Builder(this);
                 venta.setIcon(android.R.drawable.ic_dialog_info);
                 venta.setTitle("Eliminar");
@@ -200,6 +239,9 @@ public class Activity_Lista extends Activity {
                 venta.setCancelable(false);
                 venta.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
+
+                        articulos.remove(articuloSeleccionado);
+                        adaptador.notifyItemRemoved(prevPos);
                         /* Sentencias se o usuario preme Si */
                         // Toast.makeText(getApplicationContext(), "Premeches 'Si'", 1).show();
                     }
@@ -267,7 +309,7 @@ public class Activity_Lista extends Activity {
 
                     articulos.addAll(articulos2);
                     adaptador.notifyItemRangeInserted(TamañoActual,articulos2.size());
-                    Toast.makeText(this, articulos2.size()+"", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, articulos2.size()+"", Toast.LENGTH_LONG).show();
                     /*
                     */
 
@@ -299,7 +341,50 @@ public class Activity_Lista extends Activity {
 
             }
         }
+        if (requestCode == COD_PETICION_MODIFICACION){
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra(Activity_Lista.NEWArticulo)) {
+                    Articulo articuloRecibido=(Articulo)data.getSerializableExtra("articulo");
+                    /*
+                    //articuloSeleccionado.setNombre(articuloRecibido.getNombre());
+                    articuloSeleccionado.setCantidad(articuloRecibido.getCantidad());
+                    articuloSeleccionado.setRutaImagen(articuloRecibido.getRutaImagen());
+                    articuloSeleccionado.setNotas(articuloRecibido.getNotas());
+                    articuloSeleccionado.setPrecio(articuloRecibido.getPrecio());
+                    adaptador.notifyItemChanged(prevPos);
+                    /*
+                    articulos.remove(prevPos);
+                    adaptador.notifyItemRemoved(prevPos);
+                    articulos.add(prevPos,articuloRecibido);
+                    adaptador.notifyItemInserted(prevPos);
+                    */
 
+
+                }
+            }
+
+
+
+        }
+
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle guardaEstado) {
+        super.onSaveInstanceState(guardaEstado);
+
+        //guardaEstado.putSerializable("articulos",articulos);
+        //guardaEstado.putSerializable("articuloSeleccionado",articuloSeleccionado);
+        //guardaEstado.putInt("prevPos",prevPos);
+
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle recuperaEstado) {
+        super.onRestoreInstanceState(recuperaEstado);
+        //articuloSeleccionado=(Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
+        //articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
+        //prevPos=recuperaEstado.getInt("prevPos");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

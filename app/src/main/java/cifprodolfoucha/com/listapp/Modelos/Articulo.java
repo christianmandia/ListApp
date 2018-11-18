@@ -9,6 +9,7 @@ public class Articulo  implements Serializable {
     private double precio;
     private String notas;
     private String rutaImagen="";
+    private boolean marcado=false;
 
 
     public Articulo() {
@@ -87,6 +88,13 @@ public class Articulo  implements Serializable {
         this.notas = notas;
     }
 
+    public boolean isMarcado() {
+        return marcado;
+    }
+
+    public void setMarcado(boolean marcado) {
+        this.marcado = marcado;
+    }
         /*
     public Articulo(String nombre) {
         this.nombre = nombre;

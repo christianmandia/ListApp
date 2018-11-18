@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_all_control_GestionArticulo_nomeArtículo">Item Name</string>
+    <string name="str_all_control_GestionArticulo_cantidadArtículo">Amount</string>
+    <string name="str_all_control_GestionArticulo_precioArtículo">Price</string>
+    <string name="str_all_control_GestionArticulo_notasArtículo">Notes</string>
+    <string name="str_all_control_GestionArticulo_botonNuevoArtículo">Edit</string>
+</resources>

@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,33 +24,20 @@ import cifprodolfoucha.com.listapp.Modelos.Articulo;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
-public class Activity_NuevoArticulo extends Activity {
-/*
-    ListView lvArticulos;
-    public Activity_NuevoArticulo(ListView lvArticulos) {
-        this.lvArticulos=lvArticulos;
-    }
-*/
-    private  ArrayList<Articulo> articulos=new ArrayList();
-    private  ArrayList<Articulo> articulos2=new ArrayList();
+public class Activity_ModificarArticulo extends Activity {
 
     private String nomeFoto="";
     private String rutaArquivo="";
-    private int REQUEST_CODE_GRAVACION_OK = 1;
-    private final int CODIGO_IDENTIFICADOR=1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-
-    private void xestionarEventos(){
-         ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
-         ImageButton ibtn_Guardar=findViewById(R.id.ibtn_GuardarNuevoArticulo);
-         ImageButton ibtn_GuardarYContinuar=findViewById(R.id.ibtn_GuardarNuevoArticuloYContinuar);
-         ImageButton ibtn_Foto=findViewById(R.id.ibtn_AñadirFoto_NuevoArticulo);
-
-
-        //final EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_NuevoArtículo);
+    private final int CODIGO_IDENTIFICADOR=1;
+    private Articulo articulo=null;
 
 
 
+    private void xestionarEventos() {
+        final ImageButton ibtn_Cancelar = findViewById(R.id.ibtn_VolverModificarArticulo);
+        final ImageButton ibtn_Guardar = findViewById(R.id.ibtn_GuardarModificarArticulo);
+        final ImageButton ibtn_Foto=findViewById(R.id.ibtn_Foto_ModificarArticulo);
 
         ibtn_Cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,20 +49,14 @@ public class Activity_NuevoArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                añadirArticulo();
+                modificarArticulo();
+
+                Intent datos = new Intent();
+                datos.putExtra(Activity_Lista.NEWArticulo,articulo);
+                setResult(RESULT_OK, datos);
                 finish();
             }
         });
-
-
-        ibtn_GuardarYContinuar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                añadirArticulo();
-                borrarDatos();
-            }
-        });
-
 
         ibtn_Foto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,73 +92,61 @@ public class Activity_NuevoArticulo extends Activity {
                 startActivityForResult(intento, 0);
             }
         });
+
+
     }
 
-    public void borrarDatos(){
-        EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        EditText etCantidad=(EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
-        EditText etPrecio=(EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
-        EditText etNotas=(EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
+    private void cargarArticulo(){
 
-        etNombre.setText("");
-        etCantidad.setText("");
-        etPrecio.setText("");
-        etNotas.setText("");
-    }
+        EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
+        EditText etCantidadArticulo=findViewById(R.id.etCantidadArticulo_ModificarArticulo);
+        EditText etNotasArticulo=findViewById(R.id.etNotasArticulo_ModificarArticulo);
 
-    public void añadirArticulo() {
+        ImageView ivFoto=findViewById(R.id.ivImagenArticulo_ModificarArticulo);
 
-        boolean encontrado=false;
-        EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        for(Articulo a:articulos){
-
-            if(a.getNombre().toLowerCase().equals(etNombre.getText().toString().toLowerCase())) {
-                //llamadas();
-                encontrado=true;
-            }
-
+        etNombreArticulo.setText(articulo.getNombre());
+        if(articulo.getPrecio()!=0) {
+            etPrecioArticulo.setText(articulo.getPrecio()+ "");
+        }
+        etCantidadArticulo.setText(articulo.getCantidad()+"");
+        etNotasArticulo.setText(articulo.getNotas());
+        if(!articulo.getRutaImagen().equals("")){
+            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
+            ivFoto.setImageBitmap(bitmap);
+        }else{
+            Bitmap bitmap = BitmapFactory.decodeFile(null);
+            ivFoto.setImageBitmap(bitmap);
         }
 
-        if(!encontrado) {
-            EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
-            EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
-            EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
-            int cantidad = 0;
-            double precio = 0;
-            if (!etCantidad.getText().toString().isEmpty()) {
-                cantidad = Integer.parseInt(etCantidad.getText().toString());
-            }
-            if (!etPrecio.getText().toString().isEmpty()) {
-                precio = Double.parseDouble(etPrecio.getText().toString());
-            }
-            //llamadas(etPrecio.getText().toString());
-            Articulo a =null;
-            if(!rutaArquivo.equals("")){
-                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
-            }else {
-                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString());
-            }
-            articulos2.add(a);
-            /*
-            Intent datos = new Intent();
-             datos.putExtra(Activity_Lista.NEWArticulos, articulos2);
-             setResult(RESULT_OK, datos);
-             */
+
+    }
+
+    private void modificarArticulo(){
+        EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
+        EditText etCantidadArticulo=findViewById(R.id.etCantidadArticulo_ModificarArticulo);
+        EditText etNotasArticulo=findViewById(R.id.etNotasArticulo_ModificarArticulo);
+
+        int cantidad = 0;
+        double precio = 0;
+        if (!etCantidadArticulo.getText().toString().isEmpty()) {
+            cantidad = Integer.parseInt(etCantidadArticulo.getText().toString());
         }
+        if (!etPrecioArticulo.getText().toString().isEmpty()) {
+            precio = Double.parseDouble(etPrecioArticulo.getText().toString());
+        }
+
+        articulo.setNombre(etNombreArticulo.getText().toString());
+        articulo.setCantidad(cantidad);
+        articulo.setPrecio(precio);
+        articulo.setNotas(etNotasArticulo.getText().toString());
+        if(!rutaArquivo.equals("")){
+            articulo.setRutaImagen(rutaArquivo);
+        }
+
     }
 
-    @Override
-    public void finish() {
-        Intent datos = new Intent();
-        datos.putExtra(Activity_Lista.NEWArticulos,articulos2);
-        setResult(RESULT_OK, datos);
-        super.finish();
-    }
-
-
-    public void llamadas(String texto){
-        Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
-    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode ==0 && resultCode == RESULT_OK)
         { {
@@ -187,42 +155,29 @@ public class Activity_NuevoArticulo extends Activity {
             File arquivo = new File(ruta, nomeFoto);
             if (!arquivo.exists()) return;          // Non hai foto
             rutaArquivo=arquivo.getAbsolutePath();
-            ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+            ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
             Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
             imgview.setImageBitmap(bitmap);
             //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
         }
         }
     }
-
     public void pedirPermiso(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
             //requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
         }
     }
-/*
-    @Override
-     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                 //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-             } else {
-                 //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-             }
-         }
-    }
-*/
+
     @Override
     protected void onSaveInstanceState(Bundle guardaEstado) {
         super.onSaveInstanceState(guardaEstado);
 
-        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
-        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
-        EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
-        ImageView ivimagen=(ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_ModificarArticulo);
+        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_ModificarArticulo);
+        EditText etNotas = (EditText) findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        ImageView ivimagen=(ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
 
         sNombre=etNombre.getText().toString();
         if(!etCantidad.getText().toString().equals("")) {
@@ -249,21 +204,17 @@ public class Activity_NuevoArticulo extends Activity {
         guardaEstado.putInt("cantidad",iCantidad);
         guardaEstado.putDouble("precio",dPrecio);
 
-        guardaEstado.putSerializable("articulos",articulos);
-        guardaEstado.putSerializable("articulos2",articulos2);
-        //t = texto.getText().toString();
-        //lo "guardamos" en el Bundle
-        //guardaEstado.putString("text", t);
+        guardaEstado.putSerializable("articulo",articulo);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle recuperaEstado) {
         super.onRestoreInstanceState(recuperaEstado);
-        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
-        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
-        EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
-        ImageView ivimagen=(ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_ModificarArticulo);
+        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_ModificarArticulo);
+        EditText etNotas = (EditText) findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        ImageView ivimagen=(ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
 
         sNombre=recuperaEstado.getString("nombre");
         iCantidad=recuperaEstado.getInt("cantidad");
@@ -272,8 +223,7 @@ public class Activity_NuevoArticulo extends Activity {
 
         sImagen = recuperaEstado.getString("imagen");
 
-        articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
-        articulos2=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos2");
+        articulo=(Articulo)recuperaEstado.getSerializable("articulo");
 
 
         etNombre.setText(sNombre);
@@ -289,11 +239,6 @@ public class Activity_NuevoArticulo extends Activity {
             Bitmap bitmap = BitmapFactory.decodeFile(sImagen);
             ivimagen.setImageBitmap(bitmap);
         }
-
-        //recuperamos el String del Bundle
-        //t = recuperaEstado.getString("text");
-        //Seteamos el valor del EditText con el valor de nuestra cadena
-       // texto.setText(t);
     }
 
     private String sNombre;
@@ -303,13 +248,17 @@ public class Activity_NuevoArticulo extends Activity {
     private String sImagen="";
     private boolean Cant;
     private boolean Pre;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_nuevoarticulo);
-        articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista");
-        pedirPermiso();
+        setContentView(R.layout.layout_modificararticulo);
+        articulo=(Articulo) getIntent().getSerializableExtra("articulo");
+        setTitle("Modificar: "+articulo.getNombre());
+        rutaArquivo=articulo.getRutaImagen();
         xestionarEventos();
+        pedirPermiso();
+        cargarArticulo();
+
+
     }
 }

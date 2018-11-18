@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/str_nuevoArticulo_control_nomeArtículo"
+        android:text="@string/str_all_control_GestionArticulo_nomeArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toTopOf="@+id/guideline16" />
 
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/str_nuevoArticulo_control_cantidadArtículo"
+        android:text="@string/str_all_control_GestionArticulo_cantidadArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
@@ -109,7 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/str_nuevoArticulo_control_precioArtículo"
+        android:text="@string/str_all_control_GestionArticulo_precioArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline17"
         app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
@@ -161,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/str_nuevoArticulo_control_notasArtículo"
+        android:text="@string/str_all_control_GestionArticulo_notasArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_NuevoArticulo" />
 </android.support.constraint.ConstraintLayout>

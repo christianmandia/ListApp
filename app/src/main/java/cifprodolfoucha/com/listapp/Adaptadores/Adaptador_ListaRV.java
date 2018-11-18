@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -22,7 +25,7 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
     private Context mContext;
 
     private View.OnClickListener listener;
-    private View.OnLongClickListener longlistener;
+    //private View.OnLongClickListener longlistener;
 /*
     public Adapatador_Lista(Context context, ArrayList<Articulo>articulos) {
         super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
@@ -84,10 +87,12 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         Articulo articulo=mArticulos.get(position);
 
 
+        View v=holder.itemView;
         CheckedTextView mCheck=holder.mCTVArticulo;
         TextView mCantidad=holder.mTVCantidadArticulo;
         TextView mPrecio=holder.mTVPrecioArticulo;
         ImageView mImagen=holder.mIVImagenArticulo;
+
 
         mCheck.setText(articulo.getNombre());
 
@@ -110,6 +115,12 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
         }
 
+        if(articulo.isMarcado()){
+            v.setBackgroundColor(0xFF00FF00);
+        }else{
+            v.setBackgroundColor(0xFF00FFFF);
+        }
+
         if(articulo.isSeleccionado()){
             mCheck.setChecked(true);
         }else{
@@ -120,7 +131,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
             mImagen.setImageBitmap(bitmap);
         }else{
-
+            Bitmap bitmap = BitmapFactory.decodeFile(null);
+            mImagen.setImageBitmap(bitmap);
         }
 
     }
