@@ -30,13 +30,13 @@ import cifprodolfoucha.com.listapp.Modelos.Lista;
 public class Activity_Lista extends Activity{
 
     public final static String NEWArticulos= "nuevo";
-    public final static String NEWArticulo= "nuevo articulo";
+    public final static String MODArticulo= "articuloModificado";
     private static final int COD_PETICION = 33;
     private static final int COD_PETICION_MODIFICACION=34;
     private Lista listaRecibida=new Lista();
     private ArrayList<Articulo> articulos=new ArrayList();
 
-    Articulo articuloSeleccionado=null;
+    Articulo articuloSeleccionado=new Articulo();
     int prevPos=-1;
 
     Menu m=null;
@@ -345,10 +345,17 @@ public class Activity_Lista extends Activity{
         }
         if (requestCode == COD_PETICION_MODIFICACION){
             if (resultCode == RESULT_OK) {
-                if (data.hasExtra(Activity_Lista.NEWArticulo)) {
-                    Articulo articuloRecibido=(Articulo)data.getSerializableExtra("articulo");
-                    /*
-                    //articuloSeleccionado.setNombre(articuloRecibido.getNombre());
+                if (data.hasExtra(Activity_Lista.MODArticulo)) {
+
+                    Articulo articuloRecibido=(Articulo)data.getSerializableExtra("articuloModificado");
+
+                    //Toast.makeText(getApplicationContext(),"Llega",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),articuloRecibido.getNombre().toString(),Toast.LENGTH_SHORT).show();
+
+
+
+
+                    articuloSeleccionado.setNombre(articuloRecibido.getNombre());
                     articuloSeleccionado.setCantidad(articuloRecibido.getCantidad());
                     articuloSeleccionado.setRutaImagen(articuloRecibido.getRutaImagen());
                     articuloSeleccionado.setNotas(articuloRecibido.getNotas());
@@ -358,8 +365,12 @@ public class Activity_Lista extends Activity{
                     articulos.remove(prevPos);
                     adaptador.notifyItemRemoved(prevPos);
                     articulos.add(prevPos,articuloRecibido);
+                    //articulos.add(articuloRecibido);
                     adaptador.notifyItemInserted(prevPos);
-                    */
+                    //adaptador.notifyItemInserted(adaptador.getItemCount());
+                    /**/
+                    //Toast.makeText(this,articuloRecibido.toString(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,prevPos+"",Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -387,6 +398,24 @@ public class Activity_Lista extends Activity{
         //articuloSeleccionado=(Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
         //articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
         //prevPos=recuperaEstado.getInt("prevPos");
+    }
+
+
+
+    @Override
+    public void finish() {
+        Intent datos=new Intent();
+        datos.putExtra(Activity_MisListas.LISTAENVIADA,listaRecibida);
+        setResult(RESULT_OK, datos);
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent datos=new Intent();
+        datos.putExtra(Activity_MisListas.LISTAENVIADA,listaRecibida);
+        setResult(RESULT_OK, datos);
+        super.onBackPressed();
     }
 
     @Override

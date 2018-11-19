@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Activity_ModificarArticulo extends Activity {
     private String rutaArquivo="";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private final int CODIGO_IDENTIFICADOR=1;
-    private Articulo articulo=null;
+    private Articulo articulo=new Articulo();
 
 
 
@@ -49,12 +50,17 @@ public class Activity_ModificarArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modificarArticulo();
+                Articulo a=modificarArticulo();
+                //Toast.makeText(getApplicationContext(),articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
+                //Articulo a=articulo;
+                //Toast.makeText(getParent(),a.getNombre().toString(),Toast.LENGTH_SHORT).show();
 
                 Intent datos = new Intent();
-                datos.putExtra(Activity_Lista.NEWArticulo,articulo);
+
+                datos.putExtra(Activity_Lista.MODArticulo,articulo);
                 setResult(RESULT_OK, datos);
                 finish();
+                /**/
             }
         });
 
@@ -122,7 +128,7 @@ public class Activity_ModificarArticulo extends Activity {
 
     }
 
-    private void modificarArticulo(){
+    private Articulo modificarArticulo(){
         EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
         EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
         EditText etCantidadArticulo=findViewById(R.id.etCantidadArticulo_ModificarArticulo);
@@ -144,6 +150,9 @@ public class Activity_ModificarArticulo extends Activity {
         if(!rutaArquivo.equals("")){
             articulo.setRutaImagen(rutaArquivo);
         }
+        Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
+        return articulo;
+        //Toast.makeText(this,precio+"",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -204,7 +213,7 @@ public class Activity_ModificarArticulo extends Activity {
         guardaEstado.putInt("cantidad",iCantidad);
         guardaEstado.putDouble("precio",dPrecio);
 
-        guardaEstado.putSerializable("articulo",articulo);
+        guardaEstado.putSerializable("articuloModificado",articulo);
     }
 
     @Override
@@ -222,7 +231,13 @@ public class Activity_ModificarArticulo extends Activity {
         sNotas=recuperaEstado.getString("notas");
 
         sImagen = recuperaEstado.getString("imagen");
-
+/*
+        articulo.setNombre(sNombre);
+        articulo.setCantidad(iCantidad);
+        articulo.setPrecio(dPrecio);
+        articulo.setNotas(sNotas);
+        articulo.setRutaImagen(sImagen);
+*/
         articulo=(Articulo)recuperaEstado.getSerializable("articulo");
 
 

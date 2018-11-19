@@ -1,10 +1,12 @@
 package cifprodolfoucha.com.listapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,9 +36,13 @@ public class Activity_MisListas extends Activity {
     private Lista lista1;
     private int pos;
     private Adaptador_Categorias miAdaptador;
+    private Adaptador_MisListas miAdaptadorMisListas;
     private ListView lista;
     private int COD_LOGIN=30;
     private int RESULT_LOGIN=10;
+    private static final int COD_PETICION = 33;
+    public static final String LISTAENVIADA= "lista";
+    private final int CODIGO_IDENTIFICADOR=1;
 
     public void gestionEventos(){
         lista = findViewById(R.id.lvmislistas_mislistas);
@@ -55,7 +61,7 @@ public class Activity_MisListas extends Activity {
                 pos=position;
                 Intent intento=new Intent(getApplicationContext(),Activity_Lista.class);
                 intento.putExtra("list",lista1);
-                startActivity(intento);
+                startActivityForResult(intento,COD_PETICION);
 
 
             }
@@ -65,6 +71,7 @@ public class Activity_MisListas extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 showDialog(ELIMINAR);
+                pos=position;
                 return true;
             }
         });
@@ -100,10 +107,10 @@ public class Activity_MisListas extends Activity {
                 d.setCancelable(false);
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
-/*
-                        listas.remove(lista1);
-                        miAdaptador.notifyDataSetChanged();
-*/
+
+                         listas.remove(pos);
+                        miAdaptadorMisListas.notifyDataSetChanged();
+
                     }
                 });
                 d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -141,8 +148,8 @@ public class Activity_MisListas extends Activity {
 
         listas.add(new Lista("Lista2",(new Categoria("Categoria2","Imagen2")),articulos2));
 
-        Adaptador_MisListas miAdaptador = new Adaptador_MisListas(this,listas);
-        lista.setAdapter(miAdaptador);
+        miAdaptadorMisListas = new Adaptador_MisListas(this,listas);
+        lista.setAdapter(miAdaptadorMisListas);
 
 
     }
@@ -171,7 +178,37 @@ public class Activity_MisListas extends Activity {
             }
         }
         */
+
+        if (requestCode == COD_PETICION) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra(Activity_Lista.NEWArticulos)) {
+                    // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
+
+                    Lista l=(Lista)data.getSerializableExtra(LISTAENVIADA);
+                    //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
+                    /*
+                    /*
+                    */
+
+
+                    Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
+                    listas.remove(pos);
+                    listas.add(pos,l);
+                    miAdaptadorMisListas.notifyDataSetChanged();
+
+                }
+
+            }
+        }
     }
+
+    public void pedirPermiso(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
+            //requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,5 +216,6 @@ public class Activity_MisListas extends Activity {
         cargarListas();
         cargarCategorias();
         gestionEventos();
+        pedirPermiso();
     }
 }
