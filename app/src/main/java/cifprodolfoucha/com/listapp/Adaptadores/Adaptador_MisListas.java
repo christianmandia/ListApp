@@ -25,7 +25,7 @@ public class Adaptador_MisListas extends ArrayAdapter {
     private Context mContext;
 
     public Adaptador_MisListas(Context context, ArrayList<Lista>listas) {
-        super(context, R.layout.layout_elemento_mislistas);       // Enviamos o layout que imos utilizar
+        super(context, R.layout.layout_elemento_mislistas);
 
         this.listas = listas;
         this.mContext = context;
@@ -33,8 +33,7 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        //return super.getCount();
-        return listas.size();       // Poderíamos poñer tamén o número de imaxes.
+        return listas.size();
     }
 
     @Override
@@ -53,7 +52,6 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
         Lista lista=listas.get(position);
 
         Adaptador_MisListas.ViewHolder viewFila = new Adaptador_MisListas.ViewHolder();
