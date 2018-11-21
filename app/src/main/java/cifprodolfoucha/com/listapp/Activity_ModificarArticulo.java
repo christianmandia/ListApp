@@ -29,6 +29,7 @@ public class Activity_ModificarArticulo extends Activity {
 
     private String nomeFoto="";
     private String rutaArquivo="";
+    private String nomeSobrescribir="";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private final int CODIGO_IDENTIFICADOR=1;
     private Articulo articulo=new Articulo();
@@ -78,7 +79,12 @@ public class Activity_ModificarArticulo extends Activity {
                 File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 Time now=new Time();
                 now.setToNow();
-                nomeFoto="img-"+now+".jpg";
+                if(!rutaArquivo.equals("")){
+                    String[] nombre=rutaArquivo.split("/");
+                    nomeSobrescribir=nombre[nombre.length-1];
+                    //Toast.makeText(getApplicationContext(),nomeSobrescribir,Toast.LENGTH_LONG).show();
+                }
+                nomeFoto = "img-" + now + ".jpg";
                 File arquivo = new File(ruta,nomeFoto);
                 Uri contentUri=null;
                 if (Build.VERSION.SDK_INT >= 24) {
@@ -96,6 +102,12 @@ public class Activity_ModificarArticulo extends Activity {
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                 startActivityForResult(intento, 0);
+
+                if(!nomeSobrescribir.equals("")){
+                    File f=new File(ruta,nomeSobrescribir);
+                    f.delete();
+                    arquivo.renameTo(f);
+                }
             }
         });
 
@@ -150,7 +162,7 @@ public class Activity_ModificarArticulo extends Activity {
         if(!rutaArquivo.equals("")){
             articulo.setRutaImagen(rutaArquivo);
         }
-        Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
         return articulo;
         //Toast.makeText(this,precio+"",Toast.LENGTH_SHORT).show();
 

@@ -37,6 +37,7 @@ public class Activity_NuevoArticulo extends Activity {
 
     private String nomeFoto="";
     private String rutaArquivo="";
+    private String nomeSobrescribir="";
     private int REQUEST_CODE_GRAVACION_OK = 1;
     private final int CODIGO_IDENTIFICADOR=1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
@@ -92,9 +93,15 @@ public class Activity_NuevoArticulo extends Activity {
                 File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 Time now=new Time();
                 now.setToNow();
+                if(!rutaArquivo.equals("")){
+                    String[] nombre=rutaArquivo.split("/");
+                    nomeSobrescribir=nombre[nombre.length-1];
+                    //Toast.makeText(getApplicationContext(),nomeSobrescribir,Toast.LENGTH_LONG).show();
+                }
                 nomeFoto="img-"+now+".jpg";
                 File arquivo = new File(ruta,nomeFoto);
                 Uri contentUri=null;
+
                 if (Build.VERSION.SDK_INT >= 24) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED) {
@@ -107,10 +114,17 @@ public class Activity_NuevoArticulo extends Activity {
                 else {
                     contentUri = Uri.fromFile(arquivo);
                 }
+
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                 startActivityForResult(intento, 0);
+                if(!nomeSobrescribir.equals("")){
+                    File f=new File(ruta,nomeSobrescribir);
+                    f.delete();
+                    arquivo.renameTo(f);
+                }
             }
+
         });
     }
 
@@ -189,15 +203,16 @@ public class Activity_NuevoArticulo extends Activity {
             rutaArquivo=arquivo.getAbsolutePath();
             ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
             Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
+            //Bitmap bitmap = (Bitmap)data.getExtras().get("data");
             imgview.setImageBitmap(bitmap);
             //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
         }
         }
     }
-
+/*
     public void pedirPermiso(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
+            //requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
             //requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
         }
     }
@@ -309,7 +324,7 @@ public class Activity_NuevoArticulo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
         articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista");
-        pedirPermiso();
+//        pedirPermiso();
         xestionarEventos();
     }
 }
