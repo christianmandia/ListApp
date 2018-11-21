@@ -387,7 +387,7 @@ public class Activity_Lista extends Activity{
 
         //guardaEstado.putSerializable("articulos",articulos);
         //guardaEstado.putSerializable("articuloSeleccionado",articuloSeleccionado);
-        //guardaEstado.putInt("prevPos",prevPos);
+        guardaEstado.putInt("prevPos",prevPos);
 
 
     }
@@ -397,7 +397,7 @@ public class Activity_Lista extends Activity{
         super.onRestoreInstanceState(recuperaEstado);
         //articuloSeleccionado=(Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
         //articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
-        //prevPos=recuperaEstado.getInt("prevPos");
+        prevPos=recuperaEstado.getInt("prevPos");
     }
 
 
@@ -423,7 +423,7 @@ public class Activity_Lista extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_lista);
         listaRecibida=(Lista)getIntent().getSerializableExtra("list");
-
+        setTitle(listaRecibida.getNombre());
         xestionarEventos();
         cargarLista();
     }
