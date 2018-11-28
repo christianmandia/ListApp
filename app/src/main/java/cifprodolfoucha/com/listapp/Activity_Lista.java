@@ -38,6 +38,7 @@ public class Activity_Lista extends Activity {
     private Lista listaRecibida;
     private ArrayList<Articulo> articulos = new ArrayList();
     private Context a = this;
+    public static final String LISTAENVIADA= "lista";
 
     Articulo articuloSeleccionado = new Articulo();
     int prevPos = -1;

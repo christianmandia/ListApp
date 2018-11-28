@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
@@ -41,6 +43,9 @@ public class Activity_NuevoArticulo extends Activity {
     private int REQUEST_CODE_GRAVACION_OK = 1;
     private final int CODIGO_IDENTIFICADOR=1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private File img,imaxe,directorio,temp;
+    private boolean pasaFoto;
+    //private Bitmap bitmap;
 
     private void xestionarEventos(){
          ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
@@ -90,16 +95,35 @@ public class Activity_NuevoArticulo extends Activity {
                  intento.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivo));
                 startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
                 */
-                File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                //File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 Time now=new Time();
                 now.setToNow();
+
+                directorio = new File(Environment.getExternalStorageDirectory(), "ListApp");
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }
+                img=new File(directorio, "imagenes");
+                if (!img.exists()) {
+                    img.mkdirs();
+                }
+
+
+
                 if(!rutaArquivo.equals("")){
                     String[] nombre=rutaArquivo.split("/");
                     nomeSobrescribir=nombre[nombre.length-1];
                     //Toast.makeText(getApplicationContext(),nomeSobrescribir,Toast.LENGTH_LONG).show();
                 }
+
+
+
+
                 nomeFoto="img-"+now+".jpg";
-                File arquivo = new File(ruta,nomeFoto);
+                //File arquivo = new File(ruta,nomeFoto);
+                imaxe = new File(img,nomeFoto);
+
+
                 Uri contentUri=null;
 
                 if (Build.VERSION.SDK_INT >= 24) {
@@ -109,25 +133,46 @@ public class Activity_NuevoArticulo extends Activity {
                                 MY_CAMERA_REQUEST_CODE);
                     }
                     contentUri = getUriForFile(getApplicationContext(), getApplicationContext()
-                            .getPackageName() + ".provider", arquivo);
+                            .getPackageName() + ".provider", imaxe);
                 }
                 else {
-                    contentUri = Uri.fromFile(arquivo);
+                    contentUri = Uri.fromFile(imaxe);
                 }
+
+
+
 
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+
                 startActivityForResult(intento, 0);
-                if(!nomeSobrescribir.equals("")){
-                    File f=new File(ruta,nomeSobrescribir);
-                    f.delete();
-                    arquivo.renameTo(f);
-                }
+
             }
 
         });
     }
+    /*
+    public void saveImage(Bitmap bmp, String filename)
+    {
+        Intent mediaScanIntent = new Intent(Intent.Action_);
 
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filename);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+*/
     public void borrarDatos(){
         EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
         EditText etCantidad=(EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
@@ -167,6 +212,19 @@ public class Activity_NuevoArticulo extends Activity {
             }
             //llamadas(etPrecio.getText().toString());
             Articulo a =null;
+
+            if(pasaFoto) {
+
+                //Toast.makeText(this,arquivo.getAbsolutePath(),Toast.LENGTH_SHORT).show();
+                //if (!arquivo.exists()) return;          // Non hai foto
+                rutaArquivo = imaxe.getAbsolutePath();
+
+
+
+
+            }
+
+
             if(!rutaArquivo.equals("")){
                 a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
             }else {
@@ -198,16 +256,38 @@ public class Activity_NuevoArticulo extends Activity {
         if(requestCode ==0 && resultCode == RESULT_OK)
         { {
             // Saca foto
-            File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            File arquivo = new File(ruta, nomeFoto);
+            //File ruta = img;
+
+            File arquivo = new File(img, nomeFoto);
             if (!arquivo.exists()) return;          // Non hai foto
             rutaArquivo=arquivo.getAbsolutePath();
 
+
+
             ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
             Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
-            //Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+            //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
+
+            //bitmap = (Bitmap)data.getExtras().get("data");
             imgview.setImageBitmap(bitmap);
+
+
+
+            //imaxe=new File(img,nomeFoto);
+
+            if(!imaxe.getAbsoluteFile().equals("")){
+                    Toast.makeText(this,"aaaaa",Toast.LENGTH_SHORT).show();
+            }
+
             //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
+/*
+            if(!nomeSobrescribir.equals("")){
+                //File f=new File(ruta,nomeSobrescribir);
+                File f=new File(img,nomeSobrescribir);
+                f.delete();
+                arquivo.renameTo(f);
+            }
+*/
         }
         }
     }

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +42,7 @@ public class Activity_MisListas extends Activity {
     private int COD_LOGIN=30;
     private int RESULT_LOGIN=10;
     private static final int COD_PETICION = 33;
-    public static final String LISTAENVIADA= "lista";
+    public static String LISTAENVIADA= "lista";
     private final int CODIGO_IDENTIFICADOR=1;
 
     public void gestionEventos(){
@@ -78,6 +79,7 @@ public class Activity_MisListas extends Activity {
     }
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
@@ -88,6 +90,13 @@ public class Activity_MisListas extends Activity {
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                 //startActivityForResult(login,COD_LOGIN);
                 startActivity(login);
+                return true;
+            case R.id.ajustes:
+
+                Intent ajustes=new Intent(getApplicationContext(), Activity_Ajustes.class);
+                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                //startActivityForResult(login,COD_LOGIN);
+                startActivity(ajustes);
                 return true;
             default:return super.onOptionsItemSelected(item);
         }
@@ -181,8 +190,8 @@ public class Activity_MisListas extends Activity {
 
         if (requestCode == COD_PETICION) {
             if (resultCode == RESULT_OK) {
-                if (data.hasExtra(Activity_Lista.NEWArticulos)) {
-                    // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
+                if (data.hasExtra(Activity_Lista.LISTAENVIADA)) {
+                    //Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
 
                     Lista l=(Lista)data.getSerializableExtra(LISTAENVIADA);
                     //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
@@ -191,13 +200,11 @@ public class Activity_MisListas extends Activity {
                     */
 
 
-                    Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
                     listas.remove(pos);
                     listas.add(pos,l);
                     miAdaptadorMisListas.notifyDataSetChanged();
-                    cargarListas();
-                    miAdaptadorMisListas.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(),l.getNombre()+" asa ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
 
                 }
 
