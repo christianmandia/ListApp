@@ -38,7 +38,8 @@
         </activity>
         <activity
             android:name=".Activity_Lista" />
-        <activity android:name=".Activity_Registro" />
+        <activity android:name=".Activity_Registro" >
+        </activity>
         <activity android:name=".Activity_Login" />
         <activity android:name=".Activity_Ajustes" />
         <activity

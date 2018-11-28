@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/GrupoGArticulo">
+        <item
+            android:id="@+id/MostrarArticulo"
+            android:icon="@android:drawable/ic_menu_view"
+            android:showAsAction="always">
+
+        </item>
+        <item
+            android:id="@+id/EditarArticulo"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:showAsAction="always">
+
+        </item>
+        <item
+            android:id="@+id/EliminarArticulo"
+            android:icon="@android:drawable/ic_menu_delete"
+            android:showAsAction="always">
+
+        </item>
+    </group>
+</menu>

@@ -117,7 +117,9 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
         if(articulo.isMarcado()){
             //v.setBackgroundColor(0xFF00FF00);
+
             v.setBackgroundColor(0xFF008080);
+
         }else{
             v.setBackgroundColor(0xFF00FFFF);
         }

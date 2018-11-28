@@ -3,6 +3,7 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,35 +29,36 @@ import cifprodolfoucha.com.listapp.Adaptadores.ItemClickSupport;
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
 import cifprodolfoucha.com.listapp.Modelos.Lista;
 
-public class Activity_Lista extends Activity{
+public class Activity_Lista extends Activity {
 
-    public final static String NEWArticulos= "nuevo";
-    public final static String MODArticulo= "articuloModificado";
+    public final static String NEWArticulos = "nuevo";
+    public final static String MODArticulo = "articuloModificado";
     private static final int COD_PETICION = 33;
-    private static final int COD_PETICION_MODIFICACION=34;
-    private Lista listaRecibida=new Lista();
-    private ArrayList<Articulo> articulos=new ArrayList();
+    private static final int COD_PETICION_MODIFICACION = 34;
+    private Lista listaRecibida;
+    private ArrayList<Articulo> articulos = new ArrayList();
+    private Context a = this;
 
-    Articulo articuloSeleccionado=new Articulo();
-    int prevPos=-1;
+    Articulo articuloSeleccionado = new Articulo();
+    int prevPos = -1;
 
-    Menu m=null;
+    //Menu m = null;
 
     //Adapatador_Lista adaptador=null;
-    Adaptador_ListaRV adaptador=null;
+    Adaptador_ListaRV adaptador = null;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_listadefault, menu);
 
-        m=menu;
+    //    m = menu;
 
         return true;
     }
 
 
-    private void cargarLista(){
+    private void cargarLista() {
         //String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
         //int[] cantidad={1,2,10,0,0,4};
         //double[] precio={0.5,15,30,0,20,0};
@@ -79,35 +82,36 @@ public class Activity_Lista extends Activity{
 
         //adaptador=new Adaptador_ListaRV(articulos);
 
-        articulos=listaRecibida.getArticulos();
+        articulos = listaRecibida.getArticulos();
         adaptador = new Adaptador_ListaRV(articulos);
 
         adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(prevPos!=-1 && articulos.get(prevPos).isMarcado()) {
+                if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
                     //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
-                    setMenuDefecto();
+//                    setMenuDefecto();
                 }
 
-                CheckedTextView c = (CheckedTextView)v.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
+                CheckedTextView c = (CheckedTextView) v.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
 
-                Articulo a=articulos.get(lista.getChildAdapterPosition(v));
+                Articulo a = articulos.get(lista.getChildAdapterPosition(v));
                 //Toast.makeText(getApplicationContext(),a.isSeleccionado()+"",Toast.LENGTH_LONG).show();
-                if(!a.isMarcado()){
-                if(a.isSeleccionado()){
-                    a.setSeleccionado(false);
-                    c.setChecked(false);
-                }else{
-                    a.setSeleccionado(true);
-                    c.setChecked(true);
-                }}
+                if (!a.isMarcado()) {
+                    if (a.isSeleccionado()) {
+                        a.setSeleccionado(false);
+                        c.setChecked(false);
+                    } else {
+                        a.setSeleccionado(true);
+                        c.setChecked(true);
+                    }
+                }
 
                 lista.getAdapter().notifyDataSetChanged();
-                if(prevPos!=-1) {
+                if (prevPos != -1) {
                     lista.getAdapter().notifyItemChanged(prevPos);
                 }
 
@@ -122,57 +126,71 @@ public class Activity_Lista extends Activity{
     }
 
 
-
-    private void xestionarEventos(){
-
+    private void xestionarEventos() {
 
 
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
 
-        final ImageButton ibtnAñadirElemento=(ImageButton) findViewById(R.id.ibtnNuevoElemento_Lista);
+        ImageButton ibtnAñadirElemento = (ImageButton) findViewById(R.id.ibtnNuevoElemento_Lista);
         ibtnAñadirElemento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                showDialog(TEXTO);
-                Intent nuevoArticulo=new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
+                Intent nuevoArticulo = new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
                 //ArrayList<Articulo> a2= (ArrayList<Articulo>) articulos.clone();
-                nuevoArticulo.putExtra("lista",articulos);
+                nuevoArticulo.putExtra("lista", articulos);
                 //startActivity(nuevoArticulo);
-                startActivityForResult(nuevoArticulo,COD_PETICION);
+                startActivityForResult(nuevoArticulo, COD_PETICION);
             }
         });
 
 
-
-        final android.support.v7.widget.RecyclerView rvElListaD=findViewById(R.id.rvElementosLista_Lista);
+        android.support.v7.widget.RecyclerView rvElListaD = findViewById(R.id.rvElementosLista_Lista);
 
         ItemClickSupport.addTo(rvElListaD).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
 
-                articuloSeleccionado=articulos.get(position);
+                articuloSeleccionado = articulos.get(position);
 
                 //Arreglo chapuza
-                if(prevPos!=-1 && prevPos!=position && articulos.get(prevPos).isMarcado()) {
+                //if(prevPos!=-1 && prevPos!=position && articulos.get(prevPos).isMarcado()) {
+                Toast.makeText(getApplicationContext(),prevPos+" "+position,Toast.LENGTH_LONG).show();
+
+                if (prevPos != -1 && position!=prevPos && articulos.get(prevPos).isMarcado() ) {
                     //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
                 }
+
                 //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_SHORT).show();
 
                 //v.setBackgroundColor(0xFF00FF00);
-                if(articuloSeleccionado.isMarcado()){
+                if (articuloSeleccionado.isMarcado()) {
                     articuloSeleccionado.setMarcado(false);
-                    setMenuDefecto();
-                }else{
+
+//                    setMenuDefecto();
+                } else {
                     articuloSeleccionado.setMarcado(true);
-                    setMenu2();
+//                    setMenu2();
                 }
                 //v.setBackground(null);
                 ////////////////
 
                 adaptador.notifyItemChanged(position);
-                prevPos=position;
+                prevPos = position;
+
+
+                if (mActionMode != null) {
+                    return false;
+                }
+
+
+                // Start the CAB using the ActionMode.Callback defined above
+
+                mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
+                //view.setSelected(true);
+
                 return true;
             }
 
@@ -180,35 +198,94 @@ public class Activity_Lista extends Activity{
         });
 
     }
+
+    private ActionMode mActionMode;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.EditarArticulo:
                 //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
                 articulos.get(prevPos).setMarcado(false);
                 adaptador.notifyItemChanged(prevPos);
-                setMenuDefecto();
+//                setMenuDefecto();
 
-                Intent modificarArticulo=new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
+                Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
-                modificarArticulo.putExtra("articulo",articuloSeleccionado);
-                startActivityForResult(modificarArticulo,COD_PETICION_MODIFICACION);
+                modificarArticulo.putExtra("articulo", articuloSeleccionado);
+                startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
                 return true;
             case R.id.EliminarArticulo:
                 showDialog(ELIMINAR);
                 return true;
             case R.id.MostrarArticulo:
-                Intent mostrarArticulo=new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
+                Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
-                mostrarArticulo.putExtra("articulo",articuloSeleccionado);
+                mostrarArticulo.putExtra("articulo", articuloSeleccionado);
                 startActivity(mostrarArticulo);
                 return true;
-            default:return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
 
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_lista_contextual, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            switch (item.getItemId()) {
+                case R.id.EditarArticulo:
+                    //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
+                    articulos.get(prevPos).setMarcado(false);
+                    adaptador.notifyItemChanged(prevPos);
+                    //setMenuDefecto();
+
+                    Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
+                    //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                    modificarArticulo.putExtra("articulo", articuloSeleccionado);
+                    startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
+                    return true;
+                case R.id.EliminarArticulo:
+                    showDialog(ELIMINAR);
+                    return true;
+                case R.id.MostrarArticulo:
+                    Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
+                    //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                    mostrarArticulo.putExtra("articulo", articuloSeleccionado);
+                    startActivity(mostrarArticulo);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+/*
     private void setMenuDefecto(){
         m.setGroupVisible(R.id.GrupoOpciones,true);
         m.setGroupVisible(R.id.GrupoGArticulo,false);
@@ -217,8 +294,9 @@ public class Activity_Lista extends Activity{
         m.findItem(R.id.EditarArticulo).setVisible(false);
         m.findItem(R.id.EliminarArticulo).setVisible(false);
         m.findItem(R.id.CompartirLista).setVisible(true);
-        */
+
     }
+
     private void setMenu2(){
         m.setGroupVisible(R.id.GrupoOpciones,false);
         m.setGroupVisible(R.id.GrupoGArticulo,true);
@@ -227,11 +305,11 @@ public class Activity_Lista extends Activity{
         m.findItem(R.id.MostrarArticulo).setVisible(true);
         m.findItem(R.id.EditarArticulo).setVisible(true);
         m.findItem(R.id.EliminarArticulo).setVisible(true);
-        */
+
     }
+*/
 
     private static final int ELIMINAR = 1;
-    private static final int TEXTO = 2;
 
     private AlertDialog.Builder d;
 
@@ -245,9 +323,11 @@ public class Activity_Lista extends Activity{
                 d.setCancelable(false);
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
-
                         articulos.remove(articuloSeleccionado);
                         adaptador.notifyItemRemoved(prevPos);
+                        prevPos=-1;
+
+
                     }
                 });
                 d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -291,7 +371,7 @@ public class Activity_Lista extends Activity{
         return null;
     }
 
-    public void haciendoCosas(){
+    public void haciendoCosas() {
 
     }
 
@@ -300,9 +380,9 @@ public class Activity_Lista extends Activity{
         if (requestCode == COD_PETICION) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Activity_Lista.NEWArticulos)) {
-                   // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
                     int TamañoActual = adaptador.getItemCount();
-                    ArrayList<Articulo> articulos2=(ArrayList<Articulo>)data.getSerializableExtra("nuevo");
+                    ArrayList<Articulo> articulos2 = (ArrayList<Articulo>) data.getSerializableExtra("nuevo");
                     //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
                     /*
                     /*
@@ -310,10 +390,10 @@ public class Activity_Lista extends Activity{
 
 
                     articulos.addAll(articulos2);
-                    adaptador.notifyItemRangeInserted(TamañoActual,articulos2.size());
+                    adaptador.notifyItemRangeInserted(TamañoActual, articulos2.size());
                     //Toast.makeText(this, articulos2.size()+"", Toast.LENGTH_LONG).show();
                     /*
-                    */
+                     */
 
 /*
                     for(Articulo a:articulos2){
@@ -343,16 +423,14 @@ public class Activity_Lista extends Activity{
 
             }
         }
-        if (requestCode == COD_PETICION_MODIFICACION){
+        if (requestCode == COD_PETICION_MODIFICACION) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Activity_Lista.MODArticulo)) {
 
-                    Articulo articuloRecibido=(Articulo)data.getSerializableExtra("articuloModificado");
+                    Articulo articuloRecibido = (Articulo) data.getSerializableExtra("articuloModificado");
 
                     //Toast.makeText(getApplicationContext(),"Llega",Toast.LENGTH_SHORT).show();
                     //Toast.makeText(getApplicationContext(),articuloRecibido.getNombre().toString(),Toast.LENGTH_SHORT).show();
-
-
 
 
                     articuloSeleccionado.setNombre(articuloRecibido.getNombre());
@@ -377,17 +455,17 @@ public class Activity_Lista extends Activity{
             }
 
 
-
         }
 
     }
+
     @Override
     protected void onSaveInstanceState(Bundle guardaEstado) {
         super.onSaveInstanceState(guardaEstado);
 
         //guardaEstado.putSerializable("articulos",articulos);
         //guardaEstado.putSerializable("articuloSeleccionado",articuloSeleccionado);
-        guardaEstado.putInt("prevPos",prevPos);
+        guardaEstado.putInt("prevPos", prevPos);
 
 
     }
@@ -397,23 +475,22 @@ public class Activity_Lista extends Activity{
         super.onRestoreInstanceState(recuperaEstado);
         //articuloSeleccionado=(Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
         //articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
-        prevPos=recuperaEstado.getInt("prevPos");
+        prevPos = recuperaEstado.getInt("prevPos");
     }
-
 
 
     @Override
     public void finish() {
-        Intent datos=new Intent();
-        datos.putExtra(Activity_MisListas.LISTAENVIADA,listaRecibida);
+        Intent datos = new Intent();
+        datos.putExtra(Activity_MisListas.LISTAENVIADA, listaRecibida);
         setResult(RESULT_OK, datos);
         super.finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent datos=new Intent();
-        datos.putExtra(Activity_MisListas.LISTAENVIADA,listaRecibida);
+        Intent datos = new Intent();
+        datos.putExtra(Activity_MisListas.LISTAENVIADA, listaRecibida);
         setResult(RESULT_OK, datos);
         super.onBackPressed();
     }
@@ -422,8 +499,9 @@ public class Activity_Lista extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_lista);
-        listaRecibida=(Lista)getIntent().getSerializableExtra("list");
+        listaRecibida = (Lista) getIntent().getSerializableExtra("list");
         setTitle(listaRecibida.getNombre());
+
         xestionarEventos();
         cargarLista();
     }

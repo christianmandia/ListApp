@@ -195,6 +195,9 @@ public class Activity_MisListas extends Activity {
                     listas.remove(pos);
                     listas.add(pos,l);
                     miAdaptadorMisListas.notifyDataSetChanged();
+                    cargarListas();
+                    miAdaptadorMisListas.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(),l.getNombre()+" asa ",Toast.LENGTH_SHORT).show();
 
                 }
 

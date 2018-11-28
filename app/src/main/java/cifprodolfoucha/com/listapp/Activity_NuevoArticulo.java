@@ -193,6 +193,7 @@ public class Activity_NuevoArticulo extends Activity {
     public void llamadas(String texto){
         Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode ==0 && resultCode == RESULT_OK)
         { {
@@ -201,6 +202,7 @@ public class Activity_NuevoArticulo extends Activity {
             File arquivo = new File(ruta, nomeFoto);
             if (!arquivo.exists()) return;          // Non hai foto
             rutaArquivo=arquivo.getAbsolutePath();
+
             ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
             Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
             //Bitmap bitmap = (Bitmap)data.getExtras().get("data");
