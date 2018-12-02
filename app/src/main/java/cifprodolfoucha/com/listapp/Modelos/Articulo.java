@@ -26,14 +26,15 @@ public class Articulo  implements Serializable {
         this.notas = notas;
 
     }
-    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio, String notas,String rutaImagen) {
+
+    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
         this.precio = precio;
         this.notas = notas;
         this.rutaImagen= rutaImagen;
-
+        this.marcado=false;
     }
 
     public String getRutaImagen() {

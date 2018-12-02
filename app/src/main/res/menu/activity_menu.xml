@@ -2,12 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Login"
-        android:title="@string/MenuLogin"
+        android:id="@+id/menuCategorias"
+        android:title="@string/MenuCategorias"
         />
-    <item
-        android:id="@+id/recargar"
-        android:title="@string/MenuDescargarListas"></item>
     <item
         android:id="@+id/ajustes"
         android:title="@string/MenuAjustes"

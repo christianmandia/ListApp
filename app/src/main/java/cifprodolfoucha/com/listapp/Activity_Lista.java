@@ -90,6 +90,11 @@ public class Activity_Lista extends Activity {
             @Override
             public void onClick(View v) {
 
+                if(mActionMode!=null) {
+                    mActionMode.finish();
+                    mActionMode = null;
+                }
+
                 if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
                     //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
                     articulos.get(prevPos).setMarcado(false);
@@ -183,6 +188,9 @@ public class Activity_Lista extends Activity {
 
 
                 if (mActionMode != null) {
+
+                    mActionMode.finish();
+                    mActionMode = null;
                     return false;
                 }
 
@@ -284,6 +292,15 @@ public class Activity_Lista extends Activity {
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
+
+            if(articuloSeleccionado!=null) {
+
+                if (prevPos != -1 && articuloSeleccionado.isMarcado()) {
+                    articuloSeleccionado.setMarcado(false);
+                    adaptador.notifyItemChanged(prevPos);
+                }
+            }
+
         }
     };
 /*

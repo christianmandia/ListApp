@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Lista implements Serializable {
+    private int id;
     private String nombre;
     private Categoria Categoria;
     private float precio;
@@ -13,7 +14,19 @@ public class Lista implements Serializable {
     public Lista() {
     }
 
-    public Lista(String nombre, Categoria categoria, ArrayList<Articulo> articulos) {
+    public Lista(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public Lista(int id, String nombre, Categoria categoria) {
+        this.id=id;
+        this.nombre = nombre;
+        Categoria = categoria;
+    }
+
+    public Lista(int id, String nombre, Categoria categoria, ArrayList<Articulo> articulos) {
+        this.id=id;
         this.nombre = nombre;
         this.Categoria = categoria;
         this.articulos = articulos;
@@ -88,5 +101,13 @@ public class Lista implements Serializable {
 
     public void setArticulos(ArrayList<Articulo> articulos) {
         this.articulos = articulos;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

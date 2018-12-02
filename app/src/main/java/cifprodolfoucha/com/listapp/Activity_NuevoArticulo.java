@@ -62,6 +62,11 @@ public class Activity_NuevoArticulo extends Activity {
         ibtn_Cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(imaxe!=null){
+                    imaxe.delete();
+                }
+
                 finish();
             }
         });
@@ -146,6 +151,12 @@ public class Activity_NuevoArticulo extends Activity {
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
 
                 startActivityForResult(intento, 0);
+
+                if(!nomeSobrescribir.equals("")){
+                    File f=new File(img,nomeSobrescribir);
+                    f.delete();
+                    imaxe.renameTo(f);
+                }
 
             }
 

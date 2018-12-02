@@ -4,19 +4,16 @@
     <group
         android:id="@+id/GrupoGArticulo">
         <item
-            android:title=""
             android:id="@+id/MostrarArticulo"
             android:icon="@android:drawable/ic_menu_view"
-            app:showAsAction="always"/>
+            android:showAsAction="always"/>
         <item
-            android:title=""
             android:id="@+id/EditarArticulo"
             android:icon="@android:drawable/ic_menu_edit"
-            app:showAsAction="always"/>
+            android:showAsAction="always"/>
         <item
-            android:title=""
             android:id="@+id/EliminarArticulo"
             android:icon="@android:drawable/ic_menu_delete"
-            app:showAsAction="always"/>
+            android:showAsAction="always"/>
     </group>
 </menu>
