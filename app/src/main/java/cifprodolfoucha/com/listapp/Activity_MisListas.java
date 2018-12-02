@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -86,7 +87,6 @@ public class Activity_MisListas extends Activity {
             outputstream.close();
             Toast.makeText(getApplicationContext(), "BASE DE DATOS COPIADA", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -122,6 +122,14 @@ public class Activity_MisListas extends Activity {
                 showDialog(ELIMINAR);
                 pos=position;
                 return true;
+            }
+        });
+
+        ImageButton ibtnAddC=(ImageButton)findViewById(R.id.ibtnAñadir_MisListas);
+        ibtnAddC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copiarBD();
             }
         });
     }
@@ -288,15 +296,17 @@ public class Activity_MisListas extends Activity {
             }
         }
     }
-
+/*
     @Override
+
     protected void onStart() {
         super.onStart();
         if (baseDatos==null) {   // Abrimos a base de datos para escritura
             baseDatos = baseDatos.getInstance(getApplicationContext());
             baseDatos.abrirBD();
 
-            cargarListas();
+            //copiarBD();
+            //cargarListas();
         }
     }
 
@@ -308,7 +318,7 @@ public class Activity_MisListas extends Activity {
             baseDatos=null;
         }
     }
-
+*/
     public void pedirPermiso(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
@@ -320,9 +330,10 @@ public class Activity_MisListas extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__mis_listas);
+
         copiarBD();
-        cargarListas();
-        cargarCategorias();
+        //cargarListas();
+        //cargarCategorias();
         gestionEventos();
         pedirPermiso();
     }

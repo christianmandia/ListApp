@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
@@ -15,6 +17,7 @@ import cifprodolfoucha.com.listapp.Modelos.Lista;
 
 public class BaseDatos extends SQLiteOpenHelper {
 
+    public final static String PATH_BD="/data/data/cifprodolfoucha.com.listapp/databases";
     public final static String NOME_BD="ListApp.db";
     public final static int VERSION_BD=1;
     private static BaseDatos sInstance;
@@ -85,6 +88,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         valores.put("nombre_categoria", nC);
         valores.put("imagen_categoria", iC);
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
+        Log.i("aasa", id+"");
 
         return id;
     }
@@ -165,9 +169,17 @@ public class BaseDatos extends SQLiteOpenHelper {
         return listas;
     }
 
+    private boolean checkDataBase() {
+        File dbFile = new File(PATH_BD + NOME_BD);
+        //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
+        return dbFile.exists();
+    }
+
     public void abrirBD(){
+        if(checkDataBase()){
         if (sqlLiteDB==null || !sqlLiteDB.isOpen()){
             sqlLiteDB = sInstance.getWritableDatabase();
+        }
         }
     }
 
