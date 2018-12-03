@@ -9,19 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Modelos.Articulo;
 import cifprodolfoucha.com.listapp.Modelos.Categoria;
 import cifprodolfoucha.com.listapp.Modelos.Lista;
 
-public class BaseDatos extends SQLiteOpenHelper {
+public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public final static String PATH_BD="/data/data/cifprodolfoucha.com.listapp/databases";
     public final static String NOME_BD="ListApp.db";
     public final static int VERSION_BD=1;
     private static BaseDatos sInstance;
-    private SQLiteDatabase sqlLiteDB;
+    public SQLiteDatabase sqlLiteDB;
 
     private final String TABOA_LISTAS="Lista";
     private final String TABOA_CATEGORIAS="Categoria";
@@ -82,11 +83,14 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 */
 
-    public long engadirCategoria(String nC,String iC){
+    public long engadirCategoria(int size,String nC,String iC){
+        size+=1;
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
+        valores.put("id_categoria",size);
         valores.put("nombre_categoria", nC);
         valores.put("imagen_categoria", iC);
+        Log.i("uno", "engadirCategoria: ");
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
         Log.i("aasa", id+"");
 
@@ -150,7 +154,6 @@ public class BaseDatos extends SQLiteOpenHelper {
     public ArrayList<Lista> obterListas(ArrayList<Categoria>categorias) {
         ArrayList<Lista> listas = new ArrayList<Lista>();
 
-
         Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria", null);
         if (datosListas.moveToFirst()) {
             Lista lista;
@@ -176,11 +179,11 @@ public class BaseDatos extends SQLiteOpenHelper {
     }
 
     public void abrirBD(){
-        if(checkDataBase()){
+        //if(checkDataBase()){
         if (sqlLiteDB==null || !sqlLiteDB.isOpen()){
             sqlLiteDB = sInstance.getWritableDatabase();
         }
-        }
+        //}
     }
 
     public void pecharBD(){

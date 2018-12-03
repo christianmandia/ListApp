@@ -240,6 +240,7 @@ public class Activity_MisListas extends Activity {
         try{
             cat=baseDatos.obterCategorias();
             miAdaptador = new Adaptador_Categorias(this, cat);
+//            Log.i("uno", cat.size()+"");
             categorias.setAdapter(miAdaptador);
         }catch(Exception e){
             cat=null;
@@ -296,29 +297,44 @@ public class Activity_MisListas extends Activity {
             }
         }
     }
-/*
-    @Override
 
+    @Override
     protected void onStart() {
         super.onStart();
         if (baseDatos==null) {   // Abrimos a base de datos para escritura
             baseDatos = baseDatos.getInstance(getApplicationContext());
             baseDatos.abrirBD();
 
+            cargarCategorias();
             //copiarBD();
             //cargarListas();
         }
     }
-
+/*
     @Override
     protected void onStop() {
+
         super.onStop();
         if (baseDatos!=null){    // Pechamos a base de datos.
+            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+
+            baseDatos.pecharBD();
+            baseDatos=null;
+        }
+
+    }
+*/
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (baseDatos!=null){    // Pechamos a base de datos.
+            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+
             baseDatos.pecharBD();
             baseDatos=null;
         }
     }
-*/
+
     public void pedirPermiso(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
