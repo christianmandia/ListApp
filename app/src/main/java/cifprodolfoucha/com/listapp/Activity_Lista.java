@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -518,6 +519,7 @@ public class Activity_Lista extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_lista);
         listaRecibida = (Lista) getIntent().getSerializableExtra("list");
+
         setTitle(listaRecibida.getNombre());
 
         xestionarEventos();

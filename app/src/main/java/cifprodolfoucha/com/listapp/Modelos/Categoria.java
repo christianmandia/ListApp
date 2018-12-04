@@ -5,15 +5,13 @@ import java.io.Serializable;
 public class Categoria implements Serializable {
     private int id;
     private String nombre;
-    private String imagen;
 
     public Categoria() {
 
     }
-    public Categoria(int id, String nombre, String imagen) {
+    public Categoria(int id, String nombre) {
         this.id=id;
         this.nombre = nombre;
-        this.imagen = imagen;
     }
 
 
@@ -31,13 +29,5 @@ public class Categoria implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 }

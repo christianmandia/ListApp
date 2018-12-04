@@ -36,7 +36,11 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
     */
     public Adaptador_ListaRV(ArrayList<Articulo> articulos){
-        this.mArticulos = articulos;
+        if(articulos!=null) {
+            this.mArticulos = articulos;
+        }else{
+            this.mArticulos=new ArrayList<Articulo>();
+        }
         //this.mContext = context;
     }
 
@@ -142,6 +146,7 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
     @Override
     public int getItemCount() {
+
         return mArticulos.size();
     }
 

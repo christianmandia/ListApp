@@ -2,13 +2,12 @@ package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,35 +21,38 @@ public class Activity_GestionCategoria extends Activity {
     private BaseDatos baseDatos;
 
     private void xestionarEventos(){
-        ImageButton ibtnAdd=(ImageButton)findViewById(R.id.ibtn_AddCategoria);
+        ImageButton ibtnAdd=(ImageButton)findViewById(R.id.ibtnAnhadirCategoria_GestionCategorias);
 
         ibtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String nC="CAT";
-                String iC="";
+                String nC=((TextView)findViewById(R.id.etNombreCat_GestionCategorias)).getText().toString();
 
-                Log.i("PROBA3",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-                Categoria c = baseDatos.obterCategoria(nC,iC);
-                if(c.getNombre()==null){
-                Log.i("uno", "Entrando");
-                int size=cat.size()+1;
-                long a=baseDatos.engadirCategoria(size,nC,iC);
-                //if(a>0) {
-                    Log.i("uno", "obtendo");
-                    c = baseDatos.obterCategoria(nC,iC);
+                //Log.i("PROBA3",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+                if(!nC.equals("")){
+                Categoria c = baseDatos.obterCategoria(nC);
+                if(c.getNombre()==null) {
+                    //Log.i("uno", "Entrando");
+                    int size = cat.size() + 1;
+                    long a = baseDatos.engadirCategoria(size, nC);
+                    //if(a>0) {
+                    //    Log.i("uno", "obtendo");
+                    c = baseDatos.obterCategoria(nC);
 
                     cat.add(c);
                     Intent datos = new Intent();
                     datos.putExtra(Activity_MisListas.CATEGORIAS, cat);
                     setResult(RESULT_OK, datos);
                     finish();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
+                }
                 //}else{
                 //    Toast.makeText(getApplicationContext(), "Non se engadiu a categoria", Toast.LENGTH_SHORT).show();
             //    }
             }else{
-                    Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Non escribiches", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -64,7 +66,8 @@ public class Activity_GestionCategoria extends Activity {
     }
 
     private void cargarCategorias(){
-        Spinner categorias=findViewById(R.id.spnCategorias);
+
+        Spinner categorias=findViewById(R.id.spnCategorias_GestionCategorias);
 
 
         Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,cat);
@@ -105,9 +108,8 @@ public class Activity_GestionCategoria extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_gestion_categorias);
-
         cat=(ArrayList<Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
-        Log.i("a", "onCreate: ");
+        //Log.i("a", "onCreate: ");
 
         xestionarEventos();
         cargarCategorias();

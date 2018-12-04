@@ -17,12 +17,14 @@ public class Lista implements Serializable {
     public Lista(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+        this.articulos=new ArrayList();
     }
 
     public Lista(int id, String nombre, Categoria categoria) {
         this.id=id;
         this.nombre = nombre;
         Categoria = categoria;
+        this.articulos=new ArrayList();
     }
 
     public Lista(int id, String nombre, Categoria categoria, ArrayList<Articulo> articulos) {
@@ -37,8 +39,10 @@ public class Lista implements Serializable {
     }
     public float precioChecked(){
         float precioChecked=0;
-        for(int i=0;i<articulos.size();i++){
-            precioChecked+=articulos.get(i).getPrecio();
+        if(articulos!=null) {
+            for (int i = 0; i < articulos.size(); i++) {
+                precioChecked += articulos.get(i).getPrecio();
+            }
         }
         return precioChecked;
     }
@@ -47,11 +51,13 @@ public class Lista implements Serializable {
         int total=0;
         int checked=0;
 
-        for(int i=0;i<articulos.size();i++){
-           total++;
-           if(articulos.get(i).isSeleccionado()){
-               checked++;
-           }
+        if(articulos!=null) {
+            for (int i = 0; i < articulos.size(); i++) {
+                total++;
+                if (articulos.get(i).isSeleccionado()) {
+                    checked++;
+                }
+            }
         }
         return checked+"/"+total;
 
@@ -61,10 +67,12 @@ public class Lista implements Serializable {
         int total=0;
         int checked=0;
 
-        for(int i=0;i<articulos.size();i++){
-            total++;
-            if(articulos.get(i).isSeleccionado()){
-                checked++;
+        if(articulos!=null) {
+            for (int i = 0; i < articulos.size(); i++) {
+                total++;
+                if (articulos.get(i).isSeleccionado()) {
+                    checked++;
+                }
             }
         }
         return checked-total==0;

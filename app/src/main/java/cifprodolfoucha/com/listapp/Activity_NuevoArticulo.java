@@ -416,7 +416,10 @@ public class Activity_NuevoArticulo extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
-        articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista");
+        if((articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista"))==null){
+            articulos=new ArrayList<Articulo>();
+        }
+
 //        pedirPermiso();
         xestionarEventos();
     }

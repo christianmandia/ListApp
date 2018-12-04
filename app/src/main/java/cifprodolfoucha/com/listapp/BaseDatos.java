@@ -83,13 +83,24 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     }
 */
 
-    public long engadirCategoria(int size,String nC,String iC){
+    public long engadirLista(String nL,int idC){
+        ContentValues valores = new ContentValues();
+        //valores.put("id_categoria",null);
+        valores.put("nombre_lista",nL);
+        valores.put("id_categoria", idC);
+        //Log.i("uno", "engadirLista: ");
+        long id = sqlLiteDB.insert(TABOA_LISTAS,null,valores);
+        //Log.i("aasa", id+"");
+
+        return id;
+    }
+
+    public long engadirCategoria(int size,String nC){
         size+=1;
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
         valores.put("id_categoria",size);
         valores.put("nombre_categoria", nC);
-        valores.put("imagen_categoria", iC);
         Log.i("uno", "engadirCategoria: ");
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
         Log.i("aasa", id+"");
@@ -120,30 +131,98 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     public ArrayList<Categoria> obterCategorias() {
         ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 
-
+        Log.i("cosas", "obterCategorias");
         Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria", null);
         if (datosCategorias.moveToFirst()) {
             Categoria categoria;
             while (!datosCategorias.isAfterLast()) {
                 categoria = new Categoria(datosCategorias.getInt(0),
-                        datosCategorias.getString(1),datosCategorias.getString(2));
+                        datosCategorias.getString(1));
+
+                Log.i("cosas", "añadida");
                 categorias.add(categoria);
+                Log.i("cosas", categoria.getNombre().toString());
                 datosCategorias.moveToNext();
             }
         }
         return categorias;
     }
 
-    public Categoria obterCategoria(String nC,String iC) {
+    public Lista obterIdLista(String nL,int idC,Categoria C) {
+        Lista lista=new Lista();
+
+        String[] parametros = new String[]{nL,idC+""};
+        Cursor datosListas = sqlLiteDB.rawQuery("select * from Lista where nombre_lista like ? and id_categoria=?", parametros);
+        if (datosListas.moveToFirst()) {
+
+            while (!datosListas.isAfterLast()) {
+                lista = new Lista(datosListas.getInt(0),
+                        datosListas.getString(1),C);
+                datosListas.moveToNext();
+            }
+        }
+        return lista;
+    }
+
+    public Lista obterLista(String nL,Categoria c) {
+        Lista lista=new Lista();
+
+        Log.i("datos", nL);
+        Log.i("datos", c.getId()+"");
+        String[] parametros = new String[]{nL,c.getId()+""};
+        Cursor datosListas = sqlLiteDB.rawQuery("select * from Lista where nombre_lista like ? and id_categoria=?", parametros);
+        if (datosListas.moveToFirst()) {
+
+            while (!datosListas.isAfterLast()) {
+                lista = new Lista(datosListas.getInt(0),
+                        datosListas.getString(1));
+                datosListas.moveToNext();
+            }
+        }
+        return lista;
+    }
+
+    public int obterIdCategoria(String nC) {
+        int id=0;
+
+        String[] parametros = new String[]{nC};
+        Cursor datosCategorias = sqlLiteDB.rawQuery("select id_categoria from Categoria where nombre_categoria like ?", parametros);
+        if (datosCategorias.moveToFirst()) {
+
+            while (!datosCategorias.isAfterLast()) {
+                id = datosCategorias.getInt(0);
+                datosCategorias.moveToNext();
+            }
+        }
+        return id;
+    }
+
+    public Categoria obterCategoria(int id) {
         Categoria categoria=new Categoria();
 
-        String[] parametros = new String[]{nC,iC};
-        Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria where nombre_categoria like ? and imagen_categoria like ?", parametros);
+        String[] parametros = new String[]{id+""};
+        Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria where id_categoria=?", parametros);
         if (datosCategorias.moveToFirst()) {
 
             while (!datosCategorias.isAfterLast()) {
                 categoria = new Categoria(datosCategorias.getInt(0),
-                        datosCategorias.getString(1),datosCategorias.getString(2));
+                        datosCategorias.getString(1));
+                datosCategorias.moveToNext();
+            }
+        }
+        return categoria;
+    }
+
+    public Categoria obterCategoria(String nC) {
+        Categoria categoria=new Categoria();
+
+        String[] parametros = new String[]{nC};
+        Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria where nombre_categoria like ?", parametros);
+        if (datosCategorias.moveToFirst()) {
+
+            while (!datosCategorias.isAfterLast()) {
+                categoria = new Categoria(datosCategorias.getInt(0),
+                        datosCategorias.getString(1));
                 datosCategorias.moveToNext();
             }
         }
@@ -172,7 +251,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return listas;
     }
 
-    private boolean checkDataBase() {
+    public boolean checkDataBase() {
         File dbFile = new File(PATH_BD + NOME_BD);
         //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
         return dbFile.exists();

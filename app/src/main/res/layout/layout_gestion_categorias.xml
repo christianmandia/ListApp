@@ -20,7 +20,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageButton
-        android:id="@+id/ibtn_AddCategoria"
+        android:id="@+id/ibtnAnhadirCategoria_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -32,11 +32,13 @@
         app:layout_constraintTop_toTopOf="@+id/guideline29" />
 
     <Spinner
-        android:id="@+id/spnCategorias"
-        android:layout_width="368dp"
+        android:id="@+id/spnCategorias_GestionCategorias"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/guideline20"
-        tools:layout_editor_absoluteX="8dp" />
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/guideline28"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
+        app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline20"
@@ -45,20 +47,28 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
 
+
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ibtnEditarCat_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toTopOf="@+id/guideline29"
-        app:layout_constraintEnd_toStartOf="@+id/guideline28"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnCategorias"
-        app:layout_constraintVertical_bias="0.211"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:layout_constraintEnd_toStartOf="@+id/ibtnAnhadirCategoria_GestionCategorias"
+        app:layout_constraintTop_toTopOf="@+id/guideline29"
+        app:layout_constraintVertical_bias="0.589" />
+
+    <EditText
+        android:id="@+id/etNombreCat_GestionCategorias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/guideline28"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
+        app:layout_constraintTop_toBottomOf="@+id/spnCategorias_GestionCategorias" />
 
 </android.support.constraint.ConstraintLayout>

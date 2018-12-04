@@ -46,7 +46,7 @@ public class Adaptador_Categorias extends ArrayAdapter {
     private static class ViewHolder {
 
         TextView tvNombreCategoria;
-        ImageView ivImagenCategoria;
+        //ImageView ivImagenCategoria;
     }
 
     @Override

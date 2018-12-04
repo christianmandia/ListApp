@@ -49,10 +49,12 @@ public class Activity_MisListas extends Activity {
     private ListView lista;
     private int COD_LOGIN=30;
     private int COD_GCAT=35;
+    private int COD_ADDLISTA=40;
     private int RESULT_LOGIN=10;
     private static final int COD_PETICION = 33;
     public static String LISTAENVIADA= "lista";
     public static String CATEGORIAS= "categorias";
+    public static String NUEVALISTA="listaEnviada";
     private final int CODIGO_IDENTIFICADOR=1;
 
     private void copiarBD() {
@@ -125,11 +127,13 @@ public class Activity_MisListas extends Activity {
             }
         });
 
-        ImageButton ibtnAddC=(ImageButton)findViewById(R.id.ibtnAñadir_MisListas);
-        ibtnAddC.setOnClickListener(new View.OnClickListener() {
+        ImageButton ibtnAñadirLista=(ImageButton)findViewById(R.id.ibtnAñadir_MisListas);
+        ibtnAñadirLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                copiarBD();
+                Intent intento=new Intent(getApplicationContext(),Activity_NuevaLista.class);
+                intento.putExtra(CATEGORIAS,cat);
+                startActivityForResult(intento,COD_ADDLISTA);
             }
         });
     }
@@ -203,7 +207,7 @@ public class Activity_MisListas extends Activity {
 
     private void cargarListas(){
         ListView lista = findViewById(R.id.lvmislistas_mislistas);
-
+/*
         if(cat!=null) {
             listas = baseDatos.obterListas(cat);
 
@@ -211,6 +215,8 @@ public class Activity_MisListas extends Activity {
                 ArrayList<Articulo> articulos = baseDatos.obterArticulos(l.getId());
                 l.setArticulos(articulos);
             }
+*/
+        listas=baseDatos.obterListas(cat);
 
 /*
         ArrayList<Articulo> articulos=new ArrayList<>();
@@ -233,12 +239,15 @@ public class Activity_MisListas extends Activity {
             lista.setAdapter(miAdaptadorMisListas);
         }
 
-    }
+
     private void cargarCategorias(){
         Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
 
+        Log.i("cosas", "cargarCategorias: antes try ");
         try{
+            Log.i("cosas", "cargarCategorias: ");
             cat=baseDatos.obterCategorias();
+
             miAdaptador = new Adaptador_Categorias(this, cat);
 //            Log.i("uno", cat.size()+"");
             categorias.setAdapter(miAdaptador);
@@ -285,6 +294,19 @@ public class Activity_MisListas extends Activity {
             }
         }
 
+        if (requestCode == COD_ADDLISTA) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra(NUEVALISTA)) {
+                    Lista l=(Lista)data.getSerializableExtra(NUEVALISTA);
+                    listas.add(l);
+                    miAdaptadorMisListas.notifyDataSetChanged();
+                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        }
+
         if(requestCode == COD_GCAT){
             if(resultCode == RESULT_OK){
                 if(data.hasExtra(CATEGORIAS)){
@@ -304,10 +326,9 @@ public class Activity_MisListas extends Activity {
         if (baseDatos==null) {   // Abrimos a base de datos para escritura
             baseDatos = baseDatos.getInstance(getApplicationContext());
             baseDatos.abrirBD();
-
-            cargarCategorias();
-            //copiarBD();
-            //cargarListas();
+             Log.i("cosas", "onStart: ");
+             cargarCategorias();
+             cargarListas();
         }
     }
 /*
@@ -328,7 +349,7 @@ public class Activity_MisListas extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (baseDatos!=null){    // Pechamos a base de datos.
-            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+//            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
 
             baseDatos.pecharBD();
             baseDatos=null;
@@ -346,6 +367,7 @@ public class Activity_MisListas extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__mis_listas);
+
 
         copiarBD();
         //cargarListas();

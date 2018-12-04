@@ -77,10 +77,10 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
 
         viewFila.tvDiferenciaLista.setText(lista.diferenciaArticulos());
-
+/*
         Bitmap bitmap = BitmapFactory.decodeFile(lista.getCategoria().getImagen());
         viewFila.ivImagen.setImageBitmap(bitmap);
-
+*/
 
         // No esta claro si la ruta funciona de esta manera
         if(lista.TienesTodo()){
