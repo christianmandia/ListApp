@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -26,13 +25,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Adaptadores.Adapatador_Lista;
-import cifprodolfoucha.com.listapp.Adaptadores.Adapatador_ListaDefault;
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_MisListas;
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
-import cifprodolfoucha.com.listapp.Modelos.Categoria;
-import cifprodolfoucha.com.listapp.Modelos.Lista;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Almacenamento.Preferencias_Ajustes;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Lista;
 
 
 
@@ -40,7 +39,7 @@ public class Activity_MisListas extends Activity {
 
     private BaseDatos baseDatos;
     private ArrayList<Categoria> cat;
-    private ArrayList<Lista> listas;
+    private ArrayList<Lista> listas=new ArrayList<Lista>();
     Menu m=null;
     private Lista lista1;
     private int pos;
@@ -159,7 +158,7 @@ public class Activity_MisListas extends Activity {
                 return true;
             case R.id.ajustes:
 
-                Intent ajustes=new Intent(getApplicationContext(), Activity_Ajustes.class);
+                Intent ajustes=new Intent(getApplicationContext(), Preferencias_Ajustes.class);
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                 //startActivityForResult(login,COD_LOGIN);
                 startActivity(ajustes);
@@ -216,8 +215,17 @@ public class Activity_MisListas extends Activity {
                 l.setArticulos(articulos);
             }
 */
-        listas=baseDatos.obterListas(cat);
-
+        if(cat!=null) {
+            listas = baseDatos.obterListas(cat);
+            for(Lista l:listas){
+                ArrayList<Articulo> articulos=baseDatos.obterArticulos(l.getId());
+                if(articulos!=null) {
+                    for (Articulo a:articulos){
+                        Log.i("addArticulos", a.getNombre());
+                    }
+                    l.setArticulos(articulos);
+                }
+            }
 /*
         ArrayList<Articulo> articulos=new ArrayList<>();
         articulos.add(new Articulo("pilas AA",false,1,0.5,""));
@@ -237,6 +245,7 @@ public class Activity_MisListas extends Activity {
 
             miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
             lista.setAdapter(miAdaptadorMisListas);
+        }
         }
 
 
@@ -299,6 +308,9 @@ public class Activity_MisListas extends Activity {
                 if (data.hasExtra(NUEVALISTA)) {
                     Lista l=(Lista)data.getSerializableExtra(NUEVALISTA);
                     listas.add(l);
+
+
+
                     miAdaptadorMisListas.notifyDataSetChanged();
                     //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
 
@@ -320,16 +332,29 @@ public class Activity_MisListas extends Activity {
         }
     }
 
+
+    private boolean existeBD(){
+        String bddestino = "/data/data/" + getPackageName() + "/databases/"
+                + BaseDatos.NOME_BD;
+        File file = new File(bddestino);
+        if (file.exists()) {
+            Toast.makeText(getApplicationContext(), "A BD NON SE VAI COPIAR. XA EXISTE", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
     @Override
     protected void onStart() {
         super.onStart();
-        if (baseDatos==null) {   // Abrimos a base de datos para escritura
-            baseDatos = baseDatos.getInstance(getApplicationContext());
-            baseDatos.abrirBD();
-             Log.i("cosas", "onStart: ");
-             cargarCategorias();
-             cargarListas();
+
+
+        if(!existeBD()) {
+            copiarBD();
         }
+        baseDatos = baseDatos.getInstance(getApplicationContext());
+        baseDatos.abrirBD();
+        cargarCategorias();
+        cargarListas();
     }
 /*
     @Override
@@ -366,12 +391,13 @@ public class Activity_MisListas extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__mis_listas);
+        setContentView(R.layout.layout_mislistas);
 
-
+/*
         copiarBD();
-        //cargarListas();
-        //cargarCategorias();
+        cargarListas();
+        cargarCategorias();
+*/
         gestionEventos();
         pedirPermiso();
     }

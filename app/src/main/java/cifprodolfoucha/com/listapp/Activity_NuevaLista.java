@@ -15,8 +15,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
-import cifprodolfoucha.com.listapp.Modelos.Categoria;
-import cifprodolfoucha.com.listapp.Modelos.Lista;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Lista;
 
 public class Activity_NuevaLista extends Activity {
     ArrayList<Categoria> cat;
@@ -93,11 +94,11 @@ public class Activity_NuevaLista extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (baseDatos==null) {   // Abrimos a base de datos para escritura
+//        if (baseDatos==null) {   // Abrimos a base de datos para escritura
             baseDatos = baseDatos.getInstance(getApplicationContext());
             //baseDatos = new BaseDatos(getApplicationContext());
             baseDatos.abrirBD();
-        }
+//        }
         //Log.i("PROBA",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
 
     }

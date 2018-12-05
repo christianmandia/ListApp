@@ -1,19 +1,15 @@
 package cifprodolfoucha.com.listapp.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Categoria;
-import cifprodolfoucha.com.listapp.Modelos.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Categoria;
 import cifprodolfoucha.com.listapp.R;
 
 
@@ -35,7 +31,10 @@ public class Adaptador_Categorias extends ArrayAdapter {
     @Override
     public int getCount() {
         //return super.getCount();
-        return categorias.size();       // Poderíamos poñer tamén o número de imaxes.
+        if(categorias!=null) {
+            return categorias.size();       // Poderíamos poñer tamén o número de imaxes.
+        }
+        return 0;
     }
 
     @Override

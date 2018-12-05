@@ -1,4 +1,4 @@
-package cifprodolfoucha.com.listapp.Modelos;
+package cifprodolfoucha.com.listapp.Loxica;
 
 import java.io.Serializable;
 

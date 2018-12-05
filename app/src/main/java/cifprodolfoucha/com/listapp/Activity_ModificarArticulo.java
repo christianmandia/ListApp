@@ -16,12 +16,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -34,7 +33,9 @@ public class Activity_ModificarArticulo extends Activity {
     private final int CODIGO_IDENTIFICADOR=1;
     private File img,imaxeRecibida,imaxe,directorio,temp;
     private Articulo articulo=new Articulo();
+    private int idL;
 
+    private BaseDatos baseDatos;
 
 
     private void xestionarEventos() {
@@ -64,6 +65,9 @@ public class Activity_ModificarArticulo extends Activity {
                 }else if(imaxe!=null){
 
                 }
+
+
+                baseDatos.modArticulo(a.getId(),idL,a.getNombre(),a.getCantidad(),a.getPrecio(),a.getNotas(),a.getRutaImagen(),a.isSeleccionado());
 
                 Intent datos = new Intent();
 
@@ -284,10 +288,20 @@ public class Activity_ModificarArticulo extends Activity {
     private boolean Cant;
     private boolean Pre;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        baseDatos = baseDatos.getInstance(getApplicationContext());
+        baseDatos.abrirBD();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_modificararticulo);
+        idL=getIntent().getIntExtra("idLista",0);
         articulo=(Articulo) getIntent().getSerializableExtra("articulo");
         setTitle("Modificar: "+articulo.getNombre());
         rutaArquivoRecibido=articulo.getRutaImagen();

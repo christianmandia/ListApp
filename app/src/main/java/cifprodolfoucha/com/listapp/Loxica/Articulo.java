@@ -1,8 +1,9 @@
-package cifprodolfoucha.com.listapp.Modelos;
+package cifprodolfoucha.com.listapp.Loxica;
 
 import java.io.Serializable;
 
 public class Articulo  implements Serializable {
+    private int id;
     private String nombre;
     private boolean seleccionado;
     private int cantidad;
@@ -18,7 +19,8 @@ public class Articulo  implements Serializable {
 
 
 
-    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio, String notas) {
+    public Articulo(int id,String nombre, boolean seleccionado, int cantidad, double precio, String notas) {
+        this.id=id;
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
@@ -27,7 +29,8 @@ public class Articulo  implements Serializable {
 
     }
 
-    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
+    public Articulo(int id,String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
+        this.id=id;
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
@@ -35,6 +38,14 @@ public class Articulo  implements Serializable {
         this.notas = notas;
         this.rutaImagen= rutaImagen;
         this.marcado=false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRutaImagen() {

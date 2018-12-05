@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
 import cifprodolfoucha.com.listapp.R;
 
 public class Adapatador_Lista extends ArrayAdapter {

@@ -1,4 +1,4 @@
-package cifprodolfoucha.com.listapp.Modelos;
+package cifprodolfoucha.com.listapp.Loxica;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,20 +13,20 @@ public class Lista implements Serializable {
 
     public Lista() {
     }
-
+/*
     public Lista(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.articulos=new ArrayList();
     }
-
+*/
+/*
     public Lista(int id, String nombre, Categoria categoria) {
         this.id=id;
         this.nombre = nombre;
         Categoria = categoria;
         this.articulos=new ArrayList();
     }
-
+*/
     public Lista(int id, String nombre, Categoria categoria, ArrayList<Articulo> articulos) {
         this.id=id;
         this.nombre = nombre;

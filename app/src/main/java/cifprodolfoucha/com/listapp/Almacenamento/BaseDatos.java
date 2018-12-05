@@ -1,9 +1,8 @@
-package cifprodolfoucha.com.listapp;
+package cifprodolfoucha.com.listapp.Almacenamento;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -12,9 +11,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
-import cifprodolfoucha.com.listapp.Modelos.Categoria;
-import cifprodolfoucha.com.listapp.Modelos.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Lista;
 
 public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
@@ -108,18 +107,52 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
-    public ArrayList<Articulo> obterArticulos(int id_lista) {
+
+    public long engadirArticulo(Articulo a,int idL){
+        ContentValues valores = new ContentValues();
+        //valores.put("id_categoria",null);
+        valores.put("id_articulo",a.getId());
+        valores.put("id_lista",idL);
+        valores.put("nombre_articulo", a.getNombre());
+        valores.put("cantidad",a.getCantidad());
+        valores.put("precio",a.getPrecio());
+        valores.put("notas",a.getNotas());
+        valores.put("imagen",a.getRutaImagen());
+        valores.put("comprado",a.isSeleccionado());
+        Log.i("uno", "engadirCategoria: ");
+        long id = sqlLiteDB.insert(TABOA_ARTICULOS,null,valores);
+        Log.i("aasa", id+"");
+
+        return id;
+    }
+
+    public void setComprado(int idP,int idL){
+
+    }
+
+    public void setNoComprado(int idP,int idL){
+
+    }
+
+    public void eliminarArticulo(Articulo a,int idL){
+        String condicionwhere = "id_articulo=? and id_lista=?";
+        String[] parametros = new String[]{a.getId()+"",idL+""};
+        int rexistrosafectados = sqlLiteDB.delete(TABOA_ARTICULOS,condicionwhere,parametros);
+    }
+
+    public ArrayList<Articulo> obterArticulos(int idL) {
         ArrayList<Articulo> articulos = new ArrayList<Articulo>();
 
-        Cursor datosArticulos = sqlLiteDB.rawQuery("select a.nombre_articulo,a.comprado,a.cantidad,a.precio,a.notas,a.imagen from Articulo a inner join Lista l on a.id_lista=l.id_lista where a.id_lista=?", null);
+        String[] parametros = new String[]{idL+""};
+        Cursor datosArticulos = sqlLiteDB.rawQuery("select a.id_articulo,a.nombre_articulo,a.comprado,a.cantidad,a.precio,a.notas,a.imagen from Articulo a inner join Lista l on a.id_lista=l.id_lista where a.id_lista=?", parametros);
         if (datosArticulos.moveToFirst()) {
             Articulo articulo;
             while (!datosArticulos.isAfterLast()) {
                 boolean comprado = datosArticulos.getInt(1) > 0;
 
-                articulo = new Articulo(datosArticulos.getString(0),
-                        comprado,datosArticulos.getInt(2),datosArticulos.getDouble(3),
-                        datosArticulos.getString(4),datosArticulos.getString(5));
+                articulo = new Articulo(datosArticulos.getInt(0),datosArticulos.getString(1),
+                        comprado,datosArticulos.getInt(3),datosArticulos.getDouble(4),
+                        datosArticulos.getString(5),datosArticulos.getString(6));
                 articulos.add(articulo);
                 datosArticulos.moveToNext();
             }
@@ -148,6 +181,28 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return categorias;
     }
 
+    public int modArticulo(int idA,int idL, String nA,int cant,double p,String notas,String img,boolean comp){
+        int comprado=0;
+        if(comp){
+            comprado=1;
+        }else{
+            comprado=0;
+        }
+
+        ContentValues datos = new ContentValues();
+        datos.put("nombre_articulo",nA);
+        datos.put("cantidad",cant);
+        datos.put("precio",p);
+        datos.put("notas",notas);
+        datos.put("imagen",img);
+        datos.put("comprado",comprado+"");
+        String condicionwhere = "id_articulo=? and id_lista=?";
+        String[] parametros = new String[]{idA+"",idL+""};
+        int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
+
+        return res;
+    }
+
     public Lista obterIdLista(String nL,int idC,Categoria C) {
         Lista lista=new Lista();
 
@@ -157,7 +212,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
             while (!datosListas.isAfterLast()) {
                 lista = new Lista(datosListas.getInt(0),
-                        datosListas.getString(1),C);
+                        datosListas.getString(1),C,new ArrayList<Articulo>());
                 datosListas.moveToNext();
             }
         }
@@ -175,7 +230,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
             while (!datosListas.isAfterLast()) {
                 lista = new Lista(datosListas.getInt(0),
-                        datosListas.getString(1));
+                        datosListas.getString(1),c,new ArrayList<Articulo>());
                 datosListas.moveToNext();
             }
         }
@@ -232,16 +287,18 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public ArrayList<Lista> obterListas(ArrayList<Categoria>categorias) {
         ArrayList<Lista> listas = new ArrayList<Lista>();
+        ArrayList<Articulo> articulos;
 
-        Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria", null);
+        Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria", null );
         if (datosListas.moveToFirst()) {
             Lista lista;
             while (!datosListas.isAfterLast()) {
 
                 for(Categoria c:categorias) {
+                    articulos=new ArrayList<Articulo>();
                     if(datosListas.getInt(2)==c.getId()) {
                         lista = new Lista(datosListas.getInt(0),
-                                datosListas.getString(1));
+                                datosListas.getString(1), c,articulos);
                         listas.add(lista);
                     }
                 }

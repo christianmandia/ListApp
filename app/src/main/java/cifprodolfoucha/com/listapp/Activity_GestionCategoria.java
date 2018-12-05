@@ -3,7 +3,6 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -13,7 +12,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
-import cifprodolfoucha.com.listapp.Modelos.Categoria;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Categoria;
 
 public class Activity_GestionCategoria extends Activity {
     ArrayList<Categoria> cat;

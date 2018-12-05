@@ -6,15 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.hardware.camera2.params.BlackLevelPattern;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ActionMode;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,8 +22,9 @@ import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_ListaRV;
 import cifprodolfoucha.com.listapp.Adaptadores.ItemClickSupport;
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
-import cifprodolfoucha.com.listapp.Modelos.Lista;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Lista;
 
 public class Activity_Lista extends Activity {
 
@@ -40,6 +36,8 @@ public class Activity_Lista extends Activity {
     private ArrayList<Articulo> articulos = new ArrayList();
     private Context a = this;
     public static final String LISTAENVIADA= "lista";
+    private BaseDatos baseDatos;
+
 
     Articulo articuloSeleccionado = new Articulo();
     int prevPos = -1;
@@ -88,13 +86,17 @@ public class Activity_Lista extends Activity {
         adaptador = new Adaptador_ListaRV(articulos);
 
         adaptador.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
+/*
                 if(mActionMode!=null) {
                     mActionMode.finish();
                     mActionMode = null;
                 }
+*/
+                ((Activity_Lista)a).destuirMenuAccion();
+
 
                 if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
                     //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
@@ -111,9 +113,11 @@ public class Activity_Lista extends Activity {
                     if (a.isSeleccionado()) {
                         a.setSeleccionado(false);
                         c.setChecked(false);
+                        baseDatos.setComprado(a.getId(),listaRecibida.getId());
                     } else {
                         a.setSeleccionado(true);
                         c.setChecked(true);
+                        baseDatos.setNoComprado(a.getId(),listaRecibida.getId());
                     }
                 }
 
@@ -145,7 +149,8 @@ public class Activity_Lista extends Activity {
 //                showDialog(TEXTO);
                 Intent nuevoArticulo = new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
                 //ArrayList<Articulo> a2= (ArrayList<Articulo>) articulos.clone();
-                nuevoArticulo.putExtra("lista", articulos);
+                nuevoArticulo.putExtra("idLista",listaRecibida.getId());
+                nuevoArticulo.putExtra("articulos", articulos);
                 //startActivity(nuevoArticulo);
                 startActivityForResult(nuevoArticulo, COD_PETICION);
             }
@@ -211,14 +216,27 @@ public class Activity_Lista extends Activity {
 
     private ActionMode mActionMode;
 
+    private void destuirMenuAccion(){
+        if (mActionMode != null) {
+
+            mActionMode.finish();
+            mActionMode = null;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
+
+        destuirMenuAccion();
+
         switch (item.getItemId()) {
+        /*
             case R.id.EditarArticulo:
                 //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
                 articulos.get(prevPos).setMarcado(false);
                 adaptador.notifyItemChanged(prevPos);
+                destuirMenuAccion();
 //                setMenuDefecto();
 
                 Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
@@ -227,17 +245,25 @@ public class Activity_Lista extends Activity {
                 startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
                 return true;
             case R.id.EliminarArticulo:
+
                 showDialog(ELIMINAR);
+  //            destuirMenuAccion();
                 return true;
             case R.id.MostrarArticulo:
                 Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                destuirMenuAccion();
+
                 mostrarArticulo.putExtra("articulo", articuloSeleccionado);
                 startActivity(mostrarArticulo);
+
                 return true;
+        */
             default:
                 return super.onOptionsItemSelected(item);
+
         }
+
     }
 
 
@@ -272,17 +298,21 @@ public class Activity_Lista extends Activity {
 
                     Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
                     //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                    modificarArticulo.putExtra("idLista",listaRecibida.getId());
                     modificarArticulo.putExtra("articulo", articuloSeleccionado);
                     startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
+                    destuirMenuAccion();
                     return true;
                 case R.id.EliminarArticulo:
-                    showDialog(ELIMINAR);
+                    genDialogs(ELIMINAR);
+                    //showDialog(ELIMINAR);
                     return true;
                 case R.id.MostrarArticulo:
                     Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
                     //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                     mostrarArticulo.putExtra("articulo", articuloSeleccionado);
                     startActivity(mostrarArticulo);
+                    destuirMenuAccion();
                     return true;
                 default:
                     return false;
@@ -332,9 +362,45 @@ public class Activity_Lista extends Activity {
 
     private AlertDialog.Builder d;
 
+
+    protected void genDialogs(int id){
+        switch(id){
+            default:
+                return;
+            case ELIMINAR:
+                final Activity_Lista ALista=((Activity_Lista)this);
+                d = new AlertDialog.Builder(this);
+                d.setIcon(android.R.drawable.ic_dialog_info);
+                d.setTitle("Eliminar");
+                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setCancelable(false);
+                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                        baseDatos.eliminarArticulo(articuloSeleccionado,listaRecibida.getId());
+                        articulos.remove(articuloSeleccionado);
+                        adaptador.notifyItemRemoved(prevPos);
+                        prevPos=-1;
+                        ALista.destuirMenuAccion();
+
+
+
+                    }
+                });
+                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                    }
+                });
+                d.create();
+                d.show();
+
+        }
+    }
+
     protected Dialog onCreateDialog(int id) {
         switch (id) {
+            /*
             case ELIMINAR:
+                final Activity_Lista ALista=((Activity_Lista)this);
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
                 d.setTitle("Eliminar");
@@ -345,6 +411,8 @@ public class Activity_Lista extends Activity {
                         articulos.remove(articuloSeleccionado);
                         adaptador.notifyItemRemoved(prevPos);
                         prevPos=-1;
+                        ALista.destuirMenuAccion();
+
 
 
                     }
@@ -488,6 +556,19 @@ public class Activity_Lista extends Activity {
 
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        if (baseDatos==null) {   // Abrimos a base de datos para escritura
+            baseDatos = baseDatos.getInstance(getApplicationContext());
+            //baseDatos = new BaseDatos(getApplicationContext());
+            baseDatos.abrirBD();
+//        }
+        //Log.i("PROBA",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+
+    }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle recuperaEstado) {

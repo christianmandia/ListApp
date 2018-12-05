@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -16,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
 import cifprodolfoucha.com.listapp.R;
 
 public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.ReciclerViewHolder_Lista> implements View.OnClickListener/*,View.OnLongClickListener*/{

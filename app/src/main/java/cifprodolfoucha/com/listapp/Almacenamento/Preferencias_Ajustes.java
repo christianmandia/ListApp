@@ -1,10 +1,12 @@
-package cifprodolfoucha.com.listapp;
+package cifprodolfoucha.com.listapp.Almacenamento;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-public class Activity_Ajustes extends Activity {
+import cifprodolfoucha.com.listapp.R;
+
+public class Preferencias_Ajustes extends Activity {
 
     public static class SettingsFragment extends PreferenceFragment {
         @Override

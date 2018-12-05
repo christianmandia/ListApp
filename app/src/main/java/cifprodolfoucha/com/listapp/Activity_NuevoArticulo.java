@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,11 +20,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Modelos.Articulo;
+import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Lista;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -37,6 +38,8 @@ public class Activity_NuevoArticulo extends Activity {
     private  ArrayList<Articulo> articulos=new ArrayList();
     private  ArrayList<Articulo> articulos2=new ArrayList();
 
+    private int idListaRecibida;
+
     private String nomeFoto="";
     private String rutaArquivo="";
     private String nomeSobrescribir="";
@@ -46,6 +49,7 @@ public class Activity_NuevoArticulo extends Activity {
     private File img,imaxe,directorio,temp;
     private boolean pasaFoto;
     //private Bitmap bitmap;
+    private BaseDatos baseDatos;
 
     private void xestionarEventos(){
          ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
@@ -236,11 +240,19 @@ public class Activity_NuevoArticulo extends Activity {
             }
 
 
+            int id=articulos.size()+articulos2.size();
             if(!rutaArquivo.equals("")){
-                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
+                a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
             }else {
-                a = new Articulo(etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString());
+                a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),"");
             }
+            long res=baseDatos.engadirArticulo(a,idListaRecibida);
+            if(res>0){
+                Log.i("LRecibida", ":Exito: ");
+            }else{
+                Log.i("LRecibida", ":NO: ");
+            }
+
             articulos2.add(a);
             /*
             Intent datos = new Intent();
@@ -412,11 +424,20 @@ public class Activity_NuevoArticulo extends Activity {
     private boolean Cant;
     private boolean Pre;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        baseDatos = baseDatos.getInstance(getApplicationContext());
+        baseDatos.abrirBD();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
-        if((articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("lista"))==null){
+        idListaRecibida=getIntent().getIntExtra("idLista",0);
+//        Log.i("LRecibida", idListaRecibida+"");
+        if((articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("articulos"))==null){
             articulos=new ArrayList<Articulo>();
         }
 
