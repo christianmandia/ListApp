@@ -3,6 +3,7 @@ package cifprodolfoucha.com.listapp.Adaptadores;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,6 @@ public class Adaptador_MisListas extends ArrayAdapter {
         TextView tvNombreLista;
         TextView tvPrecioLista;
         TextView tvDiferenciaLista;
-        ImageView ivCategoria;
         ImageView ivImagen;
     }
 
@@ -63,7 +63,6 @@ public class Adaptador_MisListas extends ArrayAdapter {
             viewFila.tvNombreLista = (TextView) convertView.findViewById(R.id.tvNombre_MisListas);
             viewFila.tvPrecioLista = (TextView) convertView.findViewById(R.id.tvPrecio_MisListas);
             viewFila.tvDiferenciaLista = (TextView) convertView.findViewById(R.id.tvDiferencia_MisListas);
-            viewFila.ivCategoria= (ImageView)  convertView.findViewById(R.id.ivImagenCategoria_MisListas);
             viewFila.ivImagen= (ImageView) convertView.findViewById(R.id.ivImagenLleno_MisListas);
 
             convertView.setTag(viewFila);
@@ -73,25 +72,21 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
         viewFila.tvNombreLista.setText(lista.getNombre());
 
-        viewFila.tvPrecioLista.setText(lista.precioChecked()+"");
+        viewFila.tvPrecioLista.setText(lista.precioChecked()+"€");
+
 
 
         viewFila.tvDiferenciaLista.setText(lista.diferenciaArticulos());
-/*
-        Bitmap bitmap = BitmapFactory.decodeFile(lista.getCategoria().getImagen());
-        viewFila.ivImagen.setImageBitmap(bitmap);
-*/
 
-        // No esta claro si la ruta funciona de esta manera
         if(lista.TienesTodo()){
-            Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_on");
-            viewFila.ivImagen.setImageBitmap(bitmap2);
+            //Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_on");
+            //viewFila.ivImagen.setImageBitmap(bitmap2);
+            viewFila.ivImagen.setImageDrawable(mContext.getResources().getDrawable(R.drawable.btn_star_big_on));
         } else{
-            Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_off");
-            viewFila.ivImagen.setImageBitmap(bitmap2);
+            //Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_off");
+            //viewFila.ivImagen.setImageBitmap(bitmap2);
+            viewFila.ivImagen.setImageDrawable(mContext.getResources().getDrawable(R.drawable.btn_star_big_off));
         }
-
-
 
 
 

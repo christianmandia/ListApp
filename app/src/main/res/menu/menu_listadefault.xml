@@ -4,49 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <group
-        android:id="@+id/GrupoGArticulo">
-    <item
-        android:id="@+id/MostrarArticulo"
-        android:icon="@android:drawable/ic_menu_view"
-        android:showAsAction="always"
-        android:visible="false">
-
-    </item>
-    <item
-        android:id="@+id/EditarArticulo"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:showAsAction="always"
-        android:visible="false">
-
-    </item>
-    <item
-        android:id="@+id/EliminarArticulo"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:showAsAction="always"
-        android:visible="false">
-
-    </item>
-    </group>
-    <group
         android:id="@+id/GrupoOpciones">
-        <item
-            android:id="@+id/RefrescarLista"
-            android:layout_width="wrap_content"
-            android:icon="@drawable/ic_refresh"
-            android:showAsAction="always">
 
-        </item>
         <item
-            android:id="@+id/CompartirLista"
-            android:layout_width="wrap_content"
-            android:icon="@drawable/ic_share"
-            android:showAsAction="always"></item>
-        <item
-        android:id="@+id/mostrarPrecios"
-        android:title="@string/MenuMostraPrecios"
-        android:checkable="true"></item>
-
-    <item
         android:id="@+id/eliminarComprados"
         android:title="@string/MenuEliminarComprados"></item>
 

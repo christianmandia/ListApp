@@ -9,13 +9,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -117,15 +121,17 @@ public class Activity_MisListas extends Activity {
             }
 
         });
+/*
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showDialog(ELIMINAR);
+                //showDialog(ELIMINAR);
                 pos=position;
-                return true;
+
+                return false;
             }
         });
-
+*/
         ImageButton ibtnAñadirLista=(ImageButton)findViewById(R.id.ibtnAñadir_MisListas);
         ibtnAñadirLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +143,54 @@ public class Activity_MisListas extends Activity {
         });
     }
 
+    private void rexistarMenusEmerxentes(){
+        ListView lv = findViewById(R.id.lvmislistas_mislistas);
+        registerForContextMenu(lv);
+    }
 
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+
+        // Comprobamos se o menú contextual se lanzou sobre a etiqueta ou sobre
+        // a lista
+         if (v.getId() == R.id.lvmislistas_mislistas) {
+            inflater.inflate(R.menu.menu_mislistas_emerxente, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        ListView lv = findViewById(R.id.lvmislistas_mislistas);
+
+
+        switch (item.getItemId()) {
+
+            // Ítems premidos sobre o TextView
+            // Lanza un Toast coa opción do menú contextual que se seleccinou
+
+            // Ítems premidos sobre o ListView
+            case R.id.mniBorrarLista_MisListas:
+                listas.remove(pos);
+                miAdaptadorMisListas.notifyDataSetChanged();
+                //miAdaptadorMisListas.remove(miAdaptadorMisListas.getItem(info.position));
+                miAdaptadorMisListas.setNotifyOnChange(true);
+                return true;
+
+            case R.id.mniModificarLista_MisListas:
+                /*
+                adaptador.add(adaptador.getItem(info.position));
+                adaptador.setNotifyOnChange(true);
+                */
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -174,6 +227,7 @@ public class Activity_MisListas extends Activity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case ELIMINAR:
+                /*
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
                 d.setTitle("Eliminar");
@@ -192,7 +246,9 @@ public class Activity_MisListas extends Activity {
                     }
                 });
                 return d.create();
+        */
         }
+
         return null;
     }
 
@@ -293,10 +349,12 @@ public class Activity_MisListas extends Activity {
 
 
                     //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
+                    //listas=new ArrayList<Lista>();
+                    //cargarListas();
                     listas.remove(pos);
                     listas.add(pos,l);
                     miAdaptadorMisListas.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -398,6 +456,7 @@ public class Activity_MisListas extends Activity {
         cargarListas();
         cargarCategorias();
 */
+        rexistarMenusEmerxentes();
         gestionEventos();
         pedirPermiso();
     }

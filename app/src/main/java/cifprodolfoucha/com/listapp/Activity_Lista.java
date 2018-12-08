@@ -113,11 +113,11 @@ public class Activity_Lista extends Activity {
                     if (a.isSeleccionado()) {
                         a.setSeleccionado(false);
                         c.setChecked(false);
-                        baseDatos.setComprado(a.getId(),listaRecibida.getId());
+                        baseDatos.setNoComprado(a.getId(),listaRecibida.getId());
                     } else {
                         a.setSeleccionado(true);
                         c.setChecked(true);
-                        baseDatos.setNoComprado(a.getId(),listaRecibida.getId());
+                        baseDatos.setComprado(a.getId(),listaRecibida.getId());
                     }
                 }
 
@@ -274,7 +274,7 @@ public class Activity_Lista extends Activity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.menu_lista_contextual, menu);
+            inflater.inflate(R.menu.menu_lista, menu);
             return true;
         }
 

@@ -240,7 +240,7 @@ public class Activity_NuevoArticulo extends Activity {
             }
 
 
-            int id=articulos.size()+articulos2.size();
+            int id=baseDatos.obterNovoIdArticulo(a.getId(),idListaRecibida);
             if(!rutaArquivo.equals("")){
                 a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
             }else {

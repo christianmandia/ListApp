@@ -1,7 +1,11 @@
 package cifprodolfoucha.com.listapp.Loxica;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.security.auth.login.LoginException;
 
 public class Lista implements Serializable {
     private int id;
@@ -67,15 +71,22 @@ public class Lista implements Serializable {
         int total=0;
         int checked=0;
 
+        Log.i("prueba", "Entra");
+
         if(articulos!=null) {
             for (int i = 0; i < articulos.size(); i++) {
                 total++;
+
+                //Log.i("prueba", total+"");
+
+                //Log.i("prueba", articulos.get(i).isSeleccionado()+"");
                 if (articulos.get(i).isSeleccionado()) {
+
                     checked++;
                 }
             }
         }
-        return checked-total==0;
+        return (checked-total==0);
 
     }
 

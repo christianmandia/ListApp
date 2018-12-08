@@ -14,7 +14,6 @@
     android:layout_width="wrap_content"
     android:icon="@drawable/ic_refresh"
     android:showAsAction="always"
-    android:title="@string/MenuCompartir">
-
-</item>
+    android:title="@string/MenuCompartir"
+        />
 </menu>

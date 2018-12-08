@@ -126,12 +126,22 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
-    public void setComprado(int idP,int idL){
-
+    public void setComprado(int idA,int idL){
+        ContentValues datos = new ContentValues();
+        int comprado =1;
+        datos.put("comprado",comprado+"");
+        String condicionwhere = "id_articulo=? and id_lista=?";
+        String[] parametros = new String[]{idA+"",idL+""};
+        int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
     }
 
-    public void setNoComprado(int idP,int idL){
-
+    public void setNoComprado(int idA,int idL){
+        ContentValues datos = new ContentValues();
+        int comprado=0;
+        datos.put("comprado",comprado+"");
+        String condicionwhere = "id_articulo=? and id_lista=?";
+        String[] parametros = new String[]{idA+"",idL+""};
+        int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
     }
 
     public void eliminarArticulo(Articulo a,int idL){
@@ -148,7 +158,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         if (datosArticulos.moveToFirst()) {
             Articulo articulo;
             while (!datosArticulos.isAfterLast()) {
-                boolean comprado = datosArticulos.getInt(1) > 0;
+                boolean comprado = datosArticulos.getInt(2) > 0;
 
                 articulo = new Articulo(datosArticulos.getInt(0),datosArticulos.getString(1),
                         comprado,datosArticulos.getInt(3),datosArticulos.getDouble(4),
@@ -160,6 +170,21 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return articulos;
     }
 
+    public int obterNovoIdArticulo(int idA,int idL) {
+        int id=0;
+        String[] parametros = new String[]{idA+"",idL+""};
+        Cursor datosArticulos = sqlLiteDB.rawQuery("select id_articulo from Articulo where id_articulo=? and id_lista=?", parametros);
+        if (datosArticulos.moveToFirst()) {
+            Categoria categoria;
+            while (!datosArticulos.isAfterLast()) {
+                if(datosArticulos.getInt(0)>id){
+                    id=datosArticulos.getInt(0);
+                }
+                datosArticulos.moveToNext();
+            }
+        }
+        return id;
+    }
 
     public ArrayList<Categoria> obterCategorias() {
         ArrayList<Categoria> categorias = new ArrayList<Categoria>();
