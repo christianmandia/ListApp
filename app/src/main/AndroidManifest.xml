@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -27,17 +28,14 @@
                 android:resource="@xml/provides_path" />
         </provider>
 
-        <activity
-
-            android:name=".Activity_MisListas">
+        <activity android:name=".Activity_MisListas">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity_Lista" />
+        <activity android:name=".Activity_Lista" />
         <activity android:name=".Almacenamento.Preferencias_Ajustes" />
         <activity
             android:name=".Activity_NuevaLista"
@@ -47,7 +45,8 @@
             android:label="@string/labelCrearArticulo" />
         <activity android:name=".Activity_GestionCategoria" />
         <activity android:name=".Activity_ModificarArticulo" />
-        <activity android:name=".Activity_MostrarArticulo"></activity>
+        <activity android:name=".Activity_MostrarArticulo" />
+        <activity android:name=".Comunicacion.Comunic_FicheiroCategorias"></activity>
     </application>
 
 </manifest>

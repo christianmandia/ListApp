@@ -72,7 +72,11 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
         viewFila.tvNombreLista.setText(lista.getNombre());
 
-        viewFila.tvPrecioLista.setText(lista.precioChecked()+"€");
+        if(lista.precioChecked()!=0) {
+            viewFila.tvPrecioLista.setText(lista.precioChecked() + "€");
+        }else{
+            viewFila.tvPrecioLista.setText("");
+        }
 
 
 

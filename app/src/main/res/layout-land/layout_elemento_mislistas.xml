@@ -11,7 +11,7 @@
         android:id="@+id/tvDiferencia_MisListas"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center"
 
         android:text="Resto/Total"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
@@ -47,7 +47,7 @@
         android:id="@+id/tvPrecio_MisListas"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="Precio Total"
         app:layout_constraintEnd_toStartOf="@+id/guideline14"
         app:layout_constraintStart_toStartOf="@+id/guideline26"

@@ -217,7 +217,7 @@ public class Activity_NuevoArticulo extends Activity {
             EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
             EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
             EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
-            int cantidad = 0;
+            int cantidad = 1;
             double precio = 0;
             if (!etCantidad.getText().toString().isEmpty()) {
                 cantidad = Integer.parseInt(etCantidad.getText().toString());
@@ -240,7 +240,9 @@ public class Activity_NuevoArticulo extends Activity {
             }
 
 
-            int id=baseDatos.obterNovoIdArticulo(a.getId(),idListaRecibida);
+            int id = baseDatos.obterNovoIdArticulo(idListaRecibida);
+            //id+=1;
+            Log.i("prueba", id+" - "+idListaRecibida);
             if(!rutaArquivo.equals("")){
                 a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
             }else {

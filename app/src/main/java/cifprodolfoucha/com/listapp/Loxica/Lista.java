@@ -63,6 +63,7 @@ public class Lista implements Serializable {
                 }
             }
         }
+        if(total==0)return "-";
         return checked+"/"+total;
 
     }

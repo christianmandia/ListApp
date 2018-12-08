@@ -4,10 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -15,18 +20,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
@@ -58,7 +66,9 @@ public class Activity_MisListas extends Activity {
     public static String LISTAENVIADA= "lista";
     public static String CATEGORIAS= "categorias";
     public static String NUEVALISTA="listaEnviada";
-    private final int CODIGO_IDENTIFICADOR=1;
+    // Usado por si necesitamos diferentes permisos, para identificar cual de ellos es
+    private final int CODIGO_PERMISO_ESCRITURA =1;
+    private final int CODIGO_PERMISO_CAMARA=2;
 
     private void copiarBD() {
         String bddestino = "/data/data/" + getPackageName() + "/databases/"
@@ -322,9 +332,10 @@ public class Activity_MisListas extends Activity {
 
     }
 
-
+/*
     public final static String Login= "login";
     public final static String Pass= "pass";
+*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         /*
         if (requestCode == COD_LOGIN) {
@@ -433,17 +444,134 @@ public class Activity_MisListas extends Activity {
         super.onDestroy();
         if (baseDatos!=null){    // Pechamos a base de datos.
 //            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-
             baseDatos.pecharBD();
             baseDatos=null;
         }
     }
 
-    public void pedirPermiso(){
+    public void pedirPermiso() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
-            requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA}, CODIGO_PERMISO_ESCRITURA);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CODIGO_PERMISO_ESCRITURA: {
+                // Se o usuario premeou o boton de cancelar o array volve cun null
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // PERMISO CONCEDIDO
+                } else {
+                    // PERMISO DENEGADO
+                    Toast.makeText(this,"É NECESARIO O PERMISO PARA GARDAR A IMAXE NA SD CARD",Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // Comprobamos os outros permisos
+            case CODIGO_PERMISO_CAMARA: {
+                // Se o usuario premeou o boton de cancelar o array volve cun null
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // PERMISO CONCEDIDO
+                } else {
+                    // PERMISO DENEGADO
+                    Toast.makeText(this,"É NECESARIO O PERMISO DA CAMARA",Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+        }
+    }
+
+
+    public static enum TIPOREDE{MOBIL,ETHERNET,WIFI,SENREDE};
+    private TIPOREDE conexion;
+
+    private final String IMAXE_DESCARGAR="https://www.aspedrinas.com/imagenes/santiago/santiago1.jpg";
+    private File rutaArquivo;
+    private Thread thread;
+
+    private TIPOREDE comprobarRede(){
+        NetworkInfo networkInfo=null;
+
+        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            switch(networkInfo.getType()){
+                case ConnectivityManager.TYPE_MOBILE:
+                    return TIPOREDE.MOBIL;
+                case ConnectivityManager.TYPE_ETHERNET:
+                    // ATENCION API LEVEL 13 PARA ESTA CONSTANTE
+                    return TIPOREDE.ETHERNET;
+                case ConnectivityManager.TYPE_WIFI:
+                    // NON ESTEAS MOITO TEMPO CO WIFI POSTO
+                    // MAIS INFORMACION EN http://www.avaate.org/
+                    return TIPOREDE.WIFI;
+            }
+        }
+        return TIPOREDE.SENREDE;
+    }
+
+
+    private void descargarArquivo() {
+        URL url=null;
+        try {
+            url = new URL(IMAXE_DESCARGAR);
+        } catch (MalformedURLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return;
+        }
+
+        HttpURLConnection conn=null;
+        String nomeArquivo = Uri.parse(IMAXE_DESCARGAR).getLastPathSegment();
+        rutaArquivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),nomeArquivo);
+        try {
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);     /* milliseconds */
+            conn.setConnectTimeout(15000);  /* milliseconds */
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);                  /* Indicamos que a conexión vai recibir datos */
+
+            conn.connect();
+
+            int response = conn.getResponseCode();
+            if (response ==HttpURLConnection.HTTP_MOVED_TEMP){  // Se dera un código 302, sería necesario volver a descargar cunha uri nova que ven indicada no método getHeaderField("Location")
+                // url = new URL(conn.getHeaderField("Location"));
+                // Neste caso habería que refacer o método xa que teríamos que volver a poñer o mesmo código anterior de conexión pero con esta Url nova.
+            }
+            else if (response != HttpURLConnection.HTTP_OK){
+                // Algo foi mal, deberíamos informar a Activity cunha mensaxe
+                return;
+            }
+
+            OutputStream os = new FileOutputStream(rutaArquivo);
+            InputStream in = conn.getInputStream();
+            byte data[] = new byte[1024];   // Buffer a utilizar
+            int count;
+            while ((count = in.read(data)) != -1) {
+                os.write(data, 0, count);
+            }
+            os.flush();
+            os.close();
+            in.close();
+            conn.disconnect();
+            Log.i("COMUNICACION","ACABO");
+        }
+        catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            Log.e("COMUNICACION",e.getMessage());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("COMUNICACION",e.getMessage());
+        }
+
     }
 
     @Override

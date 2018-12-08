@@ -18,6 +18,7 @@ import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_ListaRV;
@@ -377,6 +378,10 @@ public class Activity_Lista extends Activity {
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
                         baseDatos.eliminarArticulo(articuloSeleccionado,listaRecibida.getId());
+                        if(!articuloSeleccionado.getRutaImagen().equals("")){
+                            File f=new File(articuloSeleccionado.getRutaImagen());
+                            f.delete();
+                        }
                         articulos.remove(articuloSeleccionado);
                         adaptador.notifyItemRemoved(prevPos);
                         prevPos=-1;

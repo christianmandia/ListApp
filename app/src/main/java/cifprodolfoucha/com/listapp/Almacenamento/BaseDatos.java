@@ -110,7 +110,6 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public long engadirArticulo(Articulo a,int idL){
         ContentValues valores = new ContentValues();
-        //valores.put("id_categoria",null);
         valores.put("id_articulo",a.getId());
         valores.put("id_lista",idL);
         valores.put("nombre_articulo", a.getNombre());
@@ -170,12 +169,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return articulos;
     }
 
-    public int obterNovoIdArticulo(int idA,int idL) {
+    public int obterNovoIdArticulo(int idL) {
         int id=0;
-        String[] parametros = new String[]{idA+"",idL+""};
-        Cursor datosArticulos = sqlLiteDB.rawQuery("select id_articulo from Articulo where id_articulo=? and id_lista=?", parametros);
+        String[] parametros = new String[]{idL+""};
+        Cursor datosArticulos = sqlLiteDB.rawQuery("select id_articulo from Articulo where id_lista=?", parametros);
         if (datosArticulos.moveToFirst()) {
-            Categoria categoria;
             while (!datosArticulos.isAfterLast()) {
                 if(datosArticulos.getInt(0)>id){
                     id=datosArticulos.getInt(0);
@@ -183,7 +181,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
                 datosArticulos.moveToNext();
             }
         }
-        return id;
+        return id+1;
     }
 
     public ArrayList<Categoria> obterCategorias() {
