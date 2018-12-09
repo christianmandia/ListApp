@@ -13,20 +13,26 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
+import android.util.Xml;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,7 +64,7 @@ public class Activity_MisListas extends Activity {
     private Adaptador_Categorias miAdaptador;
     private Adaptador_MisListas miAdaptadorMisListas;
     private ListView lista;
-    private int COD_LOGIN=30;
+    //private int COD_LOGIN=30;
     private int COD_GCAT=35;
     private int COD_ADDLISTA=40;
     private int RESULT_LOGIN=10;
@@ -151,6 +157,26 @@ public class Activity_MisListas extends Activity {
                 startActivityForResult(intento,COD_ADDLISTA);
             }
         });
+        final Spinner spinerCat=(Spinner)findViewById(R.id.spnCategorias_mislistas);
+        spinerCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
+                Categoria c=baseDatos.obterCategoria(nomeCategoria);
+                if(c.getId()!=0){
+                    cargarListas(c);
+                }else{
+                    cargarListas();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void rexistarMenusEmerxentes(){
@@ -225,6 +251,34 @@ public class Activity_MisListas extends Activity {
                 //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                 //startActivityForResult(login,COD_LOGIN);
                 startActivity(ajustes);
+                return true;
+            case R.id.descargarCategorias:
+                thread = new Thread(){
+
+                    @Override
+                    public void run(){
+                        descargarArquivo();
+
+                    }
+                };
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    lerArquivo();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                }
+
+                //Toast.makeText(getApplicationContext(),"A imaxe estase a descargar nun fío separado. Deberíamos enviar unha mensaxe cando remate para saber se foi todo ben",Toast.LENGTH_LONG).show();
+                if(!erro.equals("")) {
+                    Toast.makeText(getApplicationContext(), erro, Toast.LENGTH_LONG).show();
+                }
                 return true;
             default:return super.onOptionsItemSelected(item);
         }
@@ -313,21 +367,46 @@ public class Activity_MisListas extends Activity {
             lista.setAdapter(miAdaptadorMisListas);
         }
         }
+    private void cargarListas(Categoria c){
+        ListView lista = findViewById(R.id.lvmislistas_mislistas);
+        if(cat!=null) {
+            listas = baseDatos.obterListas(c);
 
+            for(Lista l:listas){
+                ArrayList<Articulo> articulos=baseDatos.obterArticulos(l.getId());
+                if(articulos!=null) {
+                    for (Articulo a:articulos){
+                        Log.i("addArticulos", a.getNombre());
+                    }
+                    l.setArticulos(articulos);
+                }
+            }
+            miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
+            lista.setAdapter(miAdaptadorMisListas);
+        }
+    }
 
     private void cargarCategorias(){
         Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
 
-        Log.i("cosas", "cargarCategorias: antes try ");
+        Log.i("prueba", "cargarCategorias: antes try ");
         try{
-            Log.i("cosas", "cargarCategorias: ");
+            Log.i("prueba", "cargarCategorias: ");
             cat=baseDatos.obterCategorias();
 
+            if(cat.size()==0){
+                Categoria c=new Categoria(0,"Todas");
+                baseDatos.engadirCategoria(c);
+                cat.add(c);
+            }
+
+            Log.i("prueba", cat.size()+"");
             miAdaptador = new Adaptador_Categorias(this, cat);
 //            Log.i("uno", cat.size()+"");
             categorias.setAdapter(miAdaptador);
         }catch(Exception e){
             cat=null;
+            Log.i("prueba", "error");
         }
 
     }
@@ -390,13 +469,18 @@ public class Activity_MisListas extends Activity {
 
         if(requestCode == COD_GCAT){
             if(resultCode == RESULT_OK){
+                cargarCategorias();
+                /*
                 if(data.hasExtra(CATEGORIAS)){
-                    Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
-                    cat=(ArrayList<Categoria>)data.getSerializableExtra(CATEGORIAS);
-                    miAdaptador = new Adaptador_Categorias(this, cat);
-                    categorias.setAdapter(miAdaptador);
+
+                    //Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
+                    //cat=(ArrayList<Categoria>)data.getSerializableExtra(CATEGORIAS);
+                    //miAdaptador = new Adaptador_Categorias(this, cat);
+                    cargarCategorias();
+                    //categorias.setAdapter(miAdaptador);
 
                 }
+                */
             }
         }
     }
@@ -490,8 +574,8 @@ public class Activity_MisListas extends Activity {
     public static enum TIPOREDE{MOBIL,ETHERNET,WIFI,SENREDE};
     private TIPOREDE conexion;
 
-    private final String IMAXE_DESCARGAR="https://www.aspedrinas.com/imagenes/santiago/santiago1.jpg";
-    private File rutaArquivo;
+    private final String IMAXE_DESCARGAR="http://download2269.mediafire.com/5a20jjovwtzg/4deo3e3d5ud88em/categorias_v1.xml";
+    private File newArquivo;
     private Thread thread;
 
     private TIPOREDE comprobarRede(){
@@ -516,20 +600,34 @@ public class Activity_MisListas extends Activity {
         return TIPOREDE.SENREDE;
     }
 
-
+    private File directorio,ficheiros;
+    private String erro="";
     private void descargarArquivo() {
+
+        directorio = new File(Environment.getExternalStorageDirectory(), "ListApp");
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
+        ficheiros=new File(directorio, "documentos");
+        if (!ficheiros.exists()) {
+            ficheiros.mkdirs();
+        }
+
         URL url=null;
         try {
             url = new URL(IMAXE_DESCARGAR);
         } catch (MalformedURLException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             return;
         }
 
         HttpURLConnection conn=null;
         String nomeArquivo = Uri.parse(IMAXE_DESCARGAR).getLastPathSegment();
-        rutaArquivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),nomeArquivo);
+        newArquivo = new File(ficheiros,nomeArquivo);
+        if(newArquivo.exists()){
+            //Toast.makeText(getApplicationContext(),"As categorias xa están importadas",Toast.LENGTH_SHORT).show();
+            erro="As categorias xa están importadas";
+            return;}
         try {
 
             conn = (HttpURLConnection) url.openConnection();
@@ -547,10 +645,12 @@ public class Activity_MisListas extends Activity {
             }
             else if (response != HttpURLConnection.HTTP_OK){
                 // Algo foi mal, deberíamos informar a Activity cunha mensaxe
+                erro="Erro de conexion";
+                Log.i("COMUNICACION", "fallo");
                 return;
             }
 
-            OutputStream os = new FileOutputStream(rutaArquivo);
+            OutputStream os = new FileOutputStream(newArquivo);
             InputStream in = conn.getInputStream();
             byte data[] = new byte[1024];   // Buffer a utilizar
             int count;
@@ -561,17 +661,73 @@ public class Activity_MisListas extends Activity {
             os.close();
             in.close();
             conn.disconnect();
+            erro="Categorias importadas";
             Log.i("COMUNICACION","ACABO");
         }
         catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            erro="Non atopado ficheiro";
             Log.e("COMUNICACION",e.getMessage());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            erro="";
             e.printStackTrace();
             Log.e("COMUNICACION",e.getMessage());
         }
 
+    }
+
+    private ArrayList<Categoria> cat2;
+    private void lerArquivo() throws IOException, XmlPullParserException {
+
+        cat2=new ArrayList<Categoria>();
+        InputStream is = new FileInputStream(newArquivo);
+
+        XmlPullParser parser = Xml.newPullParser();
+        parser.setInput(is, "UTF-8");
+
+        int evento = parser.nextTag();
+        Categoria c= null;
+
+        while(evento != XmlPullParser.END_DOCUMENT) {
+            if(evento == XmlPullParser.START_TAG) {
+                if (parser.getName().equals("categoria")) {      // Un novo contacto
+                    c = new Categoria();
+                    //evento = parser.nextTag();
+                    c.setNombre(parser.nextText());
+                    cat2.add(c);
+                    //Log.i("prueba", c.getNombre()+"");
+                    //evento=parser.nextTag();
+                }
+            }
+            if(evento == XmlPullParser.END_TAG) {
+                if (parser.getName().equals("categoria")) {      // Un novo contacto
+                    //cat2.add(c);
+                }
+            }
+
+            evento = parser.next();
+        }
+
+        is.close();
+
+        for(Categoria categoria:cat2){
+            //Log.i("prueba", categoria.getNombre()+"");
+            baseDatos.engadirCategoria(categoria.getNombre());
+        }
+       cargarCategorias();
+    }
+
+    //private int spnPos;
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
+        //spnC.setSelection(savedInstanceState.getInt("spnPos"));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putInt("spnPos",spnPos);
     }
 
     @Override
@@ -588,4 +744,5 @@ public class Activity_MisListas extends Activity {
         gestionEventos();
         pedirPermiso();
     }
+
 }

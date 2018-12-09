@@ -68,7 +68,7 @@ public class Adaptador_Categorias extends ArrayAdapter {
         }
 
         viewFila.tvNombreCategoria.setText(categoria.getNombre());
-
+        Categoria c=categoria;
 
         //Bitmap bitmap = BitmapFactory.decodeFile(categoria.getImagen());
         //viewFila.ivImagenCategoria.setImageBitmap(bitmap);

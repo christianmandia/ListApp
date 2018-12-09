@@ -2,4 +2,5 @@
 <resources>
     <string name="labelCrearArticulo">Crear Novo Elemento</string>
     <string name="labelCrearLista">Crear Nova Lista</string>
+    <string name="labelGestionCategorias">Xestión Categoria</string>
 </resources>

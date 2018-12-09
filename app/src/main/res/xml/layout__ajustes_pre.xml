@@ -11,10 +11,27 @@
             android:key="preferencia_idListasFondo"
             android:title="@string/pref_main_cambiarFondo" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferencia_idNotificaciones"
+        android:title="@string/pref_main_ajustesNotificaciones">
+
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idEditarNotificaciones"
+            android:title="@string/pref_main_editarNotificaciones" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="preferencia_idGenerales"
         android:title="@string/pref_main_ajustesGenerales">
+        <SwitchPreference
+            android:defaultValue=" "
+            android:key="preferencia_idPantalla"
+            android:title="@string/pref_main_mantenerEncendido" />
+        <EditTextPreference
+            android:defaultValue=" "
+            android:key="preferencia_idCerrarSesion"
+            android:title="@string/pref_main_cerrarSesión"/>
         <EditTextPreference
             android:defaultValue=" "
             android:key="preferencia_idVersion"

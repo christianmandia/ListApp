@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/ibtnEditarCat_GestionCategorias2"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintEnd_toStartOf="@+id/guideline28"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
+        app:layout_constraintTop_toTopOf="@+id/guideline29" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline28"
         android:layout_width="wrap_content"
@@ -23,20 +36,21 @@
         android:id="@+id/ibtnAnhadirCategoria_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toTopOf="@+id/guideline29"
-        app:layout_constraintEnd_toStartOf="@+id/guideline28"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@+id/guideline28"
-        app:layout_constraintTop_toTopOf="@+id/guideline29" />
+        app:layout_constraintBottom_toBottomOf="@+id/etNombreCat_GestionCategorias"
+        app:layout_constraintStart_toEndOf="@+id/etNombreCat_GestionCategorias"
+        app:layout_constraintTop_toTopOf="@+id/etNombreCat_GestionCategorias" />
 
     <Spinner
         android:id="@+id/spnCategorias_GestionCategorias"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="104dp"
         app:layout_constraintEnd_toEndOf="@+id/guideline28"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="@+id/guideline28"
         app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
@@ -52,23 +66,35 @@
         android:id="@+id/ibtnEditarCat_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintBottom_toTopOf="@+id/guideline29"
-        app:layout_constraintEnd_toStartOf="@+id/ibtnAnhadirCategoria_GestionCategorias"
-        app:layout_constraintTop_toTopOf="@+id/guideline29"
-        app:layout_constraintVertical_bias="0.589" />
+        app:layout_constraintBottom_toBottomOf="@+id/etModificarCategoria_GestionCategorias"
+        app:layout_constraintStart_toEndOf="@+id/etModificarCategoria_GestionCategorias"
+        app:layout_constraintTop_toTopOf="@+id/etModificarCategoria_GestionCategorias"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/etNombreCat_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginBottom="28dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/spnCategorias_GestionCategorias"
         app:layout_constraintEnd_toEndOf="@+id/guideline28"
+        app:layout_constraintStart_toStartOf="@+id/guideline28" />
+
+    <EditText
+        android:id="@+id/etModificarCategoria_GestionCategorias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/guideline28"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline28"
-        app:layout_constraintTop_toBottomOf="@+id/spnCategorias_GestionCategorias" />
+        tools:layout_editor_absoluteY="196dp" />
 
 </android.support.constraint.ConstraintLayout>

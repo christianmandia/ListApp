@@ -94,6 +94,18 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    public long engadirCategoria(Categoria c){
+        ContentValues valores = new ContentValues();
+        //valores.put("id_categoria",null);
+        valores.put("id_categoria",c.getId());
+        valores.put("nombre_categoria", c.getNombre());
+        Log.i("uno", "engadirCategoria: ");
+        long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
+        Log.i("aasa", id+"");
+
+        return id;
+    }
+
     public long engadirCategoria(int size,String nC){
         size+=1;
         ContentValues valores = new ContentValues();
@@ -107,6 +119,16 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    public long engadirCategoria(String nC){
+        ContentValues valores = new ContentValues();
+        //valores.put("id_categoria",null);
+        valores.put("nombre_categoria", nC);
+        Log.i("uno", "engadirCategoria: ");
+        long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
+        Log.i("aasa", id+"");
+
+        return id;
+    }
 
     public long engadirArticulo(Articulo a,int idL){
         ContentValues valores = new ContentValues();
@@ -325,6 +347,29 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
                         listas.add(lista);
                     }
                 }
+                datosListas.moveToNext();
+            }
+        }
+        return listas;
+    }
+    public ArrayList<Lista> obterListas(Categoria categoria) {
+        ArrayList<Lista> listas = new ArrayList<Lista>();
+        ArrayList<Articulo> articulos;
+
+        String[] parametros = new String[]{categoria.getId()+""};
+        Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria where c.id_categoria like ?", parametros );
+        if (datosListas.moveToFirst()) {
+            Lista lista;
+            while (!datosListas.isAfterLast()) {
+
+//                for(Categoria c:categorias) {
+                    articulos=new ArrayList<Articulo>();
+                    if(datosListas.getInt(2)==categoria.getId()) {
+                        lista = new Lista(datosListas.getInt(0),
+                                datosListas.getString(1), categoria,articulos);
+                        listas.add(lista);
+                    }
+//                }
                 datosListas.moveToNext();
             }
         }

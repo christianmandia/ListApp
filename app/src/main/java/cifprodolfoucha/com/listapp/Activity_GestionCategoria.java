@@ -34,8 +34,8 @@ public class Activity_GestionCategoria extends Activity {
                 Categoria c = baseDatos.obterCategoria(nC);
                 if(c.getNombre()==null) {
                     //Log.i("uno", "Entrando");
-                    int size = cat.size() + 1;
-                    long a = baseDatos.engadirCategoria(size, nC);
+                    //int size = cat.size();
+                    long a = baseDatos.engadirCategoria(nC);
                     //if(a>0) {
                     //    Log.i("uno", "obtendo");
                     c = baseDatos.obterCategoria(nC);
@@ -68,7 +68,7 @@ public class Activity_GestionCategoria extends Activity {
     private void cargarCategorias(){
 
         Spinner categorias=findViewById(R.id.spnCategorias_GestionCategorias);
-
+        cat.remove(0);
 
         Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,cat);
         categorias.setAdapter(miAdaptador);
@@ -109,6 +109,7 @@ public class Activity_GestionCategoria extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_gestion_categorias);
         cat=(ArrayList<Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
+
         //Log.i("a", "onCreate: ");
 
         xestionarEventos();

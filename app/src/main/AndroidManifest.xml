@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -43,10 +45,10 @@
         <activity
             android:name=".Activity_NuevoArticulo"
             android:label="@string/labelCrearArticulo" />
-        <activity android:name=".Activity_GestionCategoria" />
+        <activity android:name=".Activity_GestionCategoria"
+            android:label="@string/labelGestionCategorias"/>
         <activity android:name=".Activity_ModificarArticulo" />
         <activity android:name=".Activity_MostrarArticulo" />
-        <activity android:name=".Comunicacion.Comunic_FicheiroCategorias"></activity>
     </application>
 
 </manifest>
