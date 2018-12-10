@@ -140,9 +140,9 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         valores.put("notas",a.getNotas());
         valores.put("imagen",a.getRutaImagen());
         valores.put("comprado",a.isSeleccionado());
-        Log.i("uno", "engadirCategoria: ");
+        //Log.i("prueba", "engadirCategoria: ");
         long id = sqlLiteDB.insert(TABOA_ARTICULOS,null,valores);
-        Log.i("aasa", id+"");
+        //Log.i("prueba", id+"");
 
         return id;
     }

@@ -231,7 +231,7 @@ public class Activity_MisListas extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public synchronized boolean onOptionsItemSelected(MenuItem item) {
         //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
         switch(item.getItemId()){
             case R.id.menuCategorias:
@@ -265,14 +265,16 @@ public class Activity_MisListas extends Activity {
                         descargarArquivo();
                     }
                 };
-                thread.start();
+                //setProgressDialog(true);
                 //genDialogs(PROGRESS);
-                setProgressDialog(true);
+                thread.start();
+
+                genDialogs(PROGRESS);
+
 
                 try {
                     thread.join();
-
-                    setProgressDialog(false);
+                    dialog.dismiss();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -297,7 +299,7 @@ public class Activity_MisListas extends Activity {
     }
 
     private AlertDialog.Builder d;
-    private AlertDialog dialog;
+    private static AlertDialog dialog;
     private static final int ELIMINAR = 1;
     private static final int PROGRESS = 2;
 
@@ -355,7 +357,7 @@ public class Activity_MisListas extends Activity {
                 d.show();
                 break;
                 case PROGRESS:
-                    /*
+
                 String infService = Context.LAYOUT_INFLATER_SERVICE;
                 LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
                 // Inflamos o compoñente composto definido no XML
@@ -363,13 +365,9 @@ public class Activity_MisListas extends Activity {
                 View inflador = li.inflate(R.layout.dlg_progressbarr, null);
                 d.setView(inflador);
                 d.setTitle("Descargando");
-                d.setCancelable(true);
                 dialog=d.create();
                 d.show();
-                dialog.dismiss();
-                */
-
-                    break;
+                break;
         }
 
 

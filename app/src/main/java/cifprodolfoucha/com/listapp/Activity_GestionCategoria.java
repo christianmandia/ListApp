@@ -3,7 +3,10 @@ package cifprodolfoucha.com.listapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,13 +65,29 @@ public class Activity_GestionCategoria extends Activity {
             }
         });
 
+        final EditText etCatMod=(EditText)findViewById(R.id.etModificarCategoria_GestionCategorias);
+        Spinner spnCategorias=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
+        spnCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
+                etCatMod.setText(nomeCategoria);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
     private void cargarCategorias(){
 
         Spinner categorias=findViewById(R.id.spnCategorias_GestionCategorias);
-        cat.remove(0);
+        if(cat.get(0).getId()==0) {
+            cat.remove(0);
+        }
 
         Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,cat);
         categorias.setAdapter(miAdaptador);

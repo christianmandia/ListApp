@@ -85,6 +85,9 @@ public class Activity_NuevaLista extends Activity {
 
         Spinner categorias=findViewById(R.id.spnCategorias_NuevaLista);
 
+        if(cat.get(0).getId()==0) {
+            cat.remove(0);
+        }
 
         Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,cat);
         categorias.setAdapter(miAdaptador);
