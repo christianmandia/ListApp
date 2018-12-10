@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -17,6 +18,7 @@ import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.util.Xml;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -253,17 +255,24 @@ public class Activity_MisListas extends Activity {
                 startActivity(ajustes);
                 return true;
             case R.id.descargarCategorias:
+
+
+
                 thread = new Thread(){
 
                     @Override
                     public void run(){
                         descargarArquivo();
-
                     }
                 };
                 thread.start();
+                //genDialogs(PROGRESS);
+                setProgressDialog(true);
+
                 try {
                     thread.join();
+
+                    setProgressDialog(false);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -275,6 +284,9 @@ public class Activity_MisListas extends Activity {
                     e.printStackTrace();
                 }
 
+                //dialog.dismiss();
+              // dialog.closeOptionsMenu();
+              //  dialog.cancel();
                 //Toast.makeText(getApplicationContext(),"A imaxe estase a descargar nun fío separado. Deberíamos enviar unha mensaxe cando remate para saber se foi todo ben",Toast.LENGTH_LONG).show();
                 if(!erro.equals("")) {
                     Toast.makeText(getApplicationContext(), erro, Toast.LENGTH_LONG).show();
@@ -285,7 +297,9 @@ public class Activity_MisListas extends Activity {
     }
 
     private AlertDialog.Builder d;
+    private AlertDialog dialog;
     private static final int ELIMINAR = 1;
+    private static final int PROGRESS = 2;
 
 
     protected Dialog onCreateDialog(int id) {
@@ -314,6 +328,62 @@ public class Activity_MisListas extends Activity {
         }
 
         return null;
+    }
+    protected void genDialogs(int id){
+        switch(id){
+            default:
+                return;
+            case ELIMINAR:
+                d = new AlertDialog.Builder(this);
+                d.setIcon(android.R.drawable.ic_dialog_info);
+                d.setTitle("Eliminar");
+                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setCancelable(false);
+                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+
+                        listas.remove(pos);
+                        miAdaptadorMisListas.notifyDataSetChanged();
+
+                    }
+                });
+                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int boton) {
+                    }
+                });
+                d.create();
+                d.show();
+                break;
+                case PROGRESS:
+                    /*
+                String infService = Context.LAYOUT_INFLATER_SERVICE;
+                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
+                // Inflamos o compoñente composto definido no XML
+                d=new AlertDialog.Builder(this);
+                View inflador = li.inflate(R.layout.dlg_progressbarr, null);
+                d.setView(inflador);
+                d.setTitle("Descargando");
+                d.setCancelable(true);
+                dialog=d.create();
+                d.show();
+                dialog.dismiss();
+                */
+
+                    break;
+        }
+
+
+    }
+    private void setProgressDialog(boolean show){
+        d= new AlertDialog.Builder(this);
+        String infService = Context.LAYOUT_INFLATER_SERVICE;
+        LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
+        View inflador = li.inflate(R.layout.dlg_progressbarr, null);
+        //View view = getLayoutInflater().inflate(R.layout.progress);
+        d.setView(inflador);
+        Dialog dialog = d.create();
+        if (show)dialog.show();
+        else dialog.dismiss();
     }
 
             @Override
@@ -395,7 +465,7 @@ public class Activity_MisListas extends Activity {
             cat=baseDatos.obterCategorias();
 
             if(cat.size()==0){
-                Categoria c=new Categoria(0,"Todas");
+                Categoria c=new Categoria(0,getResources().getString(R.string.nomeCategoria));
                 baseDatos.engadirCategoria(c);
                 cat.add(c);
             }
@@ -574,7 +644,7 @@ public class Activity_MisListas extends Activity {
     public static enum TIPOREDE{MOBIL,ETHERNET,WIFI,SENREDE};
     private TIPOREDE conexion;
 
-    private final String IMAXE_DESCARGAR="http://download2269.mediafire.com/5a20jjovwtzg/4deo3e3d5ud88em/categorias_v1.xml";
+    private final String IMAXE_DESCARGAR="http://download2269.mediafire.com/beq57tsibdgg/4deo3e3d5ud88em/categorias_v1.xml";
     private File newArquivo;
     private Thread thread;
 
@@ -689,17 +759,23 @@ public class Activity_MisListas extends Activity {
 
         while(evento != XmlPullParser.END_DOCUMENT) {
             if(evento == XmlPullParser.START_TAG) {
-                if (parser.getName().equals("categoria")) {      // Un novo contacto
-                    c = new Categoria();
-                    //evento = parser.nextTag();
-                    c.setNombre(parser.nextText());
-                    cat2.add(c);
-                    //Log.i("prueba", c.getNombre()+"");
-                    //evento=parser.nextTag();
+
+                if (parser.getName().equals("version_ficheiro")) {
+                    if(Integer.parseInt(parser.nextText())==1){
+
+                    }
                 }
+                 if (parser.getName().equals("categoria")) {
+                     c = new Categoria();
+                     //evento = parser.nextTag();
+                     c.setNombre(parser.nextText());
+                     cat2.add(c);
+                     //Log.i("prueba", c.getNombre()+"");
+                     //evento=parser.nextTag();
+                 }
             }
             if(evento == XmlPullParser.END_TAG) {
-                if (parser.getName().equals("categoria")) {      // Un novo contacto
+                if (parser.getName().equals("categoria")) {
                     //cat2.add(c);
                 }
             }
