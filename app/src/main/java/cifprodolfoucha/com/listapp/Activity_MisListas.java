@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -213,10 +215,13 @@ public class Activity_MisListas extends Activity {
 
             // Ítems premidos sobre o ListView
             case R.id.mniBorrarLista_MisListas:
+                genDialogs(ELIMINAR);
+                /*
                 listas.remove(pos);
                 miAdaptadorMisListas.notifyDataSetChanged();
                 //miAdaptadorMisListas.remove(miAdaptadorMisListas.getItem(info.position));
                 miAdaptadorMisListas.setNotifyOnChange(true);
+                */
                 return true;
 
             case R.id.mniModificarLista_MisListas:
@@ -256,8 +261,6 @@ public class Activity_MisListas extends Activity {
                 return true;
             case R.id.descargarCategorias:
 
-
-
                 thread = new Thread(){
 
                     @Override
@@ -265,16 +268,17 @@ public class Activity_MisListas extends Activity {
                         descargarArquivo();
                     }
                 };
-                //setProgressDialog(true);
-                //genDialogs(PROGRESS);
-                thread.start();
 
                 genDialogs(PROGRESS);
+                thread.start();
 
+                if ((miñaTarefa==null) || (miñaTarefa.getStatus()== AsyncTask.Status.FINISHED)){
+                    miñaTarefa = new MiñaTarefa();
+                    miñaTarefa.execute();
+                }
 
                 try {
                     thread.join();
-                    dialog.dismiss();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -286,10 +290,7 @@ public class Activity_MisListas extends Activity {
                     e.printStackTrace();
                 }
 
-                //dialog.dismiss();
-              // dialog.closeOptionsMenu();
-              //  dialog.cancel();
-                //Toast.makeText(getApplicationContext(),"A imaxe estase a descargar nun fío separado. Deberíamos enviar unha mensaxe cando remate para saber se foi todo ben",Toast.LENGTH_LONG).show();
+
                 if(!erro.equals("")) {
                     Toast.makeText(getApplicationContext(), erro, Toast.LENGTH_LONG).show();
                 }
@@ -297,6 +298,32 @@ public class Activity_MisListas extends Activity {
             default:return super.onOptionsItemSelected(item);
         }
     }
+
+
+    private static final int TEMPO_FINAL = 10;
+    private MiñaTarefa miñaTarefa;
+
+    private class MiñaTarefa extends AsyncTask<Void, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            for (int i = 1; i <= TEMPO_FINAL; i++) {
+                try {
+                    Thread.sleep(2000);
+                    dialog.dismiss();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                publishProgress(i);
+
+                if (isCancelled())
+                    break;
+            }
+            return true;
+        }
+    };
+
+
 
     private AlertDialog.Builder d;
     private static AlertDialog dialog;
@@ -327,6 +354,19 @@ public class Activity_MisListas extends Activity {
                 });
                 return d.create();
         */
+            case PROGRESS:
+
+                String infService = Context.LAYOUT_INFLATER_SERVICE;
+                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
+                // Inflamos o compoñente composto definido no XML
+                d=new AlertDialog.Builder(this);
+                View inflador = li.inflate(R.layout.dlg_progressbarr, null);
+                d.setView(inflador);
+                d.setTitle("Descargando");
+                dialog=d.create();
+                d.show();
+                closeOptionsMenu();
+                break;
         }
 
         return null;
@@ -344,8 +384,10 @@ public class Activity_MisListas extends Activity {
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
+                        //baseDatos.eliminarLista(listas.get(pos).getId());
                         listas.remove(pos);
                         miAdaptadorMisListas.notifyDataSetChanged();
+
 
                     }
                 });
@@ -353,9 +395,9 @@ public class Activity_MisListas extends Activity {
                     public void onClick(DialogInterface dialog, int boton) {
                     }
                 });
-                d.create();
+                dialog=d.create();
                 d.show();
-                break;
+                return;
                 case PROGRESS:
 
                 String infService = Context.LAYOUT_INFLATER_SERVICE;
@@ -366,7 +408,11 @@ public class Activity_MisListas extends Activity {
                 d.setView(inflador);
                 d.setTitle("Descargando");
                 dialog=d.create();
-                d.show();
+                //d.show();
+                dialog.show();
+                    ///
+
+                    //
                 break;
         }
 
@@ -390,6 +436,14 @@ public class Activity_MisListas extends Activity {
         getMenuInflater().inflate(R.menu.activity_menu, menu);
         m=menu;
         return true;
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
+        if(dialog!=null){
+            dialog.dismiss();
+        }
     }
 
     private void cargarListas(){
@@ -642,7 +696,7 @@ public class Activity_MisListas extends Activity {
     public static enum TIPOREDE{MOBIL,ETHERNET,WIFI,SENREDE};
     private TIPOREDE conexion;
 
-    private final String IMAXE_DESCARGAR="http://download2269.mediafire.com/beq57tsibdgg/4deo3e3d5ud88em/categorias_v1.xml";
+    private final String IMAXE_DESCARGAR="http://wiki.cifprodolfoucha.es/AplicacionesAndroid/20182019/ListApp.xml";
     private File newArquivo;
     private Thread thread;
 
@@ -760,7 +814,7 @@ public class Activity_MisListas extends Activity {
 
                 if (parser.getName().equals("version_ficheiro")) {
                     if(Integer.parseInt(parser.nextText())==1){
-
+                        return;
                     }
                 }
                  if (parser.getName().equals("categoria")) {
@@ -788,6 +842,7 @@ public class Activity_MisListas extends Activity {
             baseDatos.engadirCategoria(categoria.getNombre());
         }
        cargarCategorias();
+
     }
 
     //private int spnPos;
