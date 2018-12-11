@@ -13,8 +13,10 @@ public class Preferencias_Ajustes extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+
             // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.layout__ajustes);
+            addPreferencesFromResource(R.xml.preferences);
+
         }
     }
 
@@ -23,5 +25,9 @@ public class Preferencias_Ajustes extends Activity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();
+
+        //getActionBar().setIcon(R.drawable.ic_refresh);
+        setTitle(getResources().getString(R.string.pref_main_nomeActivity));
     }
+
 }

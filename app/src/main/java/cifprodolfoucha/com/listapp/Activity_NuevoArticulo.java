@@ -23,8 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
-import cifprodolfoucha.com.listapp.Loxica.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -35,8 +34,8 @@ public class Activity_NuevoArticulo extends Activity {
         this.lvArticulos=lvArticulos;
     }
 */
-    private  ArrayList<Articulo> articulos=new ArrayList();
-    private  ArrayList<Articulo> articulos2=new ArrayList();
+    private  ArrayList<Loxica_Articulo> loxicaArticulos =new ArrayList();
+    private  ArrayList<Loxica_Articulo> articulos2=new ArrayList();
 
     private int idListaRecibida;
 
@@ -204,7 +203,7 @@ public class Activity_NuevoArticulo extends Activity {
 
         boolean encontrado=false;
         EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        for(Articulo a:articulos){
+        for(Loxica_Articulo a: loxicaArticulos){
 
             if(a.getNombre().toLowerCase().equals(etNombre.getText().toString().toLowerCase())) {
                 //llamadas();
@@ -226,7 +225,7 @@ public class Activity_NuevoArticulo extends Activity {
                 precio = Double.parseDouble(etPrecio.getText().toString());
             }
             //llamadas(etPrecio.getText().toString());
-            Articulo a =null;
+            Loxica_Articulo a =null;
 
             if(pasaFoto) {
 
@@ -244,9 +243,9 @@ public class Activity_NuevoArticulo extends Activity {
             //id+=1;
             Log.i("prueba", id+" - "+idListaRecibida);
             if(!rutaArquivo.equals("")){
-                a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
+                a = new Loxica_Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
             }else {
-                a = new Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),"");
+                a = new Loxica_Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),"");
             }
             long res=baseDatos.engadirArticulo(a,idListaRecibida);
             if(res>0){
@@ -371,7 +370,7 @@ public class Activity_NuevoArticulo extends Activity {
         guardaEstado.putInt("cantidad",iCantidad);
         guardaEstado.putDouble("precio",dPrecio);
 
-        guardaEstado.putSerializable("articulos",articulos);
+        guardaEstado.putSerializable("loxicaArticulos", loxicaArticulos);
         guardaEstado.putSerializable("articulos2",articulos2);
         //t = texto.getText().toString();
         //lo "guardamos" en el Bundle
@@ -394,8 +393,8 @@ public class Activity_NuevoArticulo extends Activity {
 
         sImagen = recuperaEstado.getString("imagen");
 
-        articulos=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos");
-        articulos2=(ArrayList<Articulo>)recuperaEstado.getSerializable("articulos2");
+        loxicaArticulos =(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("loxicaArticulos");
+        articulos2=(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("articulos2");
 
 
         etNombre.setText(sNombre);
@@ -439,8 +438,8 @@ public class Activity_NuevoArticulo extends Activity {
         setContentView(R.layout.layout_nuevoarticulo);
         idListaRecibida=getIntent().getIntExtra("idLista",0);
 //        Log.i("LRecibida", idListaRecibida+"");
-        if((articulos=(ArrayList<Articulo>) getIntent().getSerializableExtra("articulos"))==null){
-            articulos=new ArrayList<Articulo>();
+        if((loxicaArticulos =(ArrayList<Loxica_Articulo>) getIntent().getSerializableExtra("loxicaArticulos"))==null){
+            loxicaArticulos =new ArrayList<Loxica_Articulo>();
         }
 
 //        pedirPermiso();

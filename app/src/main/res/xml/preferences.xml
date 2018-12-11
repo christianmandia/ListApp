@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    android:title="EXEMPLO DE SETTINGS">
-
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="EXEMPLO DE SETTINGS"
+    android:icon="@android:drawable/ic_menu_preferences">
     <PreferenceCategory
         android:key="preferencia_idListas"
         android:title="@string/pref_main_ajustesListas">
 
-        <EditTextPreference
+        <SwitchPreference
             android:defaultValue=" "
-            android:key="preferencia_idListasFondo"
+            android:key="preferencia_idFondo"
             android:title="@string/pref_main_cambiarFondo" />
     </PreferenceCategory>
 

@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import java.io.File;
 
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -32,7 +32,7 @@ public class Activity_ModificarArticulo extends Activity {
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private final int CODIGO_IDENTIFICADOR=1;
     private File img,imaxeRecibida,imaxe,directorio,temp;
-    private Articulo articulo=new Articulo();
+    private Loxica_Articulo loxicaArticulo =new Loxica_Articulo();
     private int idL;
 
     private BaseDatos baseDatos;
@@ -58,7 +58,7 @@ public class Activity_ModificarArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Articulo a=modificarArticulo();
+                Loxica_Articulo a=modificarArticulo();
 
                 if(imaxeRecibida!=null){
                     imaxeRecibida.delete();
@@ -144,14 +144,14 @@ public class Activity_ModificarArticulo extends Activity {
 
         ImageView ivFoto=findViewById(R.id.ivImagenArticulo_ModificarArticulo);
 
-        etNombreArticulo.setText(articulo.getNombre());
-        if(articulo.getPrecio()!=0) {
-            etPrecioArticulo.setText(articulo.getPrecio()+ "");
+        etNombreArticulo.setText(loxicaArticulo.getNombre());
+        if(loxicaArticulo.getPrecio()!=0) {
+            etPrecioArticulo.setText(loxicaArticulo.getPrecio()+ "");
         }
-        etCantidadArticulo.setText(articulo.getCantidad()+"");
-        etNotasArticulo.setText(articulo.getNotas());
-        if(!articulo.getRutaImagen().equals("")){
-            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
+        etCantidadArticulo.setText(loxicaArticulo.getCantidad()+"");
+        etNotasArticulo.setText(loxicaArticulo.getNotas());
+        if(!loxicaArticulo.getRutaImagen().equals("")){
+            Bitmap bitmap = BitmapFactory.decodeFile(loxicaArticulo.getRutaImagen());
             ivFoto.setImageBitmap(bitmap);
         }else{
             Bitmap bitmap = BitmapFactory.decodeFile(null);
@@ -161,7 +161,7 @@ public class Activity_ModificarArticulo extends Activity {
 
     }
 
-    private Articulo modificarArticulo(){
+    private Loxica_Articulo modificarArticulo(){
         EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
         EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
         EditText etCantidadArticulo=findViewById(R.id.etCantidadArticulo_ModificarArticulo);
@@ -176,17 +176,17 @@ public class Activity_ModificarArticulo extends Activity {
             precio = Double.parseDouble(etPrecioArticulo.getText().toString());
         }
 
-        articulo.setNombre(etNombreArticulo.getText().toString());
-        articulo.setCantidad(cantidad);
-        articulo.setPrecio(precio);
-        articulo.setNotas(etNotasArticulo.getText().toString());
+        loxicaArticulo.setNombre(etNombreArticulo.getText().toString());
+        loxicaArticulo.setCantidad(cantidad);
+        loxicaArticulo.setPrecio(precio);
+        loxicaArticulo.setNotas(etNotasArticulo.getText().toString());
         if(!rutaArquivo.equals("")){
-            articulo.setRutaImagen(rutaArquivo);
+            loxicaArticulo.setRutaImagen(rutaArquivo);
         }else if(!rutaArquivoRecibido.equals("")){
-            articulo.setRutaImagen(rutaArquivoRecibido);
+            loxicaArticulo.setRutaImagen(rutaArquivoRecibido);
         }
-        //Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
-        return articulo;
+        //Toast.makeText(this,loxicaArticulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
+        return loxicaArticulo;
         //Toast.makeText(this,precio+"",Toast.LENGTH_SHORT).show();
 
     }
@@ -243,7 +243,7 @@ public class Activity_ModificarArticulo extends Activity {
         guardaEstado.putInt("cantidad",iCantidad);
         guardaEstado.putDouble("precio",dPrecio);
 
-        guardaEstado.putSerializable("articuloModificado",articulo);
+        guardaEstado.putSerializable("articuloModificado", loxicaArticulo);
     }
 
     @Override
@@ -262,7 +262,7 @@ public class Activity_ModificarArticulo extends Activity {
 
         sImagen = recuperaEstado.getString("imagen");
 
-        articulo=(Articulo)recuperaEstado.getSerializable("articulo");
+        loxicaArticulo =(Loxica_Articulo)recuperaEstado.getSerializable("loxicaArticulo");
 
 
         etNombre.setText(sNombre);
@@ -302,9 +302,9 @@ public class Activity_ModificarArticulo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_modificararticulo);
         idL=getIntent().getIntExtra("idLista",0);
-        articulo=(Articulo) getIntent().getSerializableExtra("articulo");
-        setTitle("Modificar: "+articulo.getNombre());
-        rutaArquivoRecibido=articulo.getRutaImagen();
+        loxicaArticulo =(Loxica_Articulo) getIntent().getSerializableExtra("loxicaArticulo");
+        setTitle("Modificar: "+ loxicaArticulo.getNombre());
+        rutaArquivoRecibido= loxicaArticulo.getRutaImagen();
         if(!rutaArquivoRecibido.equals("")){
             imaxeRecibida=new File(rutaArquivoRecibido);
         }

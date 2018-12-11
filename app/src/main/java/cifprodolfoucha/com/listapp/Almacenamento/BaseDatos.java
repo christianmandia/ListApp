@@ -11,9 +11,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
-import cifprodolfoucha.com.listapp.Loxica.Categoria;
-import cifprodolfoucha.com.listapp.Loxica.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
@@ -94,14 +94,14 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
-    public long engadirCategoria(Categoria c){
+    public long engadirCategoria(Loxica_Categoria c){
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
         valores.put("id_categoria",c.getId());
         valores.put("nombre_categoria", c.getNombre());
-        Log.i("uno", "engadirCategoria: ");
+        Log.i("uno", c.getNombre());
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
-        Log.i("aasa", id+"");
+        Log.i("uno", id+"");
 
         return id;
     }
@@ -112,7 +112,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         //valores.put("id_categoria",null);
         valores.put("id_categoria",size);
         valores.put("nombre_categoria", nC);
-        Log.i("uno", "engadirCategoria: ");
+        Log.i("uno", nC);
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
         Log.i("aasa", id+"");
 
@@ -123,14 +123,14 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
         valores.put("nombre_categoria", nC);
-        Log.i("uno", "engadirCategoria: ");
+        Log.i("uno", nC);
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
         Log.i("aasa", id+"");
 
         return id;
     }
 
-    public long engadirArticulo(Articulo a,int idL){
+    public long engadirArticulo(Loxica_Articulo a, int idL){
         ContentValues valores = new ContentValues();
         valores.put("id_articulo",a.getId());
         valores.put("id_lista",idL);
@@ -165,30 +165,30 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
     }
 
-    public void eliminarArticulo(Articulo a,int idL){
+    public void eliminarArticulo(Loxica_Articulo a, int idL){
         String condicionwhere = "id_articulo=? and id_lista=?";
         String[] parametros = new String[]{a.getId()+"",idL+""};
         int rexistrosafectados = sqlLiteDB.delete(TABOA_ARTICULOS,condicionwhere,parametros);
     }
 
-    public ArrayList<Articulo> obterArticulos(int idL) {
-        ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+    public ArrayList<Loxica_Articulo> obterArticulos(int idL) {
+        ArrayList<Loxica_Articulo> loxicaArticulos = new ArrayList<Loxica_Articulo>();
 
         String[] parametros = new String[]{idL+""};
         Cursor datosArticulos = sqlLiteDB.rawQuery("select a.id_articulo,a.nombre_articulo,a.comprado,a.cantidad,a.precio,a.notas,a.imagen from Articulo a inner join Lista l on a.id_lista=l.id_lista where a.id_lista=?", parametros);
         if (datosArticulos.moveToFirst()) {
-            Articulo articulo;
+            Loxica_Articulo loxicaArticulo;
             while (!datosArticulos.isAfterLast()) {
                 boolean comprado = datosArticulos.getInt(2) > 0;
 
-                articulo = new Articulo(datosArticulos.getInt(0),datosArticulos.getString(1),
+                loxicaArticulo = new Loxica_Articulo(datosArticulos.getInt(0),datosArticulos.getString(1),
                         comprado,datosArticulos.getInt(3),datosArticulos.getDouble(4),
                         datosArticulos.getString(5),datosArticulos.getString(6));
-                articulos.add(articulo);
+                loxicaArticulos.add(loxicaArticulo);
                 datosArticulos.moveToNext();
             }
         }
-        return articulos;
+        return loxicaArticulos;
     }
 
     public int obterNovoIdArticulo(int idL) {
@@ -206,24 +206,24 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id+1;
     }
 
-    public ArrayList<Categoria> obterCategorias() {
-        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+    public ArrayList<Loxica_Categoria> obterCategorias() {
+        ArrayList<Loxica_Categoria> loxicaCategorias = new ArrayList<Loxica_Categoria>();
 
         Log.i("cosas", "obterCategorias");
         Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria", null);
         if (datosCategorias.moveToFirst()) {
-            Categoria categoria;
+            Loxica_Categoria loxicaCategoria;
             while (!datosCategorias.isAfterLast()) {
-                categoria = new Categoria(datosCategorias.getInt(0),
+                loxicaCategoria = new Loxica_Categoria(datosCategorias.getInt(0),
                         datosCategorias.getString(1));
 
                 Log.i("cosas", "añadida");
-                categorias.add(categoria);
-                Log.i("cosas", categoria.getNombre().toString());
+                loxicaCategorias.add(loxicaCategoria);
+                Log.i("cosas", loxicaCategoria.getNombre().toString());
                 datosCategorias.moveToNext();
             }
         }
-        return categorias;
+        return loxicaCategorias;
     }
 
     public int modArticulo(int idA,int idL, String nA,int cant,double p,String notas,String img,boolean comp){
@@ -248,24 +248,24 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return res;
     }
 
-    public Lista obterIdLista(String nL,int idC,Categoria C) {
-        Lista lista=new Lista();
+    public Loxica_Lista obterIdLista(String nL, int idC, Loxica_Categoria C) {
+        Loxica_Lista loxicaLista =new Loxica_Lista();
 
         String[] parametros = new String[]{nL,idC+""};
         Cursor datosListas = sqlLiteDB.rawQuery("select * from Lista where nombre_lista like ? and id_categoria=?", parametros);
         if (datosListas.moveToFirst()) {
 
             while (!datosListas.isAfterLast()) {
-                lista = new Lista(datosListas.getInt(0),
-                        datosListas.getString(1),C,new ArrayList<Articulo>());
+                loxicaLista = new Loxica_Lista(datosListas.getInt(0),
+                        datosListas.getString(1),C,new ArrayList<Loxica_Articulo>());
                 datosListas.moveToNext();
             }
         }
-        return lista;
+        return loxicaLista;
     }
 
-    public Lista obterLista(String nL,Categoria c) {
-        Lista lista=new Lista();
+    public Loxica_Lista obterLista(String nL, Loxica_Categoria c) {
+        Loxica_Lista loxicaLista =new Loxica_Lista();
 
         Log.i("datos", nL);
         Log.i("datos", c.getId()+"");
@@ -274,12 +274,12 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         if (datosListas.moveToFirst()) {
 
             while (!datosListas.isAfterLast()) {
-                lista = new Lista(datosListas.getInt(0),
-                        datosListas.getString(1),c,new ArrayList<Articulo>());
+                loxicaLista = new Loxica_Lista(datosListas.getInt(0),
+                        datosListas.getString(1),c,new ArrayList<Loxica_Articulo>());
                 datosListas.moveToNext();
             }
         }
-        return lista;
+        return loxicaLista;
     }
 
     public int obterIdCategoria(String nC) {
@@ -297,83 +297,83 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
-    public Categoria obterCategoria(int id) {
-        Categoria categoria=new Categoria();
+    public Loxica_Categoria obterCategoria(int id) {
+        Loxica_Categoria loxicaCategoria =new Loxica_Categoria();
 
         String[] parametros = new String[]{id+""};
         Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria where id_categoria=?", parametros);
         if (datosCategorias.moveToFirst()) {
 
             while (!datosCategorias.isAfterLast()) {
-                categoria = new Categoria(datosCategorias.getInt(0),
+                loxicaCategoria = new Loxica_Categoria(datosCategorias.getInt(0),
                         datosCategorias.getString(1));
                 datosCategorias.moveToNext();
             }
         }
-        return categoria;
+        return loxicaCategoria;
     }
 
-    public Categoria obterCategoria(String nC) {
-        Categoria categoria=new Categoria();
+    public Loxica_Categoria obterCategoria(String nC) {
+        Loxica_Categoria loxicaCategoria =new Loxica_Categoria();
 
         String[] parametros = new String[]{nC};
         Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria where nombre_categoria like ?", parametros);
         if (datosCategorias.moveToFirst()) {
 
             while (!datosCategorias.isAfterLast()) {
-                categoria = new Categoria(datosCategorias.getInt(0),
+                loxicaCategoria = new Loxica_Categoria(datosCategorias.getInt(0),
                         datosCategorias.getString(1));
                 datosCategorias.moveToNext();
             }
         }
-        return categoria;
+        return loxicaCategoria;
     }
 
 
-    public ArrayList<Lista> obterListas(ArrayList<Categoria>categorias) {
-        ArrayList<Lista> listas = new ArrayList<Lista>();
-        ArrayList<Articulo> articulos;
+    public ArrayList<Loxica_Lista> obterListas(ArrayList<Loxica_Categoria> loxicaCategorias) {
+        ArrayList<Loxica_Lista> loxicaListas = new ArrayList<Loxica_Lista>();
+        ArrayList<Loxica_Articulo> loxicaArticulos;
 
         Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria", null );
         if (datosListas.moveToFirst()) {
-            Lista lista;
+            Loxica_Lista loxicaLista;
             while (!datosListas.isAfterLast()) {
 
-                for(Categoria c:categorias) {
-                    articulos=new ArrayList<Articulo>();
+                for(Loxica_Categoria c: loxicaCategorias) {
+                    loxicaArticulos =new ArrayList<Loxica_Articulo>();
                     if(datosListas.getInt(2)==c.getId()) {
-                        lista = new Lista(datosListas.getInt(0),
-                                datosListas.getString(1), c,articulos);
-                        listas.add(lista);
+                        loxicaLista = new Loxica_Lista(datosListas.getInt(0),
+                                datosListas.getString(1), c, loxicaArticulos);
+                        loxicaListas.add(loxicaLista);
                     }
                 }
                 datosListas.moveToNext();
             }
         }
-        return listas;
+        return loxicaListas;
     }
-    public ArrayList<Lista> obterListas(Categoria categoria) {
-        ArrayList<Lista> listas = new ArrayList<Lista>();
-        ArrayList<Articulo> articulos;
+    public ArrayList<Loxica_Lista> obterListas(Loxica_Categoria loxicaCategoria) {
+        ArrayList<Loxica_Lista> loxicaListas = new ArrayList<Loxica_Lista>();
+        ArrayList<Loxica_Articulo> loxicaArticulos;
 
-        String[] parametros = new String[]{categoria.getId()+""};
+        String[] parametros = new String[]{loxicaCategoria.getId()+""};
         Cursor datosListas = sqlLiteDB.rawQuery("select l.*,c.id_categoria from Lista l inner join Categoria c on l.id_categoria=c.id_categoria where c.id_categoria like ?", parametros );
         if (datosListas.moveToFirst()) {
-            Lista lista;
+            Loxica_Lista loxicaLista;
             while (!datosListas.isAfterLast()) {
 
-//                for(Categoria c:categorias) {
-                    articulos=new ArrayList<Articulo>();
-                    if(datosListas.getInt(2)==categoria.getId()) {
-                        lista = new Lista(datosListas.getInt(0),
-                                datosListas.getString(1), categoria,articulos);
-                        listas.add(lista);
+//                for(Loxica_Categoria c:categorias) {
+                    loxicaArticulos =new ArrayList<Loxica_Articulo>();
+                    if(datosListas.getInt(2)== loxicaCategoria.getId()) {
+                        loxicaLista = new Loxica_Lista(datosListas.getInt(0),
+                                datosListas.getString(1), loxicaCategoria, loxicaArticulos);
+                        loxicaListas.add(loxicaLista);
                     }
 //                }
                 datosListas.moveToNext();
             }
         }
-        return listas;
+        return loxicaListas;
     }
 
     public boolean checkDataBase() {

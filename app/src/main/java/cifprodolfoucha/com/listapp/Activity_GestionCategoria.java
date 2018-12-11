@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
-import cifprodolfoucha.com.listapp.Loxica.Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 
 public class Activity_GestionCategoria extends Activity {
-    ArrayList<Categoria> cat;
+    ArrayList<Loxica_Categoria> cat;
 
     private BaseDatos baseDatos;
 
@@ -34,7 +34,7 @@ public class Activity_GestionCategoria extends Activity {
 
                 //Log.i("PROBA3",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
                 if(!nC.equals("")){
-                Categoria c = baseDatos.obterCategoria(nC);
+                Loxica_Categoria c = baseDatos.obterCategoria(nC);
                 if(c.getNombre()==null) {
                     //Log.i("uno", "Entrando");
                     //int size = cat.size();
@@ -127,7 +127,7 @@ public class Activity_GestionCategoria extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_gestion_categorias);
-        cat=(ArrayList<Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
+        cat=(ArrayList<Loxica_Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
 
         //Log.i("a", "onCreate: ");
 

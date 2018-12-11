@@ -13,30 +13,30 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.R;
 
 public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.ReciclerViewHolder_Lista> implements View.OnClickListener/*,View.OnLongClickListener*/{
 
-    private ArrayList<Articulo> mArticulos;
+    private ArrayList<Loxica_Articulo> mLoxicaArticulos;
     private Context mContext;
 
     private View.OnClickListener listener;
     //private View.OnLongClickListener longlistener;
 /*
-    public Adapatador_Lista(Context context, ArrayList<Articulo>articulos) {
+    public Adapatador_Lista(Context context, ArrayList<Loxica_Articulo>loxicaArticulos) {
         super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
 
-        this.articulos = articulos;
+        this.loxicaArticulos = loxicaArticulos;
         this.mContext = context;
     }
 
     */
-    public Adaptador_ListaRV(ArrayList<Articulo> articulos){
-        if(articulos!=null) {
-            this.mArticulos = articulos;
+    public Adaptador_ListaRV(ArrayList<Loxica_Articulo> loxicaArticulos){
+        if(loxicaArticulos !=null) {
+            this.mLoxicaArticulos = loxicaArticulos;
         }else{
-            this.mArticulos=new ArrayList<Articulo>();
+            this.mLoxicaArticulos =new ArrayList<Loxica_Articulo>();
         }
         //this.mContext = context;
     }
@@ -84,8 +84,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
     @Override
     public void onBindViewHolder(Adaptador_ListaRV.ReciclerViewHolder_Lista holder, int position) {
-        //holder.bind(mArticulos.get(position));
-        Articulo articulo=mArticulos.get(position);
+        //holder.bind(mLoxicaArticulos.get(position));
+        Loxica_Articulo loxicaArticulo = mLoxicaArticulos.get(position);
 
 
         View v=holder.itemView;
@@ -95,28 +95,28 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         ImageView mImagen=holder.mIVImagenArticulo;
 
 
-        mCheck.setText(articulo.getNombre());
+        mCheck.setText(loxicaArticulo.getNombre());
 
 
-        if(articulo.getCantidad()!=0) {
-            mCantidad.setText(articulo.getCantidad()+"");
+        if(loxicaArticulo.getCantidad()!=0) {
+            mCantidad.setText(loxicaArticulo.getCantidad()+"");
         }else{
             mCantidad.setText("1");
         }
 
-        if(articulo.getPrecio()!=0) {
-            mPrecio.setText(articulo.getPrecio() + "€");
+        if(loxicaArticulo.getPrecio()!=0) {
+            mPrecio.setText(loxicaArticulo.getPrecio() + "€");
         }else{
             mPrecio.setText("");
         }
 
-        if(articulo.getNotas().length()!=0){
+        if(loxicaArticulo.getNotas().length()!=0){
 
         }else{
 
         }
 
-        if(articulo.isMarcado()){
+        if(loxicaArticulo.isMarcado()){
             //v.setBackgroundColor(0xFF00FF00);
 
             v.setBackgroundColor(0xFF008080);
@@ -125,14 +125,14 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             v.setBackgroundColor(0xFF00FFFF);
         }
 
-        if(articulo.isSeleccionado()){
+        if(loxicaArticulo.isSeleccionado()){
             mCheck.setChecked(true);
         }else{
             mCheck.setChecked(false);
         }
 
-        if(!articulo.riExiste()){
-            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
+        if(!loxicaArticulo.riExiste()){
+            Bitmap bitmap = BitmapFactory.decodeFile(loxicaArticulo.getRutaImagen());
             mImagen.setImageBitmap(bitmap);
         }else{
             Bitmap bitmap = BitmapFactory.decodeFile(null);
@@ -144,7 +144,7 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
     @Override
     public int getItemCount() {
 
-        return mArticulos.size();
+        return mLoxicaArticulos.size();
     }
 
 
@@ -180,10 +180,10 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
                 @Override
                 public void onClick(View v) {
                     posicion=getAdapterPosition();
-                    if(mArticulos.get(posicion).isSeleccionado()) {
-                        mArticulos.get(posicion).setSeleccionado(false);
+                    if(mLoxicaArticulos.get(posicion).isSeleccionado()) {
+                        mLoxicaArticulos.get(posicion).setSeleccionado(false);
                     }else{
-                        mArticulos.get(posicion).setSeleccionado(true);
+                        mLoxicaArticulos.get(posicion).setSeleccionado(true);
                     }
 
                     notifyDataSetChanged();

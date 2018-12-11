@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="MenuCategorias">Gestionar Categorias</string>
-    <string name="MenuDescargarCategorias">Importar categorias</string>
+    <string name="MenuDescargarCategorias">Importar loxicaCategorias</string>
     <string name="MenuAjustes">Ajustes</string>
 </resources>

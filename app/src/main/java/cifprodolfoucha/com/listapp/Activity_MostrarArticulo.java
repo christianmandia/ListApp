@@ -9,11 +9,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 
 public class Activity_MostrarArticulo extends Activity {
 
-    private Articulo articulo=null;
+    private Loxica_Articulo loxicaArticulo =null;
 
     private void xestionarEventos(){
         ImageButton ibtn_Volver=findViewById(R.id.ibtn_VolverMostrarArticulo);
@@ -33,14 +33,14 @@ public class Activity_MostrarArticulo extends Activity {
 
         ImageView ivFoto=findViewById(R.id.ivImagenArticulo_MostrarArticulo);
 
-        tvNombreArticulo.setText(articulo.getNombre());
-        if(articulo.getPrecio()!=0) {
-            tvNombreArticulo.setText(articulo.getPrecio()+ "");
+        tvNombreArticulo.setText(loxicaArticulo.getNombre());
+        if(loxicaArticulo.getPrecio()!=0) {
+            tvNombreArticulo.setText(loxicaArticulo.getPrecio()+ "");
         }
-        tvCantidadArticulo.setText(articulo.getCantidad()+"");
-        tvNotasArticulo.setText(articulo.getNotas());
-        if(!articulo.getRutaImagen().equals("")){
-            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
+        tvCantidadArticulo.setText(loxicaArticulo.getCantidad()+"");
+        tvNotasArticulo.setText(loxicaArticulo.getNotas());
+        if(!loxicaArticulo.getRutaImagen().equals("")){
+            Bitmap bitmap = BitmapFactory.decodeFile(loxicaArticulo.getRutaImagen());
             ivFoto.setImageBitmap(bitmap);
         }else{
             Bitmap bitmap = BitmapFactory.decodeFile(null);
@@ -53,8 +53,8 @@ public class Activity_MostrarArticulo extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_mostrararticulo);
-        articulo=(Articulo) getIntent().getSerializableExtra("articulo");
-        setTitle("Artículo: "+articulo.getNombre());
+        loxicaArticulo =(Loxica_Articulo) getIntent().getSerializableExtra("loxicaArticulo");
+        setTitle("Artículo: "+ loxicaArticulo.getNombre());
 
         xestionarEventos();
         cargarArticulo();

@@ -2,7 +2,7 @@ package cifprodolfoucha.com.listapp.Loxica;
 
 import java.io.Serializable;
 
-public class Articulo  implements Serializable {
+public class Loxica_Articulo implements Serializable {
     private int id;
     private String nombre;
     private boolean seleccionado;
@@ -13,13 +13,13 @@ public class Articulo  implements Serializable {
     private boolean marcado=false;
 
 
-    public Articulo() {
+    public Loxica_Articulo() {
 
     }
 
 
 
-    public Articulo(int id,String nombre, boolean seleccionado, int cantidad, double precio, String notas) {
+    public Loxica_Articulo(int id, String nombre, boolean seleccionado, int cantidad, double precio, String notas) {
         this.id=id;
         this.nombre = nombre;
         this.seleccionado = seleccionado;
@@ -29,7 +29,7 @@ public class Articulo  implements Serializable {
 
     }
 
-    public Articulo(int id,String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
+    public Loxica_Articulo(int id, String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
         this.id=id;
         this.nombre = nombre;
         this.seleccionado = seleccionado;
@@ -108,69 +108,69 @@ public class Articulo  implements Serializable {
         this.marcado = marcado;
     }
         /*
-    public Articulo(String nombre) {
+    public Loxica_Articulo(String nombre) {
         this.nombre = nombre;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado) {
+    public Loxica_Articulo(String nombre, boolean seleccionado) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
     }
 
-    public Articulo(String nombre, int cantidad) {
+    public Loxica_Articulo(String nombre, int cantidad) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, int cantidad) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
     }
 
-    public Articulo(String nombre, int cantidad, String notas) {
+    public Loxica_Articulo(String nombre, int cantidad, String notas) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.notas = notas;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, int cantidad, String notas) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad, String notas) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
         this.notas = notas;
     }
 
-    public Articulo(String nombre, double precio) {
+    public Loxica_Articulo(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, double precio) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, double precio) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.precio = precio;
     }
 
-    public Articulo(String nombre, int cantidad, double precio) {
+    public Loxica_Articulo(String nombre, int cantidad, double precio) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, int cantidad, double precio) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad, double precio) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.cantidad = cantidad;
         this.precio = precio;
     }
 
-    public Articulo(String nombre, int cantidad, double precio, String notas) {
+    public Loxica_Articulo(String nombre, int cantidad, double precio, String notas) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
@@ -178,26 +178,26 @@ public class Articulo  implements Serializable {
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, String notas) {
+    public Loxica_Articulo(String nombre, String notas) {
         this.nombre = nombre;
         this.notas = notas;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, String notas) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, String notas) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.notas = notas;
     }
 
-    public Articulo(String nombre, double precio, String notas) {
+    public Loxica_Articulo(String nombre, double precio, String notas) {
         this.nombre = nombre;
         this.precio = precio;
         this.notas = notas;
         this.seleccionado=false;
     }
 
-    public Articulo(String nombre, boolean seleccionado, double precio, String notas) {
+    public Loxica_Articulo(String nombre, boolean seleccionado, double precio, String notas) {
         this.nombre = nombre;
         this.seleccionado = seleccionado;
         this.precio = precio;

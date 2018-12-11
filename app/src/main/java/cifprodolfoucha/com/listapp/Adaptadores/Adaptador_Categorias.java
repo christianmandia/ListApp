@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Loxica.Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.R;
 
 
@@ -18,21 +18,21 @@ import cifprodolfoucha.com.listapp.R;
 public class Adaptador_Categorias extends ArrayAdapter {
 
 
-    private ArrayList<Categoria> categorias;
+    private ArrayList<Loxica_Categoria> loxicaCategorias;
     private Context mContext;
 
-    public Adaptador_Categorias(Context context, ArrayList<Categoria>categorias) {
+    public Adaptador_Categorias(Context context, ArrayList<Loxica_Categoria> loxicaCategorias) {
         super(context, R.layout.layout_elemento_categoria);       // Enviamos o layout que imos utilizar
 
-        this.categorias = categorias;
+        this.loxicaCategorias = loxicaCategorias;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
         //return super.getCount();
-        if(categorias!=null) {
-            return categorias.size();       // Poderíamos poñer tamén o número de imaxes.
+        if(loxicaCategorias !=null) {
+            return loxicaCategorias.size();       // Poderíamos poñer tamén o número de imaxes.
         }
         return 0;
     }
@@ -51,7 +51,7 @@ public class Adaptador_Categorias extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
         //return super.getView(position, convertView, parent);
-        Categoria categoria=categorias.get(position);
+        Loxica_Categoria loxicaCategoria = loxicaCategorias.get(position);
 
         Adaptador_Categorias.ViewHolder viewFila = new Adaptador_Categorias.ViewHolder();
         if (convertView == null) {
@@ -67,10 +67,10 @@ public class Adaptador_Categorias extends ArrayAdapter {
             viewFila = (Adaptador_Categorias.ViewHolder) convertView.getTag();
         }
 
-        viewFila.tvNombreCategoria.setText(categoria.getNombre());
-        Categoria c=categoria;
+        viewFila.tvNombreCategoria.setText(loxicaCategoria.getNombre());
+        Loxica_Categoria c= loxicaCategoria;
 
-        //Bitmap bitmap = BitmapFactory.decodeFile(categoria.getImagen());
+        //Bitmap bitmap = BitmapFactory.decodeFile(loxicaCategoria.getImagen());
         //viewFila.ivImagenCategoria.setImageBitmap(bitmap);
 
         return convertView;

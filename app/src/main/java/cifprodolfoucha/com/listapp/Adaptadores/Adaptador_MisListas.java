@@ -1,9 +1,6 @@
 package cifprodolfoucha.com.listapp.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Loxica.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 import cifprodolfoucha.com.listapp.R;
 
 
@@ -22,19 +19,19 @@ import cifprodolfoucha.com.listapp.R;
 public class Adaptador_MisListas extends ArrayAdapter {
 
 
-    private ArrayList<Lista> listas;
+    private ArrayList<Loxica_Lista> loxicaListas;
     private Context mContext;
 
-    public Adaptador_MisListas(Context context, ArrayList<Lista>listas) {
+    public Adaptador_MisListas(Context context, ArrayList<Loxica_Lista> loxicaListas) {
         super(context, R.layout.layout_elemento_mislistas);
 
-        this.listas = listas;
+        this.loxicaListas = loxicaListas;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return listas.size();
+        return loxicaListas.size();
     }
 
     @Override
@@ -52,7 +49,7 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
-        Lista lista=listas.get(position);
+        Loxica_Lista loxicaLista = loxicaListas.get(position);
 
         Adaptador_MisListas.ViewHolder viewFila = new Adaptador_MisListas.ViewHolder();
         if (convertView == null) {
@@ -70,19 +67,19 @@ public class Adaptador_MisListas extends ArrayAdapter {
             viewFila = (Adaptador_MisListas.ViewHolder) convertView.getTag();
         }
 
-        viewFila.tvNombreLista.setText(lista.getNombre());
+        viewFila.tvNombreLista.setText(loxicaLista.getNombre());
 
-        if(lista.precioChecked()!=0) {
-            viewFila.tvPrecioLista.setText(lista.precioChecked() + "€");
+        if(loxicaLista.precioChecked()!=0) {
+            viewFila.tvPrecioLista.setText(loxicaLista.precioChecked() + "€");
         }else{
             viewFila.tvPrecioLista.setText("");
         }
 
 
 
-        viewFila.tvDiferenciaLista.setText(lista.diferenciaArticulos());
+        viewFila.tvDiferenciaLista.setText(loxicaLista.diferenciaArticulos());
 
-        if(lista.TienesTodo()){
+        if(loxicaLista.TienesTodo()){
             //Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_on");
             //viewFila.ivImagen.setImageBitmap(bitmap2);
             viewFila.ivImagen.setImageDrawable(mContext.getResources().getDrawable(R.drawable.btn_star_big_on));

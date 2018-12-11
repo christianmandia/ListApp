@@ -2,14 +2,14 @@ package cifprodolfoucha.com.listapp.Loxica;
 
 import java.io.Serializable;
 
-public class Categoria implements Serializable {
+public class Loxica_Categoria implements Serializable {
     private int id;
     private String nombre;
 
-    public Categoria() {
+    public Loxica_Categoria() {
 
     }
-    public Categoria(int id, String nombre) {
+    public Loxica_Categoria(int id, String nombre) {
         this.id=id;
         this.nombre = nombre;
     }

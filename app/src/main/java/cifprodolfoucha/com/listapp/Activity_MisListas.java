@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.util.Xml;
@@ -27,8 +30,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,19 +54,18 @@ import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_MisListas;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Almacenamento.Preferencias_Ajustes;
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
-import cifprodolfoucha.com.listapp.Loxica.Categoria;
-import cifprodolfoucha.com.listapp.Loxica.Lista;
-
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 
 public class Activity_MisListas extends Activity {
 
     private BaseDatos baseDatos;
-    private ArrayList<Categoria> cat;
-    private ArrayList<Lista> listas=new ArrayList<Lista>();
+    private ArrayList<Loxica_Categoria> cat;
+    private ArrayList<Loxica_Lista> loxicaListas =new ArrayList<Loxica_Lista>();
     Menu m=null;
-    private Lista lista1;
+    private Loxica_Lista loxicaLista1;
     private int pos;
     private Adaptador_Categorias miAdaptador;
     private Adaptador_MisListas miAdaptadorMisListas;
@@ -131,10 +133,10 @@ public class Activity_MisListas extends Activity {
                 //based on item add info to intent
                 //startActivity(intent);
                 //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_LONG).show();
-                Lista lista1=listas.get(position);
+                Loxica_Lista loxicaLista1 = loxicaListas.get(position);
                 pos=position;
                 Intent intento=new Intent(getApplicationContext(),Activity_Lista.class);
-                intento.putExtra("list",lista1);
+                intento.putExtra("list", loxicaLista1);
                 startActivityForResult(intento,COD_PETICION);
 
 
@@ -166,13 +168,15 @@ public class Activity_MisListas extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
-                String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
-                Categoria c=baseDatos.obterCategoria(nomeCategoria);
-                if(c.getId()!=0){
-                    cargarListas(c);
-                }else{
-                    cargarListas();
+                if(view!=null) {
+                    //String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
+                    String nomeCategoria = ((TextView) view).getText().toString();
+                    Loxica_Categoria c = baseDatos.obterCategoria(nomeCategoria);
+                    if (c.getId() != 0) {
+                        cargarListas(c);
+                    } else {
+                        cargarListas();
+                    }
                 }
             }
 
@@ -217,7 +221,7 @@ public class Activity_MisListas extends Activity {
             case R.id.mniBorrarLista_MisListas:
                 genDialogs(ELIMINAR);
                 /*
-                listas.remove(pos);
+                loxicaListas.remove(pos);
                 miAdaptadorMisListas.notifyDataSetChanged();
                 //miAdaptadorMisListas.remove(miAdaptadorMisListas.getItem(info.position));
                 miAdaptadorMisListas.setNotifyOnChange(true);
@@ -242,10 +246,10 @@ public class Activity_MisListas extends Activity {
             case R.id.menuCategorias:
 
                 Intent gCategorias=new Intent(getApplicationContext(), Activity_GestionCategoria.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                //modificarArticulo.putExtra("titulo", loxicaArticuloSeleccionado.getNombre());
 
                 if(cat==null){
-                    cat=new ArrayList<Categoria>();
+                    cat=new ArrayList<Loxica_Categoria>();
                 }
 
                 gCategorias.putExtra(CATEGORIAS,cat);
@@ -255,7 +259,7 @@ public class Activity_MisListas extends Activity {
             case R.id.ajustes:
 
                 Intent ajustes=new Intent(getApplicationContext(), Preferencias_Ajustes.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
+                //modificarArticulo.putExtra("titulo", loxicaArticuloSeleccionado.getNombre());
                 //startActivityForResult(login,COD_LOGIN);
                 startActivity(ajustes);
                 return true;
@@ -343,7 +347,7 @@ public class Activity_MisListas extends Activity {
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
-                         listas.remove(pos);
+                         loxicaListas.remove(pos);
                         miAdaptadorMisListas.notifyDataSetChanged();
 
                     }
@@ -384,8 +388,8 @@ public class Activity_MisListas extends Activity {
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
-                        //baseDatos.eliminarLista(listas.get(pos).getId());
-                        listas.remove(pos);
+                        //baseDatos.eliminarLista(loxicaListas.get(pos).getId());
+                        loxicaListas.remove(pos);
                         miAdaptadorMisListas.notifyDataSetChanged();
 
 
@@ -450,60 +454,60 @@ public class Activity_MisListas extends Activity {
         ListView lista = findViewById(R.id.lvmislistas_mislistas);
 /*
         if(cat!=null) {
-            listas = baseDatos.obterListas(cat);
+            loxicaListas = baseDatos.obterListas(cat);
 
-            for (Lista l : listas) {
-                ArrayList<Articulo> articulos = baseDatos.obterArticulos(l.getId());
-                l.setArticulos(articulos);
+            for (Loxica_Lista l : loxicaListas) {
+                ArrayList<Loxica_Articulo> articulos = baseDatos.obterArticulos(l.getId());
+                l.setLoxicaArticulos(articulos);
             }
 */
         if(cat!=null) {
-            listas = baseDatos.obterListas(cat);
-            for(Lista l:listas){
-                ArrayList<Articulo> articulos=baseDatos.obterArticulos(l.getId());
-                if(articulos!=null) {
-                    for (Articulo a:articulos){
+            loxicaListas = baseDatos.obterListas(cat);
+            for(Loxica_Lista l: loxicaListas){
+                ArrayList<Loxica_Articulo> loxicaArticulos =baseDatos.obterArticulos(l.getId());
+                if(loxicaArticulos !=null) {
+                    for (Loxica_Articulo a: loxicaArticulos){
                         Log.i("addArticulos", a.getNombre());
                     }
-                    l.setArticulos(articulos);
+                    l.setLoxicaArticulos(loxicaArticulos);
                 }
             }
 /*
-        ArrayList<Articulo> articulos=new ArrayList<>();
-        articulos.add(new Articulo("pilas AA",false,1,0.5,""));
-        articulos.add(new Articulo("articulo2",true,3,15,""));
-        articulos.add(new Articulo("mazá",true,10,30,""));
+        ArrayList<Loxica_Articulo> articulos=new ArrayList<>();
+        articulos.add(new Loxica_Articulo("pilas AA",false,1,0.5,""));
+        articulos.add(new Loxica_Articulo("articulo2",true,3,15,""));
+        articulos.add(new Loxica_Articulo("mazá",true,10,30,""));
 
-        listas.add(new Lista("Lista1",(new Categoria("Categoria1","Imagen1")),articulos));
+        loxicaListas.add(new Loxica_Lista("Lista1",(new Loxica_Categoria("Categoria1","Imagen1")),articulos));
 
-        ArrayList<Articulo> articulos2=new ArrayList<>();
-        articulos2.add(new Articulo("articulo4",true,1,2,""));
-        articulos2.add(new Articulo("articulo5",true,1,20,""));
-        articulos2.add(new Articulo("articulo6",true,4,5,""));
+        ArrayList<Loxica_Articulo> articulos2=new ArrayList<>();
+        articulos2.add(new Loxica_Articulo("articulo4",true,1,2,""));
+        articulos2.add(new Loxica_Articulo("articulo5",true,1,20,""));
+        articulos2.add(new Loxica_Articulo("articulo6",true,4,5,""));
 
-        listas.add(new Lista("Lista2",(new Categoria("Categoria2","Imagen2")),articulos2));
+        loxicaListas.add(new Loxica_Lista("Lista2",(new Loxica_Categoria("Categoria2","Imagen2")),articulos2));
 */
 
 
-            miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
+            miAdaptadorMisListas = new Adaptador_MisListas(this, loxicaListas);
             lista.setAdapter(miAdaptadorMisListas);
         }
         }
-    private void cargarListas(Categoria c){
+    private void cargarListas(Loxica_Categoria c){
         ListView lista = findViewById(R.id.lvmislistas_mislistas);
         if(cat!=null) {
-            listas = baseDatos.obterListas(c);
+            loxicaListas = baseDatos.obterListas(c);
 
-            for(Lista l:listas){
-                ArrayList<Articulo> articulos=baseDatos.obterArticulos(l.getId());
-                if(articulos!=null) {
-                    for (Articulo a:articulos){
+            for(Loxica_Lista l: loxicaListas){
+                ArrayList<Loxica_Articulo> loxicaArticulos =baseDatos.obterArticulos(l.getId());
+                if(loxicaArticulos !=null) {
+                    for (Loxica_Articulo a: loxicaArticulos){
                         Log.i("addArticulos", a.getNombre());
                     }
-                    l.setArticulos(articulos);
+                    l.setLoxicaArticulos(loxicaArticulos);
                 }
             }
-            miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
+            miAdaptadorMisListas = new Adaptador_MisListas(this, loxicaListas);
             lista.setAdapter(miAdaptadorMisListas);
         }
     }
@@ -517,7 +521,7 @@ public class Activity_MisListas extends Activity {
             cat=baseDatos.obterCategorias();
 
             if(cat.size()==0){
-                Categoria c=new Categoria(0,getResources().getString(R.string.nomeCategoria));
+                Loxica_Categoria c=new Loxica_Categoria(0,getResources().getString(R.string.nomeCategoria));
                 baseDatos.engadirCategoria(c);
                 cat.add(c);
             }
@@ -553,7 +557,7 @@ public class Activity_MisListas extends Activity {
                 if (data.hasExtra(Activity_Lista.LISTAENVIADA)) {
                     //Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
 
-                    Lista l=(Lista)data.getSerializableExtra(LISTAENVIADA);
+                    Loxica_Lista l=(Loxica_Lista)data.getSerializableExtra(LISTAENVIADA);
                     //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
                     /*
                     /*
@@ -561,10 +565,10 @@ public class Activity_MisListas extends Activity {
 
 
                     //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
-                    //listas=new ArrayList<Lista>();
+                    //loxicaListas=new ArrayList<Loxica_Lista>();
                     //cargarListas();
-                    listas.remove(pos);
-                    listas.add(pos,l);
+                    loxicaListas.remove(pos);
+                    loxicaListas.add(pos,l);
                     miAdaptadorMisListas.notifyDataSetChanged();
                     //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
 
@@ -576,8 +580,8 @@ public class Activity_MisListas extends Activity {
         if (requestCode == COD_ADDLISTA) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(NUEVALISTA)) {
-                    Lista l=(Lista)data.getSerializableExtra(NUEVALISTA);
-                    listas.add(l);
+                    Loxica_Lista l=(Loxica_Lista)data.getSerializableExtra(NUEVALISTA);
+                    loxicaListas.add(l);
 
 
 
@@ -596,7 +600,7 @@ public class Activity_MisListas extends Activity {
                 if(data.hasExtra(CATEGORIAS)){
 
                     //Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
-                    //cat=(ArrayList<Categoria>)data.getSerializableExtra(CATEGORIAS);
+                    //cat=(ArrayList<Loxica_Categoria>)data.getSerializableExtra(CATEGORIAS);
                     //miAdaptador = new Adaptador_Categorias(this, cat);
                     cargarCategorias();
                     //categorias.setAdapter(miAdaptador);
@@ -797,28 +801,36 @@ public class Activity_MisListas extends Activity {
 
     }
 
-    private ArrayList<Categoria> cat2;
+    private ArrayList<Loxica_Categoria> cat2;
     private void lerArquivo() throws IOException, XmlPullParserException {
 
-        cat2=new ArrayList<Categoria>();
+        cat2=new ArrayList<Loxica_Categoria>();
         InputStream is = new FileInputStream(newArquivo);
 
         XmlPullParser parser = Xml.newPullParser();
         parser.setInput(is, "UTF-8");
 
         int evento = parser.nextTag();
-        Categoria c= null;
+        Loxica_Categoria c= null;
 
         while(evento != XmlPullParser.END_DOCUMENT) {
             if(evento == XmlPullParser.START_TAG) {
 
+                if (parser.getName().equals("ListApp")) {
+
+                    //Log.i("prueba", "NOOO");
+                    evento=parser.nextTag();
+                }
                 if (parser.getName().equals("version_ficheiro")) {
+                    //Log.i("prueba", Integer.parseInt(parser.nextText())+"");
+
                     if(Integer.parseInt(parser.nextText())==1){
                         return;
                     }
+
                 }
                  if (parser.getName().equals("categoria")) {
-                     c = new Categoria();
+                     c = new Loxica_Categoria();
                      //evento = parser.nextTag();
                      c.setNombre(parser.nextText());
                      cat2.add(c);
@@ -837,18 +849,38 @@ public class Activity_MisListas extends Activity {
 
         is.close();
 
-        for(Categoria categoria:cat2){
-            //Log.i("prueba", categoria.getNombre()+"");
-            baseDatos.engadirCategoria(categoria.getNombre());
+        for(Loxica_Categoria loxicaCategoria :cat2){
+            Log.i("prueba", loxicaCategoria.getNombre()+"");
+
+            baseDatos.engadirCategoria(loxicaCategoria.getNombre());
         }
        cargarCategorias();
 
     }
 
+
+    private void aplicarPreferencias() {
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
+        if(fondo){
+            setTheme(R.style.Nocturno);
+        }else{
+            setTheme(R.style.Diurno);
+        }
+        //nome.setText(valorNome);
+
+
+    }
+
+
     //private int spnPos;
+
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        //baseDatos=(BaseDatos)savedInstanceState.getSerializable("baseDatos");
         //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
         //spnC.setSelection(savedInstanceState.getInt("spnPos"));
     }
@@ -856,7 +888,14 @@ public class Activity_MisListas extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        //outState.putSerializable("baseDatos",baseDatos);
         //outState.putInt("spnPos",spnPos);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        aplicarPreferencias();
     }
 
     @Override
@@ -872,6 +911,7 @@ public class Activity_MisListas extends Activity {
         rexistarMenusEmerxentes();
         gestionEventos();
         pedirPermiso();
+        //aplicarPreferencias();
     }
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_main_nomeActivity">Axustes</string>
     <string name="pref_main_ajustesNotificaciones">Preferencias das Notificaciñons</string>
     <string name="pref_main_editarNotificaciones">Editar notificacións</string>
     <string name="pref_main_ajustesListas">Listas</string>

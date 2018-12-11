@@ -10,26 +10,26 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cifprodolfoucha.com.listapp.Loxica.Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.R;
 
 public class Adapatador_Lista extends ArrayAdapter {
 
 
-    private ArrayList<Articulo> articulos;
+    private ArrayList<Loxica_Articulo> loxicaArticulos;
     private Context mContext;
 
-    public Adapatador_Lista(Context context, ArrayList<Articulo>articulos) {
+    public Adapatador_Lista(Context context, ArrayList<Loxica_Articulo> loxicaArticulos) {
         super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
 
-        this.articulos = articulos;
+        this.loxicaArticulos = loxicaArticulos;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
         //return super.getCount();
-        return articulos.size();       // Poderíamos poñer tamén o número de imaxes.
+        return loxicaArticulos.size();       // Poderíamos poñer tamén o número de imaxes.
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Adapatador_Lista extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
         //return super.getView(position, convertView, parent);
-        Articulo articulo=articulos.get(position);
+        Loxica_Articulo loxicaArticulo = loxicaArticulos.get(position);
 
         Adapatador_Lista.ViewHolder viewFila = new Adapatador_Lista.ViewHolder();
         if (convertView == null) {
@@ -61,27 +61,27 @@ public class Adapatador_Lista extends ArrayAdapter {
             viewFila = (Adapatador_Lista.ViewHolder) convertView.getTag();
         }
 
-        viewFila.mCheck.setText(articulo.getNombre());
+        viewFila.mCheck.setText(loxicaArticulo.getNombre());
 
-        if(articulo.getCantidad()!=0) {
-            viewFila.mCantidad.setText(articulo.getCantidad()+"");
+        if(loxicaArticulo.getCantidad()!=0) {
+            viewFila.mCantidad.setText(loxicaArticulo.getCantidad()+"");
         }else{
             viewFila.mCantidad.setText("1");
         }
 
-        if(articulo.getPrecio()!=0) {
-            viewFila.mPrecio.setText(articulo.getPrecio() + "€");
+        if(loxicaArticulo.getPrecio()!=0) {
+            viewFila.mPrecio.setText(loxicaArticulo.getPrecio() + "€");
         }else{
             viewFila.mPrecio.setText("");
         }
 
-        if(articulo.getNotas().length()!=0){
+        if(loxicaArticulo.getNotas().length()!=0){
 
         }else{
 
         }
 
-        if(articulo.isSeleccionado()){
+        if(loxicaArticulo.isSeleccionado()){
             viewFila.mCheck.setChecked(true);
         }else{
             viewFila.mCheck.setChecked(false);

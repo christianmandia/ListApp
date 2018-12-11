@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
-import cifprodolfoucha.com.listapp.Loxica.Categoria;
-import cifprodolfoucha.com.listapp.Loxica.Lista;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 public class Activity_NuevaLista extends Activity {
-    ArrayList<Categoria> cat;
+    ArrayList<Loxica_Categoria> cat;
 
 
     private BaseDatos baseDatos;
@@ -54,12 +54,12 @@ public class Activity_NuevaLista extends Activity {
                 Log.i("aadaa", "obter id");
                 int id=baseDatos.obterIdCategoria(nCat);
                 Log.i("aadaa", "obterCat");
-                Categoria c=baseDatos.obterCategoria(id);
+                Loxica_Categoria c=baseDatos.obterCategoria(id);
                 String nL=etNombreLista.getText().toString();
 
                 if(!nL.equals("")){
 
-                    Lista l=baseDatos.obterLista(nL,c);
+                    Loxica_Lista l=baseDatos.obterLista(nL,c);
                     if(l.getNombre()==null) {
 
                         Log.i("aadaa", "engadirLista");
@@ -111,7 +111,7 @@ public class Activity_NuevaLista extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevalista);
 
-        cat=(ArrayList<Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
+        cat=(ArrayList<Loxica_Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
         xestionarEventos();
         cargarCategorias();
     }
