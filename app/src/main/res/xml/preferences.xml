@@ -15,10 +15,14 @@
     <PreferenceCategory
         android:key="preferencia_idGenerales"
         android:title="@string/pref_main_ajustesGenerales">
-        <EditTextPreference
+        <Preference
             android:defaultValue=" "
             android:key="preferencia_idVersion"
             android:title="@string/pref_main_version"
             android:summary="@string/pref_main_versionActual"/>
+        <Preference
+            android:defaultValue=" "
+            android:key="preferencia_idVersionCategorias"
+            android:title="1"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Loxica_Lista implements Serializable {
     private int id;
     private String nombre;
-    private Loxica_Categoria Loxica_Categoria;
+    private Loxica_Categoria categoria;
     private float precio;
-    private ArrayList<Loxica_Articulo> loxicaArticulos;
+    private ArrayList<Loxica_Articulo> articulos;
 
 
     public Loxica_Lista() {
@@ -32,8 +32,8 @@ public class Loxica_Lista implements Serializable {
     public Loxica_Lista(int id, String nombre, Loxica_Categoria loxicaCategoria, ArrayList<Loxica_Articulo> loxicaArticulos) {
         this.id=id;
         this.nombre = nombre;
-        this.Loxica_Categoria = loxicaCategoria;
-        this.loxicaArticulos = loxicaArticulos;
+        this.categoria = loxicaCategoria;
+        this.articulos = loxicaArticulos;
         for(int i = 0; i< loxicaArticulos.size(); i++){
             this.precio+= loxicaArticulos.get(i).getPrecio();
         }
@@ -41,9 +41,9 @@ public class Loxica_Lista implements Serializable {
     }
     public float precioChecked(){
         float precioChecked=0;
-        if(loxicaArticulos !=null) {
-            for (int i = 0; i < loxicaArticulos.size(); i++) {
-                precioChecked += loxicaArticulos.get(i).getPrecio();
+        if(articulos !=null) {
+            for (int i = 0; i < articulos.size(); i++) {
+                precioChecked += articulos.get(i).getPrecio();
             }
         }
         return precioChecked;
@@ -53,10 +53,10 @@ public class Loxica_Lista implements Serializable {
         int total=0;
         int checked=0;
 
-        if(loxicaArticulos !=null) {
-            for (int i = 0; i < loxicaArticulos.size(); i++) {
+        if(articulos !=null) {
+            for (int i = 0; i < articulos.size(); i++) {
                 total++;
-                if (loxicaArticulos.get(i).isSeleccionado()) {
+                if (articulos.get(i).isSeleccionado()) {
                     checked++;
                 }
             }
@@ -72,14 +72,14 @@ public class Loxica_Lista implements Serializable {
 
         Log.i("prueba", "Entra");
 
-        if(loxicaArticulos !=null) {
-            for (int i = 0; i < loxicaArticulos.size(); i++) {
+        if(articulos !=null) {
+            for (int i = 0; i < articulos.size(); i++) {
                 total++;
 
                 //Log.i("prueba", total+"");
 
                 //Log.i("prueba", loxicaArticulos.get(i).isSeleccionado()+"");
-                if (loxicaArticulos.get(i).isSeleccionado()) {
+                if (articulos.get(i).isSeleccionado()) {
 
                     checked++;
                 }
@@ -97,12 +97,12 @@ public class Loxica_Lista implements Serializable {
         this.nombre = nombre;
     }
 
-    public Loxica_Categoria getLoxica_Categoria() {
-        return Loxica_Categoria;
+    public Loxica_Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setLoxica_Categoria(Loxica_Categoria loxica_Categoria) {
-        this.Loxica_Categoria = loxica_Categoria;
+    public void setCategoria(Loxica_Categoria loxica_Categoria) {
+        this.categoria = loxica_Categoria;
     }
 
     public float getPrecio() {
@@ -113,12 +113,12 @@ public class Loxica_Lista implements Serializable {
         this.precio = precio;
     }
 
-    public ArrayList<Loxica_Articulo> getLoxicaArticulos() {
-        return loxicaArticulos;
+    public ArrayList<Loxica_Articulo> getArticulos() {
+        return articulos;
     }
 
-    public void setLoxicaArticulos(ArrayList<Loxica_Articulo> loxicaArticulos) {
-        this.loxicaArticulos = loxicaArticulos;
+    public void setArticulos(ArrayList<Loxica_Articulo> loxicaArticulos) {
+        this.articulos = loxicaArticulos;
     }
 
     public int getId() {

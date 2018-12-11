@@ -2,7 +2,10 @@ package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,7 +73,8 @@ public class Activity_GestionCategoria extends Activity {
         spnCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
+                //String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
+                String nomeCategoria = ((TextView) view).getText().toString();
                 etCatMod.setText(nomeCategoria);
             }
 
@@ -122,6 +126,40 @@ public class Activity_GestionCategoria extends Activity {
         }
     }
     */
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        aplicarPreferencias();
+    }
+
+
+    private static ConstraintLayout constraintLayout;
+
+    private void aplicarPreferencias() {
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_GestionCategorias);
+
+        Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
+
+        Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
+        if(fondo){
+            setTheme(R.style.Nocturno);
+            constraintLayout.setBackgroundColor(Color.BLACK);
+            spnC.setBackgroundColor(Color.DKGRAY);
+        }else{
+            setTheme(R.style.Diurno);
+            constraintLayout.setBackgroundColor(Color.WHITE);
+            spnC.setBackgroundColor(Color.DKGRAY);
+
+
+        }
+        //nome.setText(valorNome);
+
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,7 +2,11 @@ package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -94,6 +98,29 @@ public class Activity_NuevaLista extends Activity {
 
     }
 
+    private static ConstraintLayout constraintLayout;
+
+    private void aplicarPreferencias() {
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_NuevaLista);
+
+        Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
+        if(fondo){
+            setTheme(R.style.Nocturno);
+            constraintLayout.setBackgroundColor(Color.BLACK);
+            spnC.setBackgroundColor(Color.DKGRAY);
+        }else{
+            setTheme(R.style.Diurno);
+            constraintLayout.setBackgroundColor(Color.WHITE);
+            spnC.setBackgroundColor(Color.DKGRAY);
+
+
+        }
+        //nome.setText(valorNome);
+
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -107,9 +134,18 @@ public class Activity_NuevaLista extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        aplicarPreferencias();
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevalista);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_NuevaLista);
 
         cat=(ArrayList<Loxica_Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
         xestionarEventos();

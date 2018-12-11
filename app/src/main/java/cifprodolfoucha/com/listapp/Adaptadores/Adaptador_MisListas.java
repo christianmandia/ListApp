@@ -19,19 +19,19 @@ import cifprodolfoucha.com.listapp.R;
 public class Adaptador_MisListas extends ArrayAdapter {
 
 
-    private ArrayList<Loxica_Lista> loxicaListas;
+    private ArrayList<Loxica_Lista> listas;
     private Context mContext;
 
-    public Adaptador_MisListas(Context context, ArrayList<Loxica_Lista> loxicaListas) {
+    public Adaptador_MisListas(Context context, ArrayList<Loxica_Lista> listas) {
         super(context, R.layout.layout_elemento_mislistas);
 
-        this.loxicaListas = loxicaListas;
+        this.listas = listas;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return loxicaListas.size();
+        return listas.size();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Adaptador_MisListas extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
-        Loxica_Lista loxicaLista = loxicaListas.get(position);
+        Loxica_Lista lista = listas.get(position);
 
         Adaptador_MisListas.ViewHolder viewFila = new Adaptador_MisListas.ViewHolder();
         if (convertView == null) {
@@ -67,19 +67,19 @@ public class Adaptador_MisListas extends ArrayAdapter {
             viewFila = (Adaptador_MisListas.ViewHolder) convertView.getTag();
         }
 
-        viewFila.tvNombreLista.setText(loxicaLista.getNombre());
+        viewFila.tvNombreLista.setText(lista.getNombre());
 
-        if(loxicaLista.precioChecked()!=0) {
-            viewFila.tvPrecioLista.setText(loxicaLista.precioChecked() + "€");
+        if(lista.precioChecked()!=0) {
+            viewFila.tvPrecioLista.setText(lista.precioChecked() + "€");
         }else{
             viewFila.tvPrecioLista.setText("");
         }
 
 
 
-        viewFila.tvDiferenciaLista.setText(loxicaLista.diferenciaArticulos());
+        viewFila.tvDiferenciaLista.setText(lista.diferenciaArticulos());
 
-        if(loxicaLista.TienesTodo()){
+        if(lista.TienesTodo()){
             //Bitmap bitmap2 = BitmapFactory.decodeFile("@android:drawable/btn_star_big_on");
             //viewFila.ivImagen.setImageBitmap(bitmap2);
             viewFila.ivImagen.setImageDrawable(mContext.getResources().getDrawable(R.drawable.btn_star_big_on));

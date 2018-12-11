@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        style="@style/style_menu"
         android:id="@+id/menuCategorias"
         android:title="@string/MenuCategorias"
         />

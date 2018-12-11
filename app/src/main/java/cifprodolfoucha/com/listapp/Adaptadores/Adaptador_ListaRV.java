@@ -18,25 +18,25 @@ import cifprodolfoucha.com.listapp.R;
 
 public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.ReciclerViewHolder_Lista> implements View.OnClickListener/*,View.OnLongClickListener*/{
 
-    private ArrayList<Loxica_Articulo> mLoxicaArticulos;
+    private ArrayList<Loxica_Articulo> mArticulos;
     private Context mContext;
 
     private View.OnClickListener listener;
     //private View.OnLongClickListener longlistener;
 /*
-    public Adapatador_Lista(Context context, ArrayList<Loxica_Articulo>loxicaArticulos) {
+    public Adapatador_Lista(Context context, ArrayList<Loxica_Articulo>articulos) {
         super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
 
-        this.loxicaArticulos = loxicaArticulos;
+        this.articulos = articulos;
         this.mContext = context;
     }
 
     */
-    public Adaptador_ListaRV(ArrayList<Loxica_Articulo> loxicaArticulos){
-        if(loxicaArticulos !=null) {
-            this.mLoxicaArticulos = loxicaArticulos;
+    public Adaptador_ListaRV(ArrayList<Loxica_Articulo> articulos){
+        if(articulos !=null) {
+            this.mArticulos = articulos;
         }else{
-            this.mLoxicaArticulos =new ArrayList<Loxica_Articulo>();
+            this.mArticulos =new ArrayList<Loxica_Articulo>();
         }
         //this.mContext = context;
     }
@@ -84,8 +84,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
     @Override
     public void onBindViewHolder(Adaptador_ListaRV.ReciclerViewHolder_Lista holder, int position) {
-        //holder.bind(mLoxicaArticulos.get(position));
-        Loxica_Articulo loxicaArticulo = mLoxicaArticulos.get(position);
+        //holder.bind(marticulos.get(position));
+        Loxica_Articulo articulo = mArticulos.get(position);
 
 
         View v=holder.itemView;
@@ -95,28 +95,28 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
         ImageView mImagen=holder.mIVImagenArticulo;
 
 
-        mCheck.setText(loxicaArticulo.getNombre());
+        mCheck.setText(articulo.getNombre());
 
 
-        if(loxicaArticulo.getCantidad()!=0) {
-            mCantidad.setText(loxicaArticulo.getCantidad()+"");
+        if(articulo.getCantidad()!=0) {
+            mCantidad.setText(articulo.getCantidad()+"");
         }else{
             mCantidad.setText("1");
         }
 
-        if(loxicaArticulo.getPrecio()!=0) {
-            mPrecio.setText(loxicaArticulo.getPrecio() + "€");
+        if(articulo.getPrecio()!=0) {
+            mPrecio.setText(articulo.getPrecio() + "€");
         }else{
             mPrecio.setText("");
         }
 
-        if(loxicaArticulo.getNotas().length()!=0){
+        if(articulo.getNotas().length()!=0){
 
         }else{
 
         }
 
-        if(loxicaArticulo.isMarcado()){
+        if(articulo.isMarcado()){
             //v.setBackgroundColor(0xFF00FF00);
 
             v.setBackgroundColor(0xFF008080);
@@ -125,14 +125,14 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             v.setBackgroundColor(0xFF00FFFF);
         }
 
-        if(loxicaArticulo.isSeleccionado()){
+        if(articulo.isSeleccionado()){
             mCheck.setChecked(true);
         }else{
             mCheck.setChecked(false);
         }
 
-        if(!loxicaArticulo.riExiste()){
-            Bitmap bitmap = BitmapFactory.decodeFile(loxicaArticulo.getRutaImagen());
+        if(!articulo.riExiste()){
+            Bitmap bitmap = BitmapFactory.decodeFile(articulo.getRutaImagen());
             mImagen.setImageBitmap(bitmap);
         }else{
             Bitmap bitmap = BitmapFactory.decodeFile(null);
@@ -144,7 +144,7 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
     @Override
     public int getItemCount() {
 
-        return mLoxicaArticulos.size();
+        return mArticulos.size();
     }
 
 
@@ -180,10 +180,10 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
                 @Override
                 public void onClick(View v) {
                     posicion=getAdapterPosition();
-                    if(mLoxicaArticulos.get(posicion).isSeleccionado()) {
-                        mLoxicaArticulos.get(posicion).setSeleccionado(false);
+                    if(marticulos.get(posicion).isSeleccionado()) {
+                        mArticulos.get(posicion).setSeleccionado(false);
                     }else{
-                        mLoxicaArticulos.get(posicion).setSeleccionado(true);
+                        mArticulos.get(posicion).setSeleccionado(true);
                     }
 
                     notifyDataSetChanged();

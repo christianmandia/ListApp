@@ -6,8 +6,9 @@
     android:layout_height="?android:attr/listPreferredItemHeightSmall"
     android:id="@+id/tvNombre_Categoria"
     android:text="TextView"
-    android:gravity="center_vertical"
+    android:gravity="center"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="@android:color/darker_gray"/>

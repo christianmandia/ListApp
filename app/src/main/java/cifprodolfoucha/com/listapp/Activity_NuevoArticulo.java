@@ -3,14 +3,18 @@ package cifprodolfoucha.com.listapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +38,7 @@ public class Activity_NuevoArticulo extends Activity {
         this.lvArticulos=lvArticulos;
     }
 */
-    private  ArrayList<Loxica_Articulo> loxicaArticulos =new ArrayList();
+    private  ArrayList<Loxica_Articulo> articulos =new ArrayList();
     private  ArrayList<Loxica_Articulo> articulos2=new ArrayList();
 
     private int idListaRecibida;
@@ -77,8 +81,9 @@ public class Activity_NuevoArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                añadirArticulo();
-                finish();
+                if(añadirArticulo()) {
+                    finish();
+                }
             }
         });
 
@@ -86,8 +91,9 @@ public class Activity_NuevoArticulo extends Activity {
         ibtn_GuardarYContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                añadirArticulo();
-                borrarDatos();
+                if(añadirArticulo()) {
+                    borrarDatos();
+                }
             }
         });
 
@@ -192,18 +198,24 @@ public class Activity_NuevoArticulo extends Activity {
         EditText etCantidad=(EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
         EditText etPrecio=(EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
         EditText etNotas=(EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
+        ImageView ivFoto=(ImageView)findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+
 
         etNombre.setText("");
         etCantidad.setText("");
         etPrecio.setText("");
         etNotas.setText("");
+        rutaArquivo="";
+
+        ivFoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
     }
 
-    public void añadirArticulo() {
+    public boolean añadirArticulo() {
+        boolean añadido=false;
 
         boolean encontrado=false;
         EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
-        for(Loxica_Articulo a: loxicaArticulos){
+        for(Loxica_Articulo a: articulos){
 
             if(a.getNombre().toLowerCase().equals(etNombre.getText().toString().toLowerCase())) {
                 //llamadas();
@@ -242,25 +254,38 @@ public class Activity_NuevoArticulo extends Activity {
             int id = baseDatos.obterNovoIdArticulo(idListaRecibida);
             //id+=1;
             Log.i("prueba", id+" - "+idListaRecibida);
-            if(!rutaArquivo.equals("")){
-                a = new Loxica_Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),rutaArquivo);
-            }else {
-                a = new Loxica_Articulo(id,etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(),"");
-            }
-            long res=baseDatos.engadirArticulo(a,idListaRecibida);
-            if(res>0){
-                Log.i("LRecibida", ":Exito: ");
-            }else{
-                Log.i("LRecibida", ":NO: ");
-            }
+            if(!etNombre.getText().toString().equals("")) {
+                if (!rutaArquivo.equals("")) {
+                    a = new Loxica_Articulo(id, etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(), rutaArquivo);
+                } else {
+                    a = new Loxica_Articulo(id, etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(), "");
+                }
+                long res = baseDatos.engadirArticulo(a, idListaRecibida);
+                if (res > 0) {
+                    Log.i("LRecibida", ":Exito: ");
+                } else {
+                    Log.i("LRecibida", ":NO: ");
+                }
 
-            articulos2.add(a);
+                articulos2.add(a);
+                añadido=true;
+
+            }else{
+                Toast.makeText(this,"No puedes crear un articulo sin nombre, animal", Toast.LENGTH_SHORT).show();
+            }
             /*
             Intent datos = new Intent();
              datos.putExtra(Activity_Lista.NEWArticulos, articulos2);
              setResult(RESULT_OK, datos);
              */
         }
+
+
+        return añadido;
+    }
+
+    private void callMesaxe(String msg){
+        Toast.makeText(this,msg+"", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -335,6 +360,27 @@ public class Activity_NuevoArticulo extends Activity {
          }
     }
 */
+
+    private static ConstraintLayout constraintLayout;
+
+    private void aplicarPreferencias() {
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
+        if(fondo){
+            setTheme(R.style.Nocturno);
+            constraintLayout.setBackgroundColor(Color.BLACK);
+        }else{
+            setTheme(R.style.Diurno);
+            constraintLayout.setBackgroundColor(Color.WHITE);
+
+
+        }
+        //nome.setText(valorNome);
+
+
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle guardaEstado) {
         super.onSaveInstanceState(guardaEstado);
@@ -370,7 +416,7 @@ public class Activity_NuevoArticulo extends Activity {
         guardaEstado.putInt("cantidad",iCantidad);
         guardaEstado.putDouble("precio",dPrecio);
 
-        guardaEstado.putSerializable("loxicaArticulos", loxicaArticulos);
+        guardaEstado.putSerializable("articulos", articulos);
         guardaEstado.putSerializable("articulos2",articulos2);
         //t = texto.getText().toString();
         //lo "guardamos" en el Bundle
@@ -393,7 +439,7 @@ public class Activity_NuevoArticulo extends Activity {
 
         sImagen = recuperaEstado.getString("imagen");
 
-        loxicaArticulos =(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("loxicaArticulos");
+        articulos =(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("articulos");
         articulos2=(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("articulos2");
 
 
@@ -409,6 +455,8 @@ public class Activity_NuevoArticulo extends Activity {
             rutaArquivo=sImagen;
             Bitmap bitmap = BitmapFactory.decodeFile(sImagen);
             ivimagen.setImageBitmap(bitmap);
+        }else{
+            ivimagen.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
         }
 
         //recuperamos el String del Bundle
@@ -432,14 +480,23 @@ public class Activity_NuevoArticulo extends Activity {
         baseDatos = baseDatos.getInstance(getApplicationContext());
         baseDatos.abrirBD();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        aplicarPreferencias();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_NuevoArticulo);
         idListaRecibida=getIntent().getIntExtra("idLista",0);
 //        Log.i("LRecibida", idListaRecibida+"");
-        if((loxicaArticulos =(ArrayList<Loxica_Articulo>) getIntent().getSerializableExtra("loxicaArticulos"))==null){
-            loxicaArticulos =new ArrayList<Loxica_Articulo>();
+        if((articulos =(ArrayList<Loxica_Articulo>) getIntent().getSerializableExtra("articulos"))==null){
+            articulos =new ArrayList<Loxica_Articulo>();
         }
 
 //        pedirPermiso();
