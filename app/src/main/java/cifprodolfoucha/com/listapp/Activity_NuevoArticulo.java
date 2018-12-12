@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -156,10 +157,18 @@ public class Activity_NuevoArticulo extends Activity {
 
 
 
+                Log.i("inicia","llega a llamada");
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Log.i("media","llega a putExtra");
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                Log.i("continua","llega a startActivity");
 
-                startActivityForResult(intento, 0);
+
+                Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
+                startActivityForResult(cam, 0);
+                Log.i("finaliza","final");
 
                 if(!nomeSobrescribir.equals("")){
                     File f=new File(img,nomeSobrescribir);
@@ -302,33 +311,49 @@ public class Activity_NuevoArticulo extends Activity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode ==0 && resultCode == RESULT_OK)
+        Log.i("informacionsobrerequest",requestCode+"");
+        Log.i("informacionsobreresult",resultCode+"");
+        if(requestCode ==0 && resultCode == RESULT_OK )
         { {
             // Saca foto
             //File ruta = img;
-
+            Log.i("entra","entra a guardar");
             File arquivo = new File(img, nomeFoto);
-            if (!arquivo.exists()) return;          // Non hai foto
-            rutaArquivo=arquivo.getAbsolutePath();
+            Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
 
 
+            Bitmap bitmap=(Bitmap)data.getExtras().get("data");
 
-            ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
-            Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
-            //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
+            if(bitmap!=null) {
+                String img = lg.SaveImage(this, bitmap, "Img");
+                //if (!arquivo.exists()) return;          // Non hai foto
+                //rutaArquivo=arquivo.getAbsolutePath();
 
-            //bitmap = (Bitmap)data.getExtras().get("data");
-            imgview.setImageBitmap(bitmap);
+                Log.i("entraguardarfoto", "entra a guardar");
+
+                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+                //Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
+                //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
+
+                //bitmap = (Bitmap)data.getExtras().get("data");
+//            imgview.setImageBitmap(bitmap);
+
+                Log.i("rutaimagen", img);
 
 
+                Bitmap bm = BitmapFactory.decodeFile(img);
 
-            //imaxe=new File(img,nomeFoto);
+                Log.i("bitmapimagen", bm + "");
+                imgview.setImageBitmap(bm);
 
-            if(!imaxe.getAbsoluteFile().equals("")){
-                    Toast.makeText(this,"aaaaa",Toast.LENGTH_SHORT).show();
-            }
 
-            //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
+                //imaxe=new File(img,nomeFoto);
+
+                if (!imaxe.getAbsoluteFile().equals("")) {
+                    Toast.makeText(this, "aaaaa", Toast.LENGTH_SHORT).show();
+                }
+
+                //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
 /*
             if(!nomeSobrescribir.equals("")){
                 //File f=new File(ruta,nomeSobrescribir);
@@ -337,6 +362,10 @@ public class Activity_NuevoArticulo extends Activity {
                 arquivo.renameTo(f);
             }
 */
+
+
+            }
+
         }
         }
     }
