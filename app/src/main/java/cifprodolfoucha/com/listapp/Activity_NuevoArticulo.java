@@ -1,15 +1,12 @@
 package cifprodolfoucha.com.listapp;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -21,7 +18,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +27,6 @@ import java.util.ArrayList;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
-
-import static android.support.v4.content.FileProvider.getUriForFile;
 
 public class Activity_NuevoArticulo extends Activity {
 /*
@@ -409,7 +403,7 @@ public class Activity_NuevoArticulo extends Activity {
         EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
         EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
         EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
-        TextView tvNombre=(TextView) findViewById(R.id.tvArticulo_NuevoAticulo);
+        TextView tvNombre=(TextView) findViewById(R.id.tvNombreArticulo_NuevoAticulo);
         TextView tvNotas=(TextView) findViewById(R.id.tvNotasArticulo_NuevoArticulo);
         TextView tvCantidad=(TextView) findViewById(R.id.tvCantidadArticulo_NuevoArticulo);
         TextView tvPrecio=(TextView) findViewById(R.id.tvPrecioArticulo_NuevoArticulo);

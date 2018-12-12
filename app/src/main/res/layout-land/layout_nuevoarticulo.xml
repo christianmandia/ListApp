@@ -13,19 +13,19 @@
 
         <EditText
             android:id="@+id/etNombreArticulo_NuevoArticulo"
-            android:layout_width="151dp"
+            android:layout_width="151sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="8sp"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/guideline15"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticulo_NuevoAticulo" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNombreArticulo_NuevoAticulo" />
 
         <TextView
-            android:id="@+id/tvArticulo_NuevoAticulo"
+            android:id="@+id/tvNombreArticulo_NuevoAticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="10sp"
             android:text="@string/str_all_control_GestionArticulo_nomeArtículo"
             app:layout_constraintStart_toStartOf="@+id/guideline15"
             app:layout_constraintTop_toTopOf="@+id/guideline16" />
@@ -42,7 +42,7 @@
             android:id="@+id/guideline21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="423dp"
+            android:layout_marginTop="423sp"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.85"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,9 +72,9 @@
             android:id="@+id/ibtn_CancelarNuevoArticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8sp"
+            android:layout_marginStart="8sp"
+            android:layout_marginTop="15sp"
             android:src="@android:drawable/ic_menu_revert"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline15"
@@ -84,8 +84,8 @@
             android:id="@+id/ibtn_GuardarNuevoArticuloYContinuar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8sp"
+            android:layout_marginTop="15sp"
             android:src="@android:drawable/ic_media_next"
             app:layout_constraintEnd_toStartOf="@+id/guideline18"
             app:layout_constraintTop_toBottomOf="@+id/guideline21" />
@@ -94,16 +94,16 @@
             android:id="@+id/tvCantidadArticulo_NuevoArticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="24sp"
             android:text="@string/str_all_control_GestionArticulo_cantidadArtículo"
             app:layout_constraintStart_toEndOf="@+id/guideline15"
             app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
         <EditText
             android:id="@+id/etCantidadArticulo_NuevoArticulo"
-            android:layout_width="91dp"
+            android:layout_width="91sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="8sp"
             android:ems="10"
             android:inputType="number"
             app:layout_constraintStart_toStartOf="@+id/guideline15"
@@ -113,16 +113,16 @@
             android:id="@+id/tvPrecioArticulo_NuevoArticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="24sp"
             android:text="@string/str_all_control_GestionArticulo_precioArtículo"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_NuevoArticulo" />
 
         <EditText
             android:id="@+id/etPrecioArticulo_NuevoArticulo"
-            android:layout_width="129dp"
+            android:layout_width="129sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="8sp"
             android:ems="10"
             android:inputType="numberDecimal"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
@@ -132,9 +132,9 @@
             android:id="@+id/ibtn_AñadirFoto_NuevoArticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8sp"
+            android:layout_marginStart="12sp"
+            android:layout_marginTop="8sp"
             android:src="@android:drawable/ic_menu_camera"
             app:layout_constraintBottom_toBottomOf="@+id/ivImagenArticulo_NuevoArticulo"
             app:layout_constraintStart_toEndOf="@+id/guideline17"
@@ -142,19 +142,19 @@
 
         <ImageView
             android:id="@+id/ivImagenArticulo_NuevoArticulo"
-            android:layout_width="120dp"
-            android:layout_height="112dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="120sp"
+            android:layout_height="112sp"
+            android:layout_marginStart="100sp"
+            android:layout_marginTop="16sp"
             android:src="@android:drawable/ic_menu_report_image"
             app:layout_constraintStart_toEndOf="@+id/guideline15"
             app:layout_constraintTop_toBottomOf="@+id/etNotasArticulo_NuevoArticulo" />
 
         <EditText
             android:id="@+id/etNotasArticulo_NuevoArticulo"
-            android:layout_width="0dp"
+            android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="8sp"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toStartOf="@+id/guideline18"
@@ -163,9 +163,9 @@
 
         <TextView
             android:id="@+id/tvNotasArticulo_NuevoArticulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_width="40sp"
+            android:layout_height="60sp"
+            android:layout_marginTop="16sp"
             android:text="@string/str_all_control_GestionArticulo_notasArtículo"
             app:layout_constraintStart_toEndOf="@+id/guideline15"
             app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_NuevoArticulo" />
@@ -174,8 +174,8 @@
             android:id="@+id/ibtn_GuardarNuevoArticulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8sp"
+            android:layout_marginTop="15sp"
             android:src="@android:drawable/ic_menu_save"
             app:layout_constraintEnd_toStartOf="@+id/guideline17"
             app:layout_constraintHorizontal_bias="0.203"

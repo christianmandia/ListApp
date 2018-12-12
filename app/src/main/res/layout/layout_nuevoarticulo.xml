@@ -15,10 +15,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tvArticulo_NuevoAticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreArticulo_NuevoAticulo" />
 
     <TextView
-        android:id="@+id/tvArticulo_NuevoAticulo"
+        android:id="@+id/tvNombreArticulo_NuevoAticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
