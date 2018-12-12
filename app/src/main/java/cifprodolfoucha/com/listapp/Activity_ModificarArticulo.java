@@ -21,11 +21,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -114,8 +116,10 @@ public class Activity_ModificarArticulo extends Activity {
 
 
                 nomeFoto="img-"+now+".jpg";
-                imaxe = new File(img,nomeFoto);
+                //imaxe = new File(img,nomeFoto);
 
+
+                /*
                 Uri contentUri=null;
                 if (Build.VERSION.SDK_INT >= 24) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -129,13 +133,19 @@ public class Activity_ModificarArticulo extends Activity {
                 else {
                     contentUri = Uri.fromFile(imaxe);
                 }
+
+                */
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                /*
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                */
                 startActivityForResult(intento, 0);
 
 
             }
         });
+
 
 
     }
@@ -199,11 +209,46 @@ public class Activity_ModificarArticulo extends Activity {
         Log.i("prueba", resultCode+"");
         if(requestCode ==0 && resultCode == RESULT_OK)
         { {
+            /*
             if (!imaxe.exists()) return;          // Non hai foto
             rutaArquivo=imaxe.getAbsolutePath();
-            ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
-            Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
-            imgview.setImageBitmap(bitmap);
+
+            */
+
+            File arquivo = new File(img, nomeFoto);
+            Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
+
+
+            Bitmap bitmap=(Bitmap)data.getExtras().get("data");
+
+            if(bitmap!=null) {
+                String img = lg.SaveImage(this, bitmap, "Img");
+                //if (!arquivo.exists()) return;          // Non hai foto
+                //rutaArquivo=arquivo.getAbsolutePath();
+
+                Log.i("entraguardarfoto", "entra a guardar");
+
+                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+                //Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
+                //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
+
+                //bitmap = (Bitmap)data.getExtras().get("data");
+//            imgview.setImageBitmap(bitmap);
+
+                Log.i("rutaimagen", img);
+
+                arquivo = new File(img);
+                imaxe = arquivo;
+                rutaArquivo = img;
+
+
+                Bitmap bm = BitmapFactory.decodeFile(img);
+
+                Log.i("bitmapimagen", bm + "");
+                imgview.setImageBitmap(bm);
+
+
+            }
         }
         }
     }

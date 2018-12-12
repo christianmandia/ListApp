@@ -136,11 +136,11 @@ public class Activity_NuevoArticulo extends Activity {
 
                 nomeFoto="img-"+now+".jpg";
                 //File arquivo = new File(ruta,nomeFoto);
-                imaxe = new File(img,nomeFoto);
+                //imaxe = new File(img,nomeFoto);
 
 
                 Uri contentUri=null;
-
+/*
                 if (Build.VERSION.SDK_INT >= 24) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED) {
@@ -153,7 +153,7 @@ public class Activity_NuevoArticulo extends Activity {
                 else {
                     contentUri = Uri.fromFile(imaxe);
                 }
-
+*/
 
 
 
@@ -340,6 +340,10 @@ public class Activity_NuevoArticulo extends Activity {
 
                 Log.i("rutaimagen", img);
 
+                arquivo=new File(img);
+                imaxe=arquivo;
+                rutaArquivo=img;
+
 
                 Bitmap bm = BitmapFactory.decodeFile(img);
 
@@ -349,9 +353,6 @@ public class Activity_NuevoArticulo extends Activity {
 
                 //imaxe=new File(img,nomeFoto);
 
-                if (!imaxe.getAbsoluteFile().equals("")) {
-                    Toast.makeText(this, "aaaaa", Toast.LENGTH_SHORT).show();
-                }
 
                 //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
 /*
