@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -47,7 +49,7 @@ public class Activity_NuevoArticulo extends Activity {
     private String nomeFoto="";
     private String rutaArquivo="";
     private String nomeSobrescribir="";
-    private int REQUEST_CODE_GRAVACION_OK = 1;
+    private static boolean gardar=false;
     private final int CODIGO_IDENTIFICADOR=1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private File img,imaxe,directorio,temp;
@@ -167,7 +169,7 @@ public class Activity_NuevoArticulo extends Activity {
                 Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 
-                startActivityForResult(cam, 0);
+                startActivityForResult(cam, MY_CAMERA_REQUEST_CODE);
                 Log.i("finaliza","final");
 
                 if(!nomeSobrescribir.equals("")){
@@ -302,6 +304,11 @@ public class Activity_NuevoArticulo extends Activity {
         Intent datos = new Intent();
         datos.putExtra(Activity_Lista.NEWArticulos,articulos2);
         setResult(RESULT_OK, datos);
+        if(!gardar){
+            if(imaxe!=null) {
+                imaxe.delete();
+            }
+        }
         super.finish();
     }
 
@@ -313,7 +320,7 @@ public class Activity_NuevoArticulo extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("informacionsobrerequest",requestCode+"");
         Log.i("informacionsobreresult",resultCode+"");
-        if(requestCode ==0 && resultCode == RESULT_OK )
+        if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK )
         { {
             // Saca foto
             //File ruta = img;
@@ -350,6 +357,7 @@ public class Activity_NuevoArticulo extends Activity {
                 Log.i("bitmapimagen", bm + "");
                 imgview.setImageBitmap(bm);
 
+                gardar=true;
 
                 //imaxe=new File(img,nomeFoto);
 
@@ -396,12 +404,41 @@ public class Activity_NuevoArticulo extends Activity {
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+
+        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
+        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
+        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_NuevoArticulo);
+        EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_NuevoArticulo);
+        TextView tvNombre=(TextView) findViewById(R.id.tvArticulo_NuevoAticulo);
+        TextView tvNotas=(TextView) findViewById(R.id.tvNotasArticulo_NuevoArticulo);
+        TextView tvCantidad=(TextView) findViewById(R.id.tvCantidadArticulo_NuevoArticulo);
+        TextView tvPrecio=(TextView) findViewById(R.id.tvPrecioArticulo_NuevoArticulo);
+
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
         if(fondo){
+
+            etNombre.setTextColor(getResources().getColor(R.color.white));
+            etNombre.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etPrecio.setTextColor(getResources().getColor(R.color.white));
+            etPrecio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etNotas.setTextColor(getResources().getColor(R.color.white));
+            etNotas.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etCantidad.setTextColor(getResources().getColor(R.color.white));
+            etCantidad.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            tvNombre.setTextColor(getResources().getColor(R.color.white));
+            tvNotas.setTextColor(getResources().getColor(R.color.white));
+            tvPrecio.setTextColor(getResources().getColor(R.color.white));
+            tvCantidad.setTextColor(getResources().getColor(R.color.white));
+
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
         }else{
             setTheme(R.style.Diurno);
+
             constraintLayout.setBackgroundColor(Color.WHITE);
 
 
@@ -480,7 +517,7 @@ public class Activity_NuevoArticulo extends Activity {
         if(Pre) {
             etPrecio.setText(dPrecio + "");
         }
-        etNotas.setText(sNombre);
+        etNotas.setText(sNotas);
         if(!sImagen.equals("")){
             rutaArquivo=sImagen;
             Bitmap bitmap = BitmapFactory.decodeFile(sImagen);
@@ -523,6 +560,8 @@ public class Activity_NuevoArticulo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_NuevoArticulo);
+        //(ScrollView)findViewById();
+
         idListaRecibida=getIntent().getIntExtra("idLista",0);
 //        Log.i("LRecibida", idListaRecibida+"");
         if((articulos =(ArrayList<Loxica_Articulo>) getIntent().getSerializableExtra("articulos"))==null){

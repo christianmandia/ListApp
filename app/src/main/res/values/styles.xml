@@ -67,4 +67,15 @@
         -->
     </style>
 
+    <!-- Light base activity theme -->
+    <style name="TextDiurnos" parent="ActivityTheme.Primary.Base.Light">
+        <item name="android:textColor">@android:color/holo_orange_light</item>
+    </style>
+
+    <!-- Light base activity theme -->
+    <style name="TextNocturnos" parent="ActivityTheme.Primary.Base.Dark">
+        <item name="android:textColor">@android:color/holo_orange_light</item>
+
+    </style>
+
 </resources>

@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <!--
+    <color name="elementoLista">0xFF00FFFF</color>
+    <color name="elementoListaSel">0xFF008080</color>
+    -->
 </resources>

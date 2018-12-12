@@ -115,7 +115,7 @@ public class Activity_ModificarArticulo extends Activity {
                 }
 
 
-                nomeFoto="img-"+now+".jpg";
+                //nomeFoto="img-"+now+".jpg";
                 //imaxe = new File(img,nomeFoto);
 
 
@@ -140,7 +140,7 @@ public class Activity_ModificarArticulo extends Activity {
                 /*
                 intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                 */
-                startActivityForResult(intento, 0);
+                startActivityForResult(intento, MY_CAMERA_REQUEST_CODE);
 
 
             }
@@ -206,8 +206,8 @@ public class Activity_ModificarArticulo extends Activity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("prueba", resultCode+"");
-        if(requestCode ==0 && resultCode == RESULT_OK)
+        //Log.i("prueba", resultCode+"");
+        if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK)
         { {
             /*
             if (!imaxe.exists()) return;          // Non hai foto
@@ -228,7 +228,7 @@ public class Activity_ModificarArticulo extends Activity {
 
                 Log.i("entraguardarfoto", "entra a guardar");
 
-                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
                 //Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
                 //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
 
@@ -342,7 +342,7 @@ public class Activity_ModificarArticulo extends Activity {
         if(Pre) {
             etPrecio.setText(dPrecio + "");
         }
-        etNotas.setText(sNombre);
+        etNotas.setText(sNotas);
         if(!sImagen.equals("")){
             rutaArquivoRecibido=sImagen;
             Bitmap bitmap = BitmapFactory.decodeFile(sImagen);
@@ -365,6 +365,14 @@ public class Activity_ModificarArticulo extends Activity {
         baseDatos = baseDatos.getInstance(getApplicationContext());
         baseDatos.abrirBD();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(imaxe!=null){
+            imaxe.delete();
+        }
     }
 
     @Override

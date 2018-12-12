@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ibtn_heigh_big_all">100dp</dimen>
+    <dimen name="ibtn_width_big_all">100dp</dimen>
+
+</resources>
