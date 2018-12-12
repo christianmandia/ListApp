@@ -171,6 +171,13 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         int rexistrosafectados = sqlLiteDB.delete(TABOA_ARTICULOS,condicionwhere,parametros);
     }
 
+    public int eliminarLista(int idL){
+        String condicionwhere = "id_lista=?";
+        String[] parametros = new String[]{idL+""};
+        int rexistrosafectados = sqlLiteDB.delete(TABOA_LISTAS,condicionwhere,parametros);
+        return rexistrosafectados;
+    }
+
     public ArrayList<Loxica_Articulo> obterArticulos(int idL) {
         ArrayList<Loxica_Articulo> articulos = new ArrayList<Loxica_Articulo>();
 

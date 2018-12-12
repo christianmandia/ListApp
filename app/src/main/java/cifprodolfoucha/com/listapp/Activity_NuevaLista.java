@@ -38,7 +38,9 @@ public class Activity_NuevaLista extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                nCat=((TextView)(view.findViewById(R.id.tvNombre_Categoria))).getText().toString();
+                if(view!=null) {
+                    nCat = ((TextView) (view.findViewById(R.id.tvNombre_Categoria))).getText().toString();
+                }
             }
 
             @Override
@@ -67,20 +69,37 @@ public class Activity_NuevaLista extends Activity {
                     if(l.getNombre()==null) {
 
                         Log.i("aadaa", "engadirLista");
-                        long a = baseDatos.engadirLista(nL, id);
+                        long add = baseDatos.engadirLista(nL, id);
+                        Log.i("prueba", add+"");
+
+                        //if(add==1){
+                            etNombreLista.setText("");
+                            Toast.makeText(getApplicationContext(),"lista engadida", Toast.LENGTH_SHORT).show();
+                        //}
+                        /*
                         Log.i("aadaa", "obterLista");
                         l = baseDatos.obterLista(nL,c);
+
 
                         Intent datos = new Intent();
                         datos.putExtra(Activity_MisListas.NUEVALISTA, l);
                         setResult(RESULT_OK, datos);
                         finish();
+                        */
                     }else{
                         Toast.makeText(getApplicationContext(),"Xa existe unha lista chamada así  en esa categoría",Toast.LENGTH_LONG).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(),"Non escribiches nada",Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        ImageButton ibtnAtras=(ImageButton)findViewById(R.id.ibtnAtras_NuevaLista);
+        ibtnAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

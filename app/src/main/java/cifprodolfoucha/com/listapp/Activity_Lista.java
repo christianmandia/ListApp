@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -71,7 +72,7 @@ public class Activity_Lista extends Activity {
 
 
 //        ListView lista = findViewById(R.id.lvElementosLista_Lista);
-        final RecyclerView lista = findViewById(R.id.rvElementosLista_Lista);
+        final RecyclerView rvLista = findViewById(R.id.rvElementosLista_Lista);
 
         //Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
         //lista.setAdapter(meuAdaptador);
@@ -101,46 +102,57 @@ public class Activity_Lista extends Activity {
                     mActionMode = null;
                 }
 */
+
+
+
+
                 ((Activity_Lista)a).destuirMenuAccion();
-
-
-                if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
-                    //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
-                    articulos.get(prevPos).setMarcado(false);
-                    adaptador.notifyItemChanged(prevPos);
-//                    setMenuDefecto();
-                }
 
                 CheckedTextView c = (CheckedTextView) v.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
 
-                Loxica_Articulo a = articulos.get(lista.getChildAdapterPosition(v));
+                Loxica_Articulo articulo = articulos.get(rvLista.getChildAdapterPosition(v));
                 //Toast.makeText(getApplicationContext(),a.isSeleccionado()+"",Toast.LENGTH_LONG).show();
-                if (!a.isMarcado()) {
-                    if (a.isSeleccionado()) {
-                        a.setSeleccionado(false);
+
+                if (!articulo.isMarcado()) {
+                    if (articulo.isSeleccionado()) {
+                        articulo.setSeleccionado(false);
                         c.setChecked(false);
-                        baseDatos.setNoComprado(a.getId(), listaRecibida.getId());
+                        baseDatos.setNoComprado(articulo.getId(), listaRecibida.getId());
                     } else {
-                        a.setSeleccionado(true);
+                        articulo.setSeleccionado(true);
                         c.setChecked(true);
-                        baseDatos.setComprado(a.getId(), listaRecibida.getId());
+                        baseDatos.setComprado(articulo.getId(), listaRecibida.getId());
                     }
                 }
 
-                lista.getAdapter().notifyDataSetChanged();
+
+
+                rvLista.getAdapter().notifyDataSetChanged();
                 if (prevPos != -1) {
-                    lista.getAdapter().notifyItemChanged(prevPos);
+                    rvLista.getAdapter().notifyItemChanged(prevPos);
                 }
+                desmarcarArticulo();
+                prevPos=-1;
 
             }
         });
-        lista.setAdapter(adaptador);
+        rvLista.setAdapter(adaptador);
 
 
-        lista.setLayoutManager(new LinearLayoutManager(this));
+        rvLista.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
+
+    private void desmarcarArticulo(){
+        if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
+            articulos.get(prevPos).setMarcado(false);
+            adaptador.notifyItemChanged(prevPos);
+        }
+
+
+    }
+
 
 
     private void xestionarEventos() {
@@ -153,6 +165,9 @@ public class Activity_Lista extends Activity {
             @Override
             public void onClick(View v) {
 //                showDialog(TEXTO);
+                desmarcarArticulo();
+                prevPos=-1;
+                destuirMenuAccion();
                 Intent nuevoArticulo = new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
                 //ArrayList<Loxica_Articulo> a2= (ArrayList<Loxica_Articulo>) articulos.clone();
                 nuevoArticulo.putExtra("idLista", listaRecibida.getId());
@@ -173,46 +188,71 @@ public class Activity_Lista extends Activity {
 
                 //Arreglo chapuza
                 //if(prevPos!=-1 && prevPos!=position && articulos.get(prevPos).isMarcado()) {
-                Toast.makeText(getApplicationContext(),prevPos+" "+position,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),prevPos+" "+position,Toast.LENGTH_LONG).show();
 
                 if (prevPos != -1 && position!=prevPos && articulos.get(prevPos).isMarcado() ) {
                     //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
+                    Log.i("prueba", "desmarcar PRE");
                 }
 
                 //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_SHORT).show();
 
-                //v.setBackgroundColor(0xFF00FF00);
-                if (articuloSeleccionado.isMarcado()) {
-                    articuloSeleccionado.setMarcado(false);
 
+
+                //v.setBackgroundColor(0xFF00FF00);
+                //if(prevPos!=position) {
+
+                /*
+
+                    if (articuloSeleccionado.isMarcado()) {
+                        articuloSeleccionado.setMarcado(false);
+
+                        adaptador.notifyItemChanged(position);
 //                    setMenuDefecto();
-                } else {
-                    articuloSeleccionado.setMarcado(true);
+                    } else {
+                        articuloSeleccionado.setMarcado(true);
+
+                        adaptador.notifyItemChanged(position);
+                        Log.i("prueba", "marcar");
 //                    setMenu2();
-                }
+                    }
+                    */
+                //}
                 //v.setBackground(null);
                 ////////////////
 
-                adaptador.notifyItemChanged(position);
-                prevPos = position;
 
 
-                if (mActionMode != null) {
-
-                    mActionMode.finish();
-                    mActionMode = null;
-                    return false;
-                }
 
 
-                // Start the CAB using the ActionMode.Callback defined above
 
-                mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
-                //view.setSelected(true);
+                    if (mActionMode != null) {
 
-                return true;
+                        mActionMode.finish();
+                        mActionMode = null;
+
+                    }
+
+                    if(prevPos==position && !articuloSeleccionado.isMarcado()){
+                        prevPos=-1;
+                        return true;
+
+                    }else {
+
+                        articuloSeleccionado.setMarcado(true);
+
+                        adaptador.notifyItemChanged(position);
+
+                        prevPos = position;
+                        // Start the CAB using the ActionMode.Callback defined above
+
+                        mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
+                        //view.setSelected(true);
+
+                        return true;
+                    }
             }
 
 
@@ -474,6 +514,7 @@ public class Activity_Lista extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        aplicarPreferencias();
         if (requestCode == COD_PETICION) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Activity_Lista.NEWArticulos)) {
@@ -605,6 +646,11 @@ public class Activity_Lista extends Activity {
         //articuloSeleccionado=(Loxica_Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
         //articulos=(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("articulos");
         prevPos = recuperaEstado.getInt("prevPos");
+
+        aplicarPreferencias();
+
+
+
     }
 
 

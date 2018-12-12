@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:textSize="@dimen/text_size_all"
         android:id="@+id/tvNombre_Categoria"
         android:text="TextView"
         android:gravity="center"

@@ -47,10 +47,13 @@ public class Activity_GestionCategoria extends Activity {
                     c = baseDatos.obterCategoria(nC);
 
                     cat.add(c);
+                    cargarCategorias();
+                    /*
                     Intent datos = new Intent();
                     datos.putExtra(Activity_MisListas.CATEGORIAS, cat);
                     setResult(RESULT_OK, datos);
                     finish();
+                    */
                 }else{
                     Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
                 }
@@ -65,7 +68,31 @@ public class Activity_GestionCategoria extends Activity {
 
 
 
+                ImageButton ibtnAtras=(ImageButton)findViewById(R.id.ibtnAtras_GestionCategorias);
+                ibtnAtras.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                ImageButton ibtnEditar=(ImageButton)findViewById(R.id.ibtnEditarCat_GestionCategorias);
+                ibtnEditar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                ImageButton ibtnBorrar=(ImageButton)findViewById(R.id.ibtnEliminarCategoria_GestionCategorias);
+                ibtnBorrar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
             }
+
         });
 
         final EditText etCatMod=(EditText)findViewById(R.id.etModificarCategoria_GestionCategorias);
@@ -74,8 +101,10 @@ public class Activity_GestionCategoria extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
-                String nomeCategoria = ((TextView) view).getText().toString();
-                etCatMod.setText(nomeCategoria);
+                if(view!=null) {
+                    String nomeCategoria = ((TextView) view).getText().toString();
+                    etCatMod.setText(nomeCategoria);
+                }
             }
 
             @Override

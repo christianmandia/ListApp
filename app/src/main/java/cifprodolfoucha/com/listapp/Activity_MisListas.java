@@ -143,7 +143,7 @@ public class Activity_MisListas extends Activity {
             }
 
         });
-/*
+
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -153,7 +153,7 @@ public class Activity_MisListas extends Activity {
                 return false;
             }
         });
-*/
+
         ImageButton ibtnAñadirLista=(ImageButton)findViewById(R.id.ibtnAñadir_MisListas);
         ibtnAñadirLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -388,9 +388,17 @@ public class Activity_MisListas extends Activity {
                 d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
-                        //baseDatos.eliminarLista(listas.get(pos).getId());
-                        listas.remove(pos);
-                        miAdaptadorMisListas.notifyDataSetChanged();
+
+                        int res=baseDatos.eliminarLista(listas.get(pos).getId());
+                        if(res>0) {
+
+                            listas.remove(pos);
+                            miAdaptadorMisListas.notifyDataSetChanged();
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Non se eliminou",Toast.LENGTH_SHORT).show();
+                        }
+
 
 
                     }
@@ -578,6 +586,9 @@ public class Activity_MisListas extends Activity {
         }
 
         if (requestCode == COD_ADDLISTA) {
+            cargarListas();
+
+            /*
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(NUEVALISTA)) {
                     Loxica_Lista l=(Loxica_Lista)data.getSerializableExtra(NUEVALISTA);
@@ -591,11 +602,12 @@ public class Activity_MisListas extends Activity {
                 }
 
             }
+            */
         }
 
         if(requestCode == COD_GCAT){
+            cargarCategorias();
             if(resultCode == RESULT_OK){
-                cargarCategorias();
                 /*
                 if(data.hasExtra(CATEGORIAS)){
 
@@ -938,7 +950,7 @@ public class Activity_MisListas extends Activity {
         rexistarMenusEmerxentes();
         gestionEventos();
         pedirPermiso();
-        //aplicarPreferencias();
+        aplicarPreferencias();
     }
 
 }

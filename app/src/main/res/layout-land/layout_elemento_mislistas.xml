@@ -9,8 +9,9 @@
 
     <TextView
         android:id="@+id/tvDiferencia_MisListas"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="match_parent"
+        android:textSize="@dimen/text_size_all"
         android:gravity="center"
 
         android:text="Resto/Total"
@@ -27,7 +28,7 @@
 
     <ImageView
         android:id="@+id/ivImagenLleno_MisListas"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +46,9 @@
 
     <TextView
         android:id="@+id/tvPrecio_MisListas"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="match_parent"
+        android:textSize="@dimen/text_size_all"
         android:gravity="center"
         android:text="Precio Total"
         app:layout_constraintEnd_toStartOf="@+id/guideline14"
@@ -62,8 +64,9 @@
 
     <TextView
         android:id="@+id/tvNombre_MisListas"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="match_parent"
+        android:textSize="@dimen/text_size_all"
         android:gravity="center"
         android:text="Nombre"
         app:layout_constraintBottom_toBottomOf="parent"

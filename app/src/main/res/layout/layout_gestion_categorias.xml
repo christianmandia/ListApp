@@ -5,26 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/bgFondo_GestionCategorias"
-    tools:layout_editor_absoluteY="73dp">
+    tools:layout_editor_absoluteY="73sp">
 
     <ImageButton
-        android:id="@+id/ibtnAnhadirCategoria_GestionCategorias2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/ibtnEliminarCategoria_GestionCategorias"
+        android:layout_width="@dimen/ibtn_both_all"
+        android:layout_height="@dimen/ibtn_both_all"
+        android:layout_marginEnd="8sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginRight="8sp"
+        android:layout_marginStart="8sp"
         android:layout_marginTop="12dp"
         android:src="@android:drawable/ic_menu_delete"
-        app:layout_constraintEnd_toEndOf="@+id/ibtnAnhadirCategoria_GestionCategorias"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ibtnAnhadirCategoria_GestionCategorias"
-        app:layout_constraintTop_toBottomOf="@+id/ibtnAnhadirCategoria_GestionCategorias" />
+        app:layout_constraintEnd_toEndOf="@+id/ibtnEditarCat_GestionCategorias"
+        app:layout_constraintStart_toStartOf="@+id/ibtnEditarCat_GestionCategorias"
+        app:layout_constraintTop_toBottomOf="@+id/ibtnEditarCat_GestionCategorias" />
 
     <ImageButton
-        android:id="@+id/ibtnEditarCat_GestionCategorias2"
-        android:layout_width="53dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="140dp"
+        android:id="@+id/ibtnAtras_GestionCategorias"
+        android:layout_width="@dimen/ibtn_both_all"
+        android:layout_height="@dimen/ibtn_both_all"
+        android:layout_marginEnd="8sp"
+        android:layout_marginTop="140sp"
         android:src="@android:drawable/ic_menu_revert"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.426"
@@ -47,10 +49,10 @@
 
     <ImageButton
         android:id="@+id/ibtnAnhadirCategoria_GestionCategorias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/ibtn_both_all"
+        android:layout_height="@dimen/ibtn_both_all"
+        android:layout_marginStart="12sp"
+        android:layout_marginTop="8sp"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="@+id/etNombreCat_GestionCategorias"
         app:layout_constraintStart_toEndOf="@+id/etNombreCat_GestionCategorias"
@@ -59,10 +61,10 @@
 
     <Spinner
         android:id="@+id/spnCategorias_GestionCategorias"
-        android:layout_width="210dp"
+        android:layout_width="210sp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8sp"
+        android:layout_marginTop="8sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -78,10 +80,10 @@
 
     <ImageButton
         android:id="@+id/ibtnEditarCat_GestionCategorias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/ibtn_both_all"
+        android:layout_height="@dimen/ibtn_both_all"
+        android:layout_marginStart="12sp"
+        android:layout_marginTop="8sp"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toBottomOf="@+id/etModificarCategoria_GestionCategorias"
         app:layout_constraintStart_toEndOf="@+id/etModificarCategoria_GestionCategorias"
@@ -91,27 +93,29 @@
     <EditText
         android:id="@+id/etNombreCat_GestionCategorias"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="40sp"
+        android:textSize="@dimen/text_size_all"
+        android:layout_marginTop="8sp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/guideline28"
         app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="@+id/guideline28"
-        app:layout_constraintTop_toTopOf="@+id/guideline29" />
+        app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
     <EditText
         android:id="@+id/etModificarCategoria_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:textSize="@dimen/text_size_all"
+        android:layout_marginEnd="8sp"
+        android:layout_marginTop="8sp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/guideline28"
         app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="@+id/guideline28"
-        app:layout_constraintTop_toTopOf="@+id/guideline20" />
+        app:layout_constraintTop_toTopOf="@+id/guideline29" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
