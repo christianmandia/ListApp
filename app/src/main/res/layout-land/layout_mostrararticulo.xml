@@ -16,7 +16,7 @@
         >
 
     <TextView
-        android:id="@+id/tcNombreArticuloMostrado_MostrarArticulo"
+        android:id="@+id/tvNombreArticuloMostrado_MostrarArticulo"
         android:layout_width="151sp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_all"
@@ -91,7 +91,7 @@
         android:layout_marginTop="24sp"
         android:text="@string/str_all_control_GestionArticulo_cantidadArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tcNombreArticuloMostrado_MostrarArticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreArticuloMostrado_MostrarArticulo" />
 
     <TextView
         android:id="@+id/tvCantidadArticuloMostrado_MostrarArticulo"

@@ -247,6 +247,7 @@ public class Activity_GestionCategoria extends Activity {
         EditText etModificarCategoria = (EditText) findViewById(R.id.etModificarCategoria_GestionCategorias);
         sNombreCategoria=etNombreCategoria.getText().toString();
         sModificarCategoria=etModificarCategoria.getText().toString();
+        guardaEstado.putInt("posC",posC);
         guardaEstado.putString("nombreCategoria",sNombreCategoria);
         guardaEstado.putString("modificarCategoria",sModificarCategoria);
     }
@@ -254,13 +255,18 @@ public class Activity_GestionCategoria extends Activity {
     @Override
     protected void onRestoreInstanceState(Bundle recuperaEstado) {
         super.onRestoreInstanceState(recuperaEstado);
+        Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
         EditText etNombreCategoria = (EditText) findViewById(R.id.etNombreCat_GestionCategorias);
         EditText etModificarCategoria = (EditText) findViewById(R.id.etModificarCategoria_GestionCategorias);
         sNombreCategoria=recuperaEstado.getString("nombreCategoria");
         sModificarCategoria=recuperaEstado.getString("modificarCategoria");
+        posC=recuperaEstado.getInt("posC");
         etNombreCategoria.setText(sNombreCategoria);
         etModificarCategoria.setText(sModificarCategoria);
+        cargarCategorias2();
+        spnCat.setSelection(posC);
     }
+
 
     private String sNombreCategoria;
     private String sModificarCategoria;

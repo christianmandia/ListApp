@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
@@ -98,7 +99,17 @@ public class Activity_MostrarArticulo extends Activity {
         aplicarPreferencias();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle guardaEstado) {
+        super.onSaveInstanceState(guardaEstado);
+        guardaEstado.putSerializable("articulo",articulo);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle recuperaEstado) {
+        super.onRestoreInstanceState(recuperaEstado);
+        articulo=(Loxica_Articulo) recuperaEstado.getSerializable("articulo");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

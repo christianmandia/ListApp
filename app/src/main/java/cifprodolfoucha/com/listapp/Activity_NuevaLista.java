@@ -162,6 +162,7 @@ public class Activity_NuevaLista extends Activity {
         super.onSaveInstanceState(guardaEstado);
         EditText etNombreLista = (EditText) findViewById(R.id.etNombreLista_NuevaLista);
         sNombreLista=etNombreLista.getText().toString();
+        guardaEstado.putString("nombreListaSel",nCat);
         guardaEstado.putString("nombreLista",sNombreLista);
     }
 
@@ -170,6 +171,7 @@ public class Activity_NuevaLista extends Activity {
         super.onRestoreInstanceState(recuperaEstado);
         EditText etNombreLista = (EditText) findViewById(R.id.etNombreLista_NuevaLista);
         sNombreLista=recuperaEstado.getString("nombreLista");
+        nCat=recuperaEstado.getString("nombreListaSel");
         etNombreLista.setText(sNombreLista);
     }
 
