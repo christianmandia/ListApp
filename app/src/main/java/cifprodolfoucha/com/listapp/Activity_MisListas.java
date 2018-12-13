@@ -380,6 +380,10 @@ public class Activity_MisListas extends Activity {
             default:
                 return;
             case ELIMINAR:
+                final Loxica_Lista listaE=listas.get(pos);
+
+                if(listaE.TienesTodo()) {
+
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
                 d.setTitle("Eliminar");
@@ -389,26 +393,41 @@ public class Activity_MisListas extends Activity {
                     public void onClick(DialogInterface dialog, int boton) {
 
 
-                        int res=baseDatos.eliminarLista(listas.get(pos).getId());
-                        if(res>0) {
 
-                            listas.remove(pos);
-                            miAdaptadorMisListas.notifyDataSetChanged();
+                            for(Loxica_Articulo articuloLista:listaE.getArticulos()){
+                                if(!articuloLista.getRutaImagen().equals("")){
+                                    File foto=new File(articuloLista.getRutaImagen());
+                                    foto.delete();
+                                }
 
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Non se eliminou",Toast.LENGTH_SHORT).show();
+                                baseDatos.eliminarArticulo(articuloLista,listaE.getId());
+                                listaE.getArticulos().remove(articuloLista);
+                            }
+
+                            int res = baseDatos.eliminarLista(listaE.getId());
+                            if (res > 0) {
+
+                                listas.remove(pos);
+                                miAdaptadorMisListas.notifyDataSetChanged();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Non se eliminou", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
 
 
-                    }
-                });
-                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                    }
-                });
-                dialog=d.create();
-                d.show();
+                    });
+
+                    d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int boton) {
+                        }
+                    });
+                    dialog=d.create();
+                    d.show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Non podes eliminar unha lista sen ter comprado todo", Toast.LENGTH_SHORT).show();
+                }
                 return;
                 case PROGRESS:
 

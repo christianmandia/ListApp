@@ -122,7 +122,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             v.setBackgroundColor(0xFF008080);
 
         }else{
-            v.setBackgroundColor(0xFF00FFFF);
+            //v.setBackgroundColor(0xFF00FFFF);
+            v.setBackgroundColor(0xDD4B92C4);
         }
 
         if(articulo.isSeleccionado()){

@@ -341,7 +341,6 @@ public class Activity_Lista extends Activity {
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
                     //setMenuDefecto();
-
                     Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
                     //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                     modificarArticulo.putExtra("idLista", listaRecibida.getId());
@@ -354,6 +353,7 @@ public class Activity_Lista extends Activity {
                     //showDialog(ELIMINAR);
                     return true;
                 case R.id.MostrarArticulo:
+                    prevPos=-1;
                     Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
                     //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                     mostrarArticulo.putExtra("articulo", articuloSeleccionado);
@@ -577,6 +577,7 @@ public class Activity_Lista extends Activity {
                     articuloSeleccionado.setNotas(articuloRecibido.getNotas());
                     articuloSeleccionado.setPrecio(articuloRecibido.getPrecio());
                     adaptador.notifyItemChanged(prevPos);
+                    prevPos=-1;
                     /*
                     articulos.remove(prevPos);
                     adaptador.notifyItemRemoved(prevPos);

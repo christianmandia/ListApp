@@ -43,7 +43,7 @@ public class Loxica_Lista implements Serializable {
         float precioChecked=0;
         if(articulos !=null) {
             for (int i = 0; i < articulos.size(); i++) {
-                precioChecked += articulos.get(i).getPrecio();
+                precioChecked += articulos.get(i).getPrecio()*articulos.get(i).getCantidad();
             }
         }
         return precioChecked;

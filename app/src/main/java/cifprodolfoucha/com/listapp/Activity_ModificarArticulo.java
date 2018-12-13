@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -39,8 +40,9 @@ public class Activity_ModificarArticulo extends Activity {
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private final int CODIGO_IDENTIFICADOR=1;
     private File img,imaxeRecibida,imaxe,directorio,temp;
-    private Loxica_Articulo articulo =new Loxica_Articulo();
+    private Loxica_Articulo articulo;
     private int idL;
+    private boolean modFoto=false;
 
     private BaseDatos baseDatos;
 
@@ -65,13 +67,15 @@ public class Activity_ModificarArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Loxica_Articulo a=modificarArticulo();
+                Log.i("prueba", articulo.getNombre()+"");
+                Loxica_Articulo a=modificarArticulo(articulo);
 
                 if(imaxeRecibida!=null){
                     imaxeRecibida.delete();
                 }else if(imaxe!=null){
 
                 }
+
 
 
                 baseDatos.modArticulo(a.getId(),idL,a.getNombre(),a.getCantidad(),a.getPrecio(),a.getNotas(),a.getRutaImagen(),a.isSeleccionado());
@@ -175,7 +179,7 @@ public class Activity_ModificarArticulo extends Activity {
 
     }
 
-    private Loxica_Articulo modificarArticulo(){
+    private Loxica_Articulo modificarArticulo(Loxica_Articulo art){
         EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
         EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
         EditText etCantidadArticulo=findViewById(R.id.etCantidadArticulo_ModificarArticulo);
@@ -190,17 +194,25 @@ public class Activity_ModificarArticulo extends Activity {
             precio = Double.parseDouble(etPrecioArticulo.getText().toString());
         }
 
-        articulo.setNombre(etNombreArticulo.getText().toString());
-        articulo.setCantidad(cantidad);
-        articulo.setPrecio(precio);
-        articulo.setNotas(etNotasArticulo.getText().toString());
-        if(!rutaArquivo.equals("")){
-            articulo.setRutaImagen(rutaArquivo);
-        }else if(!rutaArquivoRecibido.equals("")){
-            articulo.setRutaImagen(rutaArquivoRecibido);
+        art.setNombre(etNombreArticulo.getText().toString());
+        art.setCantidad(cantidad);
+        art.setPrecio(precio);
+        art.setNotas(etNotasArticulo.getText().toString());
+        if(modFoto) {
+            if (!rutaArquivo.equals("")) {
+                art.setRutaImagen(rutaArquivo);
+            }else{
+                art.setRutaImagen("");
+            }
+        }else{
+            if (!rutaArquivoRecibido.equals("")) {
+                art.setRutaImagen(rutaArquivoRecibido);
+            }else{
+                art.setRutaImagen("");
+            }
         }
         //Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
-        return articulo;
+        return art;
         //Toast.makeText(this,precio+"",Toast.LENGTH_SHORT).show();
 
     }
@@ -246,6 +258,7 @@ public class Activity_ModificarArticulo extends Activity {
 
                 Log.i("bitmapimagen", bm + "");
                 imgview.setImageBitmap(bm);
+                modFoto=true;
 
 
             }
@@ -263,10 +276,36 @@ public class Activity_ModificarArticulo extends Activity {
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        EditText etNombre = (EditText) findViewById(R.id.etNombreArticulo_ModificarArticulo);
+        EditText etCantidad = (EditText) findViewById(R.id.etCantidadArticulo_ModificarArticulo);
+        EditText etPrecio = (EditText) findViewById(R.id.etPrecioArticulo_ModificarArticulo);
+        EditText etNotas = (EditText) findViewById(R.id.etNotasArticulo_ModificarArticulo);
+        TextView tvNombre=(TextView) findViewById(R.id.tvArticulo_ModificarAticulo);
+        TextView tvNotas=(TextView) findViewById(R.id.tvNotasArticulo_ModificarArticulo);
+        TextView tvCantidad=(TextView) findViewById(R.id.tvCantidadArticulo_ModificarArticulo);
+        TextView tvPrecio=(TextView) findViewById(R.id.tvPrecioArticulo_ModificarArticulo);
+
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
+
+            etNombre.setTextColor(getResources().getColor(R.color.white));
+            etNombre.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etPrecio.setTextColor(getResources().getColor(R.color.white));
+            etPrecio.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etNotas.setTextColor(getResources().getColor(R.color.white));
+            etNotas.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            etCantidad.setTextColor(getResources().getColor(R.color.white));
+            etCantidad.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            tvNombre.setTextColor(getResources().getColor(R.color.white));
+            tvNotas.setTextColor(getResources().getColor(R.color.white));
+            tvPrecio.setTextColor(getResources().getColor(R.color.white));
+            tvCantidad.setTextColor(getResources().getColor(R.color.white));
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
@@ -332,7 +371,7 @@ public class Activity_ModificarArticulo extends Activity {
 
         sImagen = recuperaEstado.getString("imagen");
 
-        articulo =(Loxica_Articulo)recuperaEstado.getSerializable("articulo");
+        articulo =(Loxica_Articulo)recuperaEstado.getSerializable("articuloModificado");
 
 
         etNombre.setText(sNombre);

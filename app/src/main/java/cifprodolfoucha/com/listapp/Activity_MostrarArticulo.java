@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,10 +57,30 @@ public class Activity_MostrarArticulo extends Activity {
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        TextView tvNombre=(TextView) findViewById(R.id.tvArticulo_MostrarAticulo);
+        TextView tvNotas=(TextView) findViewById(R.id.tvNotasArticulo_MostrarArticulo);
+        TextView tvCantidad=(TextView) findViewById(R.id.tvCantidadArticulo_MostrarArticulo);
+        TextView tvPrecio=(TextView) findViewById(R.id.tvPrecioArticulo_MostrarArticulo);
+        TextView tvNombreM=(TextView) findViewById(R.id.tvNombreArticuloMostrado_MostrarArticulo);
+        TextView tvNotasM=(TextView) findViewById(R.id.tvNotasArticuloMostrado_MostrarArticulo);
+        TextView tvCantidadM=(TextView) findViewById(R.id.tvCantidadArticuloMostrado_MostrarArticulo);
+        TextView tvPrecioM=(TextView) findViewById(R.id.tvPrecioArticuloMostrado_MostrarArticulo);
+
+
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
+
+            tvNombre.setTextColor(getResources().getColor(R.color.white));
+            tvNotas.setTextColor(getResources().getColor(R.color.white));
+            tvPrecio.setTextColor(getResources().getColor(R.color.white));
+            tvCantidad.setTextColor(getResources().getColor(R.color.white));
+            tvNombreM.setTextColor(getResources().getColor(R.color.white));
+            tvNotasM.setTextColor(getResources().getColor(R.color.white));
+            tvPrecioM.setTextColor(getResources().getColor(R.color.white));
+            tvCantidadM.setTextColor(getResources().getColor(R.color.white));
+
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
