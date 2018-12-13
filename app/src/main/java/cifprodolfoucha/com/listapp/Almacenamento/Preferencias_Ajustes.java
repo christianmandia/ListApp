@@ -1,8 +1,13 @@
 package cifprodolfoucha.com.listapp.Almacenamento;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.widget.Spinner;
 
 import cifprodolfoucha.com.listapp.R;
 

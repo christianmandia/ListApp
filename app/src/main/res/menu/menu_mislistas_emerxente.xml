@@ -7,12 +7,8 @@
         android:title="Borrar">
     </item>
     <item
-        android:id="@+id/mniInicializar_MisListas"
+        android:id="@+id/mniInicializarLista_MisListas"
         android:title="Inicializar">
-    </item>
-    <item
-        android:id="@+id/mniModificarLista_MisListas"
-        android:title="Modificar">
     </item>
 
 </menu>

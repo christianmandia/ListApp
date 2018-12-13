@@ -5,16 +5,9 @@
 
     <group
         android:id="@+id/GrupoOpciones">
-
         <item
-        android:id="@+id/mniMarcarComprados"
-        android:title="@string/MenuComprar"></item>
-
-
-    <item
-        android:id="@+id/eliminarLista"
-        android:title="@string/MenuEliminarLista"
-        />
+        android:id="@+id/MarcarComprados"
+        android:title="@string/MenuComprar"/>
     </group>
 
 </menu>

@@ -11,6 +11,10 @@
         android:title="@string/MenuDescargarCategorias"
         />
     <item
+        android:id="@+id/inicializarListas"
+        android:title="@string/InicializarListas"
+        />
+    <item
         android:id="@+id/ajustes"
         android:title="@string/MenuAjustes"
         />

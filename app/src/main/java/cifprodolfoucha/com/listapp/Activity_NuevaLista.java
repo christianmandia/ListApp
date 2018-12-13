@@ -1,8 +1,11 @@
 package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
+import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
@@ -73,8 +78,8 @@ public class Activity_NuevaLista extends Activity {
                         Log.i("prueba", add+"");
 
                         //if(add==1){
-                            etNombreLista.setText("");
-                            Toast.makeText(getApplicationContext(),"lista engadida", Toast.LENGTH_SHORT).show();
+                            //etNombreLista.setText("");
+                            //Toast.makeText(getApplicationContext(),"lista engadida", Toast.LENGTH_SHORT).show();
                         //}
                         /*
                         Log.i("aadaa", "obterLista");
@@ -84,8 +89,8 @@ public class Activity_NuevaLista extends Activity {
                         Intent datos = new Intent();
                         datos.putExtra(Activity_MisListas.NUEVALISTA, l);
                         setResult(RESULT_OK, datos);
-                        finish();
                         */
+                        finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Xa existe unha lista chamada así  en esa categoría",Toast.LENGTH_LONG).show();
                     }
@@ -123,11 +128,22 @@ public class Activity_NuevaLista extends Activity {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_NuevaLista);
 
+        EditText etNombreLista=(EditText)findViewById(R.id.etNombreLista_NuevaLista);
+        TextView tvNombreLista=(TextView)findViewById(R.id.tvNombreLista_NuevaLista);
+        TextView tvCategoriaLista=(TextView)findViewById(R.id.tvCategoria_NuevaLista);
+
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
+
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
             spnC.setBackgroundColor(Color.DKGRAY);
+
+            etNombreLista.setTextColor(getResources().getColor(R.color.white));
+            etNombreLista.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            tvCategoriaLista.setTextColor(getResources().getColor(R.color.white));
+            tvNombreLista.setTextColor(getResources().getColor(R.color.white));
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
@@ -139,6 +155,27 @@ public class Activity_NuevaLista extends Activity {
 
 
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle guardaEstado) {
+        super.onSaveInstanceState(guardaEstado);
+        EditText etNombreLista = (EditText) findViewById(R.id.etNombreLista_NuevaLista);
+        sNombreLista=etNombreLista.getText().toString();
+        guardaEstado.putString("nombreLista",sNombreLista);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle recuperaEstado) {
+        super.onRestoreInstanceState(recuperaEstado);
+        EditText etNombreLista = (EditText) findViewById(R.id.etNombreLista_NuevaLista);
+        sNombreLista=recuperaEstado.getString("nombreLista");
+        etNombreLista.setText(sNombreLista);
+    }
+
+    private String sNombreLista;
+
+
 
     @Override
     protected void onStart() {

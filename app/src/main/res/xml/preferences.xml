@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="EXEMPLO DE SETTINGS"
+    android:title="@string/pref_main_nomeActivity"
     android:icon="@android:drawable/ic_menu_preferences">
     <PreferenceCategory
         android:key="preferencia_idListas"

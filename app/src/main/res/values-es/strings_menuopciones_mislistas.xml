@@ -2,5 +2,8 @@
 <resources>
     <string name="MenuCategorias">Gestionar Categorias</string>
     <string name="MenuDescargarCategorias">Importar Categorias</string>
+    <string name="InicializarListas">Inicializar Listas</string>
     <string name="MenuAjustes">Ajustes</string>
+
+    <string name="ImportarCategorias">Importando</string>
 </resources>

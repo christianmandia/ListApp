@@ -81,6 +81,37 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return rexistrosModificados;
     }
 */
+    public int modificarCategoria(int idC, String nMC){
+        ContentValues datos = new ContentValues();
+        datos.put("nombre_categoria",nMC);
+        String condicionwhere = "id_categoria=?";
+        String[] parametros = new String[]{idC+""};
+        int res = sqlLiteDB.update(TABOA_CATEGORIAS,datos,condicionwhere,parametros);
+        return res;
+    }
+
+    public int eliminarCategoria(int idC){
+        String condicionwhere = "id_categoria=?";
+        String[] parametros = new String[]{idC+""};
+        int rexistrosafectados = sqlLiteDB.delete(TABOA_CATEGORIAS,condicionwhere,parametros);
+        return rexistrosafectados;
+    }
+    public int obterNumListas(Loxica_Categoria categoria) {
+        int res=0;
+        Log.i("prueba2", categoria.getId()+"");
+        String[] parametros = new String[]{categoria.getId()+""};
+        Cursor datosListas = sqlLiteDB.rawQuery("select count(*) from lista l inner join categoria c on l.id_categoria=c.id_categoria where l.id_lista=?", parametros);
+        if (datosListas.moveToFirst()) {
+            while (!datosListas.isAfterLast()) {
+
+
+                res=datosListas.getInt(0);
+                datosListas.moveToNext();
+            }
+        }
+        Log.i("prueba2", res+" - Res");
+        return res;
+    }
 
     public long engadirLista(String nL,int idC){
         ContentValues valores = new ContentValues();

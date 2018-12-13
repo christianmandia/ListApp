@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
@@ -228,16 +227,23 @@ public class Activity_MisListas extends Activity {
                 */
                 return true;
 
-            case R.id.mniModificarLista_MisListas:
-                /*
-                adaptador.add(adaptador.getItem(info.position));
-                adaptador.setNotifyOnChange(true);
-                */
+            case R.id.mniInicializarLista_MisListas:
+                Loxica_Lista listaSel=listas.get(pos);
+                inicializar(listaSel);
+                miAdaptadorMisListas.notifyDataSetChanged();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
+
+    private void inicializar(Loxica_Lista listaSel) {
+        for(Loxica_Articulo articuloL:listaSel.getArticulos()){
+            baseDatos.setNoComprado(articuloL.getId(),listaSel.getId());
+            articuloL.setSeleccionado(false);
+        }
+    }
+
 
     @Override
     public synchronized boolean onOptionsItemSelected(MenuItem item) {
@@ -298,6 +304,12 @@ public class Activity_MisListas extends Activity {
                 if(!erro.equals("")) {
                     Toast.makeText(getApplicationContext(), erro, Toast.LENGTH_LONG).show();
                 }
+                return true;
+            case R.id.inicializarListas:
+                for(Loxica_Lista l:listas){
+                    inicializar(l);
+                }
+                miAdaptadorMisListas.notifyDataSetChanged();
                 return true;
             default:return super.onOptionsItemSelected(item);
         }
@@ -436,7 +448,7 @@ public class Activity_MisListas extends Activity {
                 d=new AlertDialog.Builder(this);
                 View inflador = li.inflate(R.layout.dlg_progressbarr, null);
                 d.setView(inflador);
-                d.setTitle("Descargando");
+                d.setTitle(getResources().getString(R.string.ImportarCategorias));
                 dialog=d.create();
                 //d.show();
                 dialog.show();

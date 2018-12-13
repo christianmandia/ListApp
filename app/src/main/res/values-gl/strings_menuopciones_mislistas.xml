@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MenuCategorias">Xestionar Categorias</string>
+    <string name="MenuDescargarCategorias">Importar Categorias</string>
+    <string name="InicializarListas">Inicializar Listas</string>
+    <string name="MenuAjustes">Axustes</string>
+
+    <string name="ImportarCategorias">Importando</string>
+</resources>

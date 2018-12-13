@@ -305,6 +305,14 @@ public class Activity_Lista extends Activity {
 
                 return true;
         */
+
+            case R.id.MarcarComprados:
+                for(int i=0;i<articulos.size();i++){
+                    baseDatos.setComprado(articulos.get(i).getId(),listaRecibida.getId());
+                    articulos.get(i).setSeleccionado(true);
+                    adaptador.notifyItemChanged(i);
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 

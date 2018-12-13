@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="MenuCategorias">Manage Categories</string>
+    <string name="MenuDescargarCategorias">Import Categories</string>
+    <string name="InicializarListas">Initialize Lists</string>
+    <string name="MenuAjustes">Settings</string>
+
+    <string name="ImportarCategorias">Importing</string>
+</resources>

@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     android:title="EXEMPLO DE SETTINGS">
 
+    <!--
     <PreferenceCategory
         android:key="preferencia_idListas"
         android:title="@string/pref_main_ajustesListas">
@@ -38,4 +39,5 @@
             android:title="@string/pref_main_version"
             android:summary="@string/pref_main_versionActual"/>
     </PreferenceCategory>
+    -->
 </PreferenceScreen>

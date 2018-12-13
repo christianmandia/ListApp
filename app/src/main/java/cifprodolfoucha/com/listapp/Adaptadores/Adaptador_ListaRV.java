@@ -110,12 +110,6 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             mPrecio.setText("");
         }
 
-        if(articulo.getNotas().length()!=0){
-
-        }else{
-
-        }
-
         if(articulo.isMarcado()){
             //v.setBackgroundColor(0xFF00FF00);
 
@@ -123,7 +117,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
         }else{
             //v.setBackgroundColor(0xFF00FFFF);
-            v.setBackgroundColor(0xDD4B92C4);
+            //v.setBackgroundColor(0xDD4B92FF);
+            v.setBackgroundColor(0xFF0099CC);
         }
 
         if(articulo.isSeleccionado()){
