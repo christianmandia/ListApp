@@ -7,8 +7,8 @@
         android:id="@+id/GrupoOpciones">
 
         <item
-        android:id="@+id/eliminarComprados"
-        android:title="@string/MenuEliminarComprados"></item>
+        android:id="@+id/mniMarcarComprados"
+        android:title="@string/MenuComprar"></item>
 
 
     <item

@@ -401,7 +401,6 @@ public class Activity_MisListas extends Activity {
                                 }
 
                                 baseDatos.eliminarArticulo(articuloLista,listaE.getId());
-                                listaE.getArticulos().remove(articuloLista);
                             }
 
                             int res = baseDatos.eliminarLista(listaE.getId());

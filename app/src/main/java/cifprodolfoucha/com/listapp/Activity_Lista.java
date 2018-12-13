@@ -353,6 +353,7 @@ public class Activity_Lista extends Activity {
                     //showDialog(ELIMINAR);
                     return true;
                 case R.id.MostrarArticulo:
+                    desmarcarArticulo();
                     prevPos=-1;
                     Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
                     //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
@@ -560,6 +561,7 @@ public class Activity_Lista extends Activity {
                 }
 
             }
+            prevPos=-1;
         }
         if (requestCode == COD_PETICION_MODIFICACION) {
             if (resultCode == RESULT_OK) {
@@ -577,7 +579,7 @@ public class Activity_Lista extends Activity {
                     articuloSeleccionado.setNotas(articuloRecibido.getNotas());
                     articuloSeleccionado.setPrecio(articuloRecibido.getPrecio());
                     adaptador.notifyItemChanged(prevPos);
-                    prevPos=-1;
+
                     /*
                     articulos.remove(prevPos);
                     adaptador.notifyItemRemoved(prevPos);
@@ -591,8 +593,9 @@ public class Activity_Lista extends Activity {
 
 
                 }
-            }
 
+            }
+            prevPos=-1;
 
         }
 
