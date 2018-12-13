@@ -322,7 +322,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public int obterIdCategoria(String nC) {
         int id=0;
-
+        Log.i("prueba2", nC+"nombre cat");
         String[] parametros = new String[]{nC};
         Cursor datosCategorias = sqlLiteDB.rawQuery("select id_categoria from Categoria where nombre_categoria like ?", parametros);
         if (datosCategorias.moveToFirst()) {
