@@ -12,33 +12,42 @@ public class Loxica_Lista implements Serializable {
     private float precio;
     private ArrayList<Loxica_Articulo> articulos;
 
-
     public Loxica_Lista() {
     }
-/*
-    public Loxica_Lista(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-*/
-/*
-    public Loxica_Lista(int id, String nombre, Loxica_Categoria loxicaCategoria) {
-        this.id=id;
-        this.nombre = nombre;
-        Loxica_Categoria = loxicaCategoria;
-        this.loxicaArticulos=new ArrayList();
-    }
-*/
+
     public Loxica_Lista(int id, String nombre, Loxica_Categoria loxicaCategoria, ArrayList<Loxica_Articulo> loxicaArticulos) {
-        this.id=id;
+        this.id = id;
         this.nombre = nombre;
         this.categoria = loxicaCategoria;
         this.articulos = loxicaArticulos;
-        for(int i = 0; i< loxicaArticulos.size(); i++){
-            this.precio+= loxicaArticulos.get(i).getPrecio();
+        for (int i = 0; i < loxicaArticulos.size(); i++) {
+            this.precio += loxicaArticulos.get(i).getPrecio();
         }
 
     }
+
+    /**
+     *
+     * @return
+     **/
+    public String diferenciaArticulos() {
+        int total = 0;
+        int checked = 0;
+        if (articulos != null) {
+            for (int i = 0; i < articulos.size(); i++) {
+                total++;
+                if (articulos.get(i).isSeleccionado()) {
+                    checked++;
+                }
+            }
+        }
+        if (total == 0) return "-";
+        return checked + "/" + total;
+    }
+    /**
+     *
+     * @return
+     **/
     public float precioChecked(){
         float precioChecked=0;
         if(articulos !=null) {
@@ -50,46 +59,25 @@ public class Loxica_Lista implements Serializable {
         }
         return precioChecked;
     }
-
-    public String diferenciaArticulos(){
-        int total=0;
-        int checked=0;
-
-        if(articulos !=null) {
-            for (int i = 0; i < articulos.size(); i++) {
-                total++;
-                if (articulos.get(i).isSeleccionado()) {
-                    checked++;
-                }
-            }
-        }
-        if(total==0)return "-";
-        return checked+"/"+total;
-
-    }
-
+    /**
+     *
+     * @return
+     **/
     public boolean TienesTodo(){
         int total=0;
         int checked=0;
-
-        Log.i("prueba", "Entra");
-
         if(articulos !=null) {
             for (int i = 0; i < articulos.size(); i++) {
                 total++;
-
-                //Log.i("prueba", total+"");
-
-                //Log.i("prueba", loxicaArticulos.get(i).isSeleccionado()+"");
                 if (articulos.get(i).isSeleccionado()) {
-
                     checked++;
                 }
             }
         }
         return (checked-total==0);
-
     }
+
+
 
     public String getNombre() {
         return nombre;

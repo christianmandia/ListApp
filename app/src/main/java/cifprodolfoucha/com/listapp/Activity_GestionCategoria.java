@@ -23,12 +23,37 @@ import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 
 public class Activity_GestionCategoria extends Activity {
+
+    /**
+     * cat é un ArrayList coas Categorias que mostra o spinner,
+     *       este Array estará cargado coas categorías que lle mande a Activity_MisListas.
+     *       ou coas Categorías que obteña da base de datos.
+     **/
     private ArrayList<Loxica_Categoria> cat;
+    /**
+     * posC é un número que referenciará á posición da Categoria que stá seleccionada no Spinner.
+     **/
     private int posC=0;
-
-
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
+    private static ConstraintLayout constraintLayout;
+    /**
+     * sNombreCategoria é un String que garda como referencia o contenido do EditText do nome da Categoría a engadir.
+     **/
+    private String sNombreCategoria;
+    /**
+     * sModificarCategoria é un String que garda como referencia o contenido do EditText do nome da Categoría a modificar.
+     **/
+    private String sModificarCategoria;
 
+    /**
+     * Controla os clicks que se realicen nos elementos da Activity.
+     **/
     private void xestionarEventos(){
         ImageButton ibtnAdd=(ImageButton)findViewById(R.id.ibtnAnhadirCategoria_GestionCategorias);
         ibtnAdd.setOnClickListener(new View.OnClickListener() {
@@ -37,33 +62,19 @@ public class Activity_GestionCategoria extends Activity {
 
                 TextView nombreCategoria = (TextView) findViewById(R.id.etNombreCat_GestionCategorias);
                 String nC = nombreCategoria.getText().toString();
-
-                //Log.i("PROBA3",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
                 if (!nC.equals("")) {
                     Loxica_Categoria c = baseDatos.obterCategoria(nC);
                     if (c.getNombre() == null) {
-                        //Log.i("uno", "Entrando");
-                        //int size = cat.size();
                         long a = baseDatos.engadirCategoria(nC);
-                        //if(a>0) {
-                        //    Log.i("uno", "obtendo");
                         c = baseDatos.obterCategoria(nC);
 
                         cat.add(c);
                         cargarCategorias();
-                    /*
-                    Intent datos = new Intent();
-                    datos.putExtra(Activity_MisListas.CATEGORIAS, cat);
-                    setResult(RESULT_OK, datos);
-                    finish();
-                    */
+
                         nombreCategoria.setText("");
                     } else {
                         Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
                     }
-                    //}else{
-                    //    Toast.makeText(getApplicationContext(), "Non se engadiu a categoria", Toast.LENGTH_SHORT).show();
-                    //    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Non escribiches", Toast.LENGTH_SHORT).show();
                 }
@@ -91,7 +102,6 @@ public class Activity_GestionCategoria extends Activity {
 
                 if(c.getNombre()==null) {
                     long a = baseDatos.modificarCategoria(cat.get(posC).getId(),sMC);
-                    Log.i("prueba2", a+" modificar Categoria");
                     cargarCategorias2();
                     Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
                     spnCat.setSelection(posC);
@@ -107,10 +117,8 @@ public class Activity_GestionCategoria extends Activity {
             public void onClick(View v) {
                 int f;
                 if((f=baseDatos.obterNumListas(cat.get(posC)))==0){
-                    Log.i("prueba2", f+" - Numero");
 
                     if(baseDatos.eliminarCategoria(cat.get(posC).getId())>0) {
-                        Log.i("prueba2", "eliminada");
                         cargarCategorias2();
                     }else{
                         Toast.makeText(getApplicationContext(),"Non se puido eliminar",Toast.LENGTH_SHORT).show();
@@ -145,6 +153,9 @@ public class Activity_GestionCategoria extends Activity {
 
     }
 
+    /**
+     * Cargará o ArrayList cat e o Spinner coas categorias que recibirá da Activity_MisListas.
+     **/
     private void cargarCategorias(){
 
         Spinner categorias=findViewById(R.id.spnCategorias_GestionCategorias);
@@ -157,6 +168,9 @@ public class Activity_GestionCategoria extends Activity {
 
     }
 
+    /**
+     * Cargará o ArrayList cat e o Spinner coas categorias que obterá da base de datos.
+     **/
     private void cargarCategorias2(){
 
         cat=baseDatos.obterCategorias();
@@ -173,41 +187,17 @@ public class Activity_GestionCategoria extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (baseDatos==null) {   // Abrimos a base de datos para escritura
+        if (baseDatos==null) {
             baseDatos = baseDatos.getInstance(getApplicationContext());
-            //baseDatos = new BaseDatos(getApplicationContext());
             baseDatos.abrirBD();
         }
-        //Log.i("PROBA",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-
     }
-/*
-    @Override
-    protected void onResume(){
-        super.onResume();
-        //Log.i("PROBA2",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-    }
-
-    /*
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (baseDatos!=null){    // Pechamos a base de datos.
-            baseDatos.pecharBD();
-            baseDatos=null;
-        }
-    }
-    */
-
 
     @Override
     protected void onResume() {
         super.onResume();
         aplicarPreferencias();
     }
-
-
-    private static ConstraintLayout constraintLayout;
 
     /**
      * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
@@ -272,18 +262,11 @@ public class Activity_GestionCategoria extends Activity {
         spnCat.setSelection(posC);
     }
 
-
-    private String sNombreCategoria;
-    private String sModificarCategoria;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_gestion_categorias);
         cat=(ArrayList<Loxica_Categoria>)getIntent().getSerializableExtra(Activity_MisListas.CATEGORIAS);
-
-        //Log.i("a", "onCreate: ");
-
         xestionarEventos();
         cargarCategorias();
     }

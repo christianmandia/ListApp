@@ -22,35 +22,19 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
     private Context mContext;
 
     private View.OnClickListener listener;
-    //private View.OnLongClickListener longlistener;
-/*
-    public Adapatador_Lista(Context context, ArrayList<Loxica_Articulo>articulos) {
-        super(context, R.layout.layout_elemento_lista);       // Enviamos o layout que imos utilizar
 
-        this.articulos = articulos;
-        this.mContext = context;
-    }
-
-    */
     public Adaptador_ListaRV(ArrayList<Loxica_Articulo> articulos){
         if(articulos !=null) {
             this.mArticulos = articulos;
         }else{
             this.mArticulos =new ArrayList<Loxica_Articulo>();
         }
-        //this.mContext = context;
     }
-
-
-
-
 
     @Override
     public ReciclerViewHolder_Lista onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context= parent.getContext();
         LayoutInflater inflater=LayoutInflater.from(context);
-
-        //View v=inflater.inflate(R.layout.layout_elemento_lista,parent,false);
         View v=inflater.inflate(R.layout.layout_elemento_listacimagen,parent,false);
 
         v.setOnClickListener(this);
@@ -69,22 +53,8 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
             this.listener=listener;
     }
 
-/*
-    @Override
-    public boolean onLongClick(View v) {
-        //return longlistener.onLongClick(v);
-        v.onLo
-        return false;
-    }
-
-    public void setOnLongClickListener(View.OnClickListener listener){
-        this.listener=listener;
-    }
-*/
-
     @Override
     public void onBindViewHolder(Adaptador_ListaRV.ReciclerViewHolder_Lista holder, int position) {
-        //holder.bind(marticulos.get(position));
         Loxica_Articulo articulo = mArticulos.get(position);
 
 
@@ -142,8 +112,6 @@ public class Adaptador_ListaRV extends RecyclerView.Adapter<Adaptador_ListaRV.Re
 
         return mArticulos.size();
     }
-
-
 
     public class ReciclerViewHolder_Lista extends RecyclerView.ViewHolder /*implements View.OnClickListener*/{
 

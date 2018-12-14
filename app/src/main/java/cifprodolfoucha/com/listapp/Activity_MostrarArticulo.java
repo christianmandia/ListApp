@@ -21,6 +21,8 @@ public class Activity_MostrarArticulo extends Activity {
 
     private Loxica_Articulo articulo =null;
 
+    private static ConstraintLayout constraintLayout;
+
     private void xestionarEventos(){
         ImageButton ibtn_Volver=findViewById(R.id.ibtn_VolverMostrarArticulo);
 
@@ -33,7 +35,7 @@ public class Activity_MostrarArticulo extends Activity {
     }
     private void cargarArticulo(){
         TextView tvNombreArticulo=findViewById(R.id.tvNombreArticuloMostrado_MostrarArticulo);
-        TextView tvPrecioArticulo=findViewById(R.id.tvPrecioArticulo_ModificarArticulo);
+        TextView tvPrecioArticulo=findViewById(R.id.tvPrecioArticuloMostrado_MostrarArticulo);
         TextView tvCantidadArticulo=findViewById(R.id.tvCantidadArticuloMostrado_MostrarArticulo);
         TextView tvNotasArticulo=findViewById(R.id.tvNotasArticuloMostrado_MostrarArticulo);
 
@@ -41,7 +43,7 @@ public class Activity_MostrarArticulo extends Activity {
 
         tvNombreArticulo.setText(articulo.getNombre());
         if(articulo.getPrecio()!=0) {
-            tvNombreArticulo.setText(articulo.getPrecio()+ "");
+            tvPrecioArticulo.setText(articulo.getPrecio()+ "");
         }
         tvCantidadArticulo.setText(articulo.getCantidad()+"");
         tvNotasArticulo.setText(articulo.getNotas());
@@ -52,8 +54,6 @@ public class Activity_MostrarArticulo extends Activity {
             ivFoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
         }
     }
-
-    private static ConstraintLayout constraintLayout;
 
     /**
      * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
@@ -91,7 +91,6 @@ public class Activity_MostrarArticulo extends Activity {
 
 
         }
-        //nome.setText(valorNome);
 
 
     }

@@ -38,15 +38,30 @@ public class Activity_ModificarArticulo extends Activity {
     private String rutaArquivo="",rutaArquivoRecibido="";
     private String nomeSobrescribir="";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private final int CODIGO_IDENTIFICADOR=1;
     private File img,imaxeRecibida,imaxe,directorio,temp;
     private Loxica_Articulo articulo;
     private int idL;
     private boolean modFoto=false;
+    private String sNombre;
+    private int iCantidad;
+    private double dPrecio;
+    private String sNotas;
+    private String sImagen="";
+    private boolean Cant;
+    private boolean Pre;
 
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
+    private static ConstraintLayout constraintLayout;
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
 
-
+    /**
+     * Controla os clicks que se realicen nos elementos da Activity.
+     **/
     private void xestionarEventos() {
         final ImageButton ibtn_Cancelar = findViewById(R.id.ibtn_VolverModificarArticulo);
         final ImageButton ibtn_Guardar = findViewById(R.id.ibtn_GuardarModificarArticulo);
@@ -115,45 +130,16 @@ public class Activity_ModificarArticulo extends Activity {
                 if(!rutaArquivoRecibido.equals("")){
                     String[] nombre=rutaArquivoRecibido.split("/");
                     nomeSobrescribir=nombre[nombre.length-1];
-                    //Toast.makeText(getApplicationContext(),nomeSobrescribir,Toast.LENGTH_LONG).show();
                 }
-
-
-                //nomeFoto="img-"+now+".jpg";
-                //imaxe = new File(img,nomeFoto);
-
-
-                /*
-                Uri contentUri=null;
-                if (Build.VERSION.SDK_INT >= 24) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                MY_CAMERA_REQUEST_CODE);
-                    }
-
-                    contentUri = getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", imaxe);
-                }
-                else {
-                    contentUri = Uri.fromFile(imaxe);
-                }
-
-                */
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                /*
-                intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-                */
                 startActivityForResult(intento, MY_CAMERA_REQUEST_CODE);
-
-
             }
         });
-
-
-
     }
 
+    /**
+     * Carga os elementos da Activity cos datos do Articulo que recibe da Activity_Lista.
+     **/
     private void cargarArticulo(){
 
         EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
@@ -175,10 +161,13 @@ public class Activity_ModificarArticulo extends Activity {
         }else{
             ivFoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
         }
-
-
     }
 
+    /**
+     * Modifica o Articulo recibido da Activity_MisListas.
+     * @param art mandaselle o Artículo recibido.
+     * @return devolve o Articulo modificado.
+     **/
     private Loxica_Articulo modificarArticulo(Loxica_Articulo art){
         EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_ModificarArticulo);
         EditText etPrecioArticulo=findViewById(R.id.etPrecioArticulo_ModificarArticulo);
@@ -211,21 +200,12 @@ public class Activity_ModificarArticulo extends Activity {
                 art.setRutaImagen("");
             }
         }
-        //Toast.makeText(this,articulo.getNombre().toString(),Toast.LENGTH_SHORT).show();
         return art;
-        //Toast.makeText(this,precio+"",Toast.LENGTH_SHORT).show();
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Log.i("prueba", resultCode+"");
         if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK)
         { {
-            /*
-            if (!imaxe.exists()) return;          // Non hai foto
-            rutaArquivo=imaxe.getAbsolutePath();
-
-            */
 
             File arquivo = new File(img, nomeFoto);
             Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
@@ -235,43 +215,17 @@ public class Activity_ModificarArticulo extends Activity {
 
             if(bitmap!=null) {
                 String img = lg.SaveImage(this, bitmap, "Img");
-                //if (!arquivo.exists()) return;          // Non hai foto
-                //rutaArquivo=arquivo.getAbsolutePath();
-
-                Log.i("entraguardarfoto", "entra a guardar");
-
                 ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_ModificarArticulo);
-                //Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
-                //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
-
-                //bitmap = (Bitmap)data.getExtras().get("data");
-//            imgview.setImageBitmap(bitmap);
-
-                Log.i("rutaimagen", img);
-
                 arquivo = new File(img);
                 imaxe = arquivo;
                 rutaArquivo = img;
-
-
                 Bitmap bm = BitmapFactory.decodeFile(img);
-
-                Log.i("bitmapimagen", bm + "");
                 imgview.setImageBitmap(bm);
                 modFoto=true;
-
-
             }
         }
         }
     }
-    public void pedirPermiso(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
-        }
-    }
-
-    private static ConstraintLayout constraintLayout;
 
     /**
      * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
@@ -312,10 +266,7 @@ public class Activity_ModificarArticulo extends Activity {
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
-
-
         }
-        //nome.setText(valorNome);
 
 
     }
@@ -392,15 +343,6 @@ public class Activity_ModificarArticulo extends Activity {
         }
     }
 
-    private String sNombre;
-    private int iCantidad;
-    private double dPrecio;
-    private String sNotas;
-    private String sImagen="";
-    private boolean Cant;
-    private boolean Pre;
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -436,9 +378,6 @@ public class Activity_ModificarArticulo extends Activity {
             imaxeRecibida=new File(rutaArquivoRecibido);
         }
         xestionarEventos();
-        pedirPermiso();
         cargarArticulo();
-
-
     }
 }

@@ -103,7 +103,6 @@ public class Activity_Lista extends Activity {
         return true;
     }
 
-
     /**
      * Cargará o RecyclerView cos Articulos da lista.
      **/
@@ -134,8 +133,6 @@ public class Activity_Lista extends Activity {
                         baseDatos.setComprado(articulo.getId(), listaRecibida.getId());
                     }
                 }
-
-
 
                 rvLista.getAdapter().notifyDataSetChanged();
                 if (prevPos != -1) {
@@ -195,28 +192,33 @@ public class Activity_Lista extends Activity {
                 if (prevPos != -1 && position!=prevPos && articulos.get(prevPos).isMarcado() ) {
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
-                    Log.i("prueba", "desmarcar PRE");
                 }
 
-                    if (mActionMode != null) {
-                        mActionMode.finish();
-                        mActionMode = null;
-                    }
-                    if(prevPos==position && !articuloSeleccionado.isMarcado()){
-                        prevPos=-1;
-                        return true;
-                    }else {
+                if(mActionMode==null && prevPos==position ){
+                    prevPos=-1;
+                    //adaptador.notifyItemChanged(prevPos);
+                }
 
-                        articuloSeleccionado.setMarcado(true);
+                if (mActionMode != null) {
+                    mActionMode.finish();
+                    mActionMode = null;
+                }
 
-                        adaptador.notifyItemChanged(position);
+                if(prevPos==position && !articuloSeleccionado.isMarcado()){
+                    prevPos=-1;
+                    destuirMenuAccion();
+                    return true;
+                }else {
 
-                        prevPos = position;
+                    articuloSeleccionado.setMarcado(true);
 
-                        mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
+                    adaptador.notifyItemChanged(position);
 
-                        return true;
-                    }
+                    prevPos = position;
+
+                    mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
+                    return true;
+                }
             }
 
 
@@ -309,7 +311,6 @@ public class Activity_Lista extends Activity {
                     adaptador.notifyItemChanged(prevPos);
                 }
             }
-            prevPos=-1;
 
         }
     };
@@ -393,12 +394,6 @@ public class Activity_Lista extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle guardaEstado) {
-        super.onSaveInstanceState(guardaEstado);
-        guardaEstado.putInt("prevPos", prevPos);
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
             baseDatos = baseDatos.getInstance(getApplicationContext());
@@ -423,6 +418,13 @@ public class Activity_Lista extends Activity {
         }
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle guardaEstado) {
+        super.onSaveInstanceState(guardaEstado);
+        desmarcarArticulo();
+        guardaEstado.putInt("prevPos", prevPos);
     }
 
     @Override

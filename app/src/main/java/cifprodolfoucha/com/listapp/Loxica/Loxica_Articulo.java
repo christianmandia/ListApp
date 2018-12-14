@@ -17,18 +17,6 @@ public class Loxica_Articulo implements Serializable {
 
     }
 
-
-
-    public Loxica_Articulo(int id, String nombre, boolean seleccionado, int cantidad, double precio, String notas) {
-        this.id=id;
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.cantidad = cantidad;
-        this.precio = precio;
-        this.notas = notas;
-
-    }
-
     public Loxica_Articulo(int id, String nombre, boolean seleccionado, int cantidad, double precio, String notas, String rutaImagen) {
         this.id=id;
         this.nombre = nombre;
@@ -40,22 +28,24 @@ public class Loxica_Articulo implements Serializable {
         this.marcado=false;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     *
+     * @return
+     **/
     public String getRutaImagen() {
         return rutaImagen;
     }
-
+    /**
+     *
+     * @param rutaImagen
+     **/
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
     }
-
+    /**
+     *
+     * @return
+     **/
     public boolean riExiste(){
         return rutaImagen.equals("");
     }
@@ -66,6 +56,14 @@ public class Loxica_Articulo implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isSeleccionado() {
@@ -107,101 +105,5 @@ public class Loxica_Articulo implements Serializable {
     public void setMarcado(boolean marcado) {
         this.marcado = marcado;
     }
-        /*
-    public Loxica_Articulo(String nombre) {
-        this.nombre = nombre;
-        this.seleccionado=false;
-    }
 
-    public Loxica_Articulo(String nombre, boolean seleccionado) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-    }
-
-    public Loxica_Articulo(String nombre, int cantidad) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.cantidad = cantidad;
-    }
-
-    public Loxica_Articulo(String nombre, int cantidad, String notas) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.notas = notas;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad, String notas) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.cantidad = cantidad;
-        this.notas = notas;
-    }
-
-    public Loxica_Articulo(String nombre, double precio) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, double precio) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.precio = precio;
-    }
-
-    public Loxica_Articulo(String nombre, int cantidad, double precio) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, int cantidad, double precio) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.cantidad = cantidad;
-        this.precio = precio;
-    }
-
-    public Loxica_Articulo(String nombre, int cantidad, double precio, String notas) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
-        this.notas = notas;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, String notas) {
-        this.nombre = nombre;
-        this.notas = notas;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, String notas) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.notas = notas;
-    }
-
-    public Loxica_Articulo(String nombre, double precio, String notas) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.notas = notas;
-        this.seleccionado=false;
-    }
-
-    public Loxica_Articulo(String nombre, boolean seleccionado, double precio, String notas) {
-        this.nombre = nombre;
-        this.seleccionado = seleccionado;
-        this.precio = precio;
-        this.notas = notas;
-    }
-    */
 }

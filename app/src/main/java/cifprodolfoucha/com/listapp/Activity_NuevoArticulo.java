@@ -30,20 +30,31 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
 public class Activity_NuevoArticulo extends Activity {
 
-    private  ArrayList<Loxica_Articulo> articulos =new ArrayList();
-    private  ArrayList<Loxica_Articulo> articulos2=new ArrayList();
-
-    private int idListaRecibida;
-
     //private String nomeFoto="";
+    //private boolean pasaFoto;
+
     private String rutaArquivo="";
     private String nomeSobrescribir="";
     private static boolean gardar=false;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private File img,imaxe,directorio,temp;
-    //private boolean pasaFoto;
+    private File img,imaxe,directorio;
+    private ArrayList<Loxica_Articulo> articulos =new ArrayList();
+    private ArrayList<Loxica_Articulo> articulos2=new ArrayList();
+    private int idListaRecibida;
     private BaseDatos baseDatos;
+    private static ConstraintLayout constraintLayout;
+    private String sNombre;
+    private int iCantidad;
+    private double dPrecio;
+    private String sNotas;
+    private String sImagen="";
+    private boolean Cant;
+    private boolean Pre;
 
+
+    /**
+     * Cargará o ArrayList cat e o Spinner coas categorias que recibirá da Activity_MisListas.
+     **/
     private void xestionarEventos(){
          ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
          ImageButton ibtn_Guardar=findViewById(R.id.ibtn_GuardarNuevoArticulo);
@@ -158,6 +169,7 @@ public class Activity_NuevoArticulo extends Activity {
         ivFoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
     }
 
+
     public boolean añadirArticulo() {
         boolean añadido=false;
 
@@ -193,7 +205,6 @@ public class Activity_NuevoArticulo extends Activity {
             }
             */
 
-
             int id = baseDatos.obterNovoIdArticulo(idListaRecibida);
             if(!etNombre.getText().toString().equals("")) {
                 if (!rutaArquivo.equals("")) {
@@ -219,10 +230,6 @@ public class Activity_NuevoArticulo extends Activity {
         return añadido;
     }
 
-    private void callMesaxe(String msg){
-        Toast.makeText(this,msg+"", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void finish() {
         Intent datos = new Intent();
@@ -236,33 +243,28 @@ public class Activity_NuevoArticulo extends Activity {
         super.finish();
     }
 
-
-    public void llamadas(String texto){
-        Toast.makeText(this,texto,Toast.LENGTH_LONG).show();
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK )
-        { {
+        {
+            {
             File arquivo;
             Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
             Bitmap bitmap=(Bitmap)data.getExtras().get("data");
-            if(bitmap!=null) {
-                String img = lg.SaveImage(this, bitmap, "Img");
-                ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
-                arquivo=new File(img);
-                imaxe=arquivo;
-                rutaArquivo=img;
-                Bitmap bm = BitmapFactory.decodeFile(img);
-                imgview.setImageBitmap(bm);
-                gardar=true;
+                if(bitmap!=null) {
+                    String img = lg.SaveImage(this, bitmap, "Img");
+                    ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
+                    arquivo=new File(img);
+                    imaxe=arquivo;
+                    rutaArquivo=img;
+                    Bitmap bm = BitmapFactory.decodeFile(img);
+                    imgview.setImageBitmap(bm);
+                    gardar=true;
+
+                }
 
             }
-
-        }
         }
     }
-    private static ConstraintLayout constraintLayout;
 
     /**
      * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
@@ -386,15 +388,6 @@ public class Activity_NuevoArticulo extends Activity {
         }
     }
 
-    private String sNombre;
-    private int iCantidad;
-    private double dPrecio;
-    private String sNotas;
-    private String sImagen="";
-    private boolean Cant;
-    private boolean Pre;
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -407,7 +400,6 @@ public class Activity_NuevoArticulo extends Activity {
         super.onResume();
         aplicarPreferencias();
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

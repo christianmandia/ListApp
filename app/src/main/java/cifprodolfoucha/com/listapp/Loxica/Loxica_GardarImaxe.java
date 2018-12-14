@@ -41,14 +41,8 @@ public class Loxica_GardarImaxe {
         File file = new File(dir, NameOfFile + CurrentDateAndTime + ".jpg");
 
         resultado=file.getAbsolutePath();
-        Log.i("imagen",file.getAbsolutePath()+"");
         try {
             FileOutputStream fOut = new FileOutputStream(file);
-
-            Log.i("imageToSave",ImageToSave+"");
-            Log.i("fileOutputfalla",fOut+"");
-
-
             ImageToSave.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
             fOut.flush();
             fOut.close();
@@ -66,13 +60,6 @@ public class Loxica_GardarImaxe {
         }
 
         return resultado;
-    }
-
-    public void DeleteImage(Context context,String nombreRemplazo){
-        TheThis=context;
-        File remplazar=new File(nombreRemplazo);
-        remplazar.delete();
-
     }
 
     private void MakeSureFileWasCreatedThenMakeAvabile(File file){

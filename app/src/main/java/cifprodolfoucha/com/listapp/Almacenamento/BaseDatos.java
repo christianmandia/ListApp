@@ -26,20 +26,8 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     private final String TABOA_LISTAS="Lista";
     private final String TABOA_CATEGORIAS="Categoria";
     private final String TABOA_ARTICULOS="Articulo";
-    private final String CONSULTAR_LISTAS ="SELECT _id,nome FROM AULAS order by nome";
 
 
-/*
-    public static synchronized UD06_02_BaseDatos getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
-        if (sInstance == null) {
-            sInstance = new UD06_02_BaseDatos(context.getApplicationContext());
-        }
-        return sInstance;
-    }
-*/
     public BaseDatos(Context context) {
         super(context, NOME_BD, null, VERSION_BD);
         // TODO Auto-generated constructor stub
@@ -51,36 +39,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         }
         return sInstance;
     }
-/*
-    public long engadirAula(Aulas aula_engadir){
-        ContentValues valores = new ContentValues();
-        valores.put("nome", aula_engadir.getNome());
-        long id = sqlLiteDB.insert("AULAS",null,valores);
 
-        return id;
-    }
-
-    public int borrarAula(Aulas aula){
-        String condicionwhere = "_id=?";
-        String[] parametros = new String[]{String.valueOf(aula.get_id())};
-        int rexistrosafectados = sqlLiteDB.delete(TABOA_AULAS,condicionwhere,parametros);
-
-        return rexistrosafectados;
-
-    }
-
-    public int modificarAula(Aulas aula_modificar){
-        ContentValues datos = new ContentValues();
-        datos.put("nome", aula_modificar.getNome());
-
-        String where = "_id=?";
-        String[] params = new String[]{String.valueOf(aula_modificar.get_id())};
-
-        int rexistrosModificados = sqlLiteDB.update(TABOA_AULAS, datos, where, params);
-
-        return rexistrosModificados;
-    }
-*/
     public int modificarCategoria(int idC, String nMC){
         ContentValues datos = new ContentValues();
         datos.put("nombre_categoria",nMC);
@@ -98,42 +57,31 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     }
     public int obterNumListas(Loxica_Categoria categoria) {
         int res=0;
-        Log.i("prueba2", categoria.getId()+"");
         String[] parametros = new String[]{categoria.getId()+""};
         Cursor datosListas = sqlLiteDB.rawQuery("select count(*) from lista l inner join categoria c on l.id_categoria=c.id_categoria where l.id_lista=?", parametros);
         if (datosListas.moveToFirst()) {
             while (!datosListas.isAfterLast()) {
-
-
                 res=datosListas.getInt(0);
                 datosListas.moveToNext();
             }
         }
-        Log.i("prueba2", res+" - Res");
         return res;
     }
 
     public long engadirLista(String nL,int idC){
         ContentValues valores = new ContentValues();
-        //valores.put("id_categoria",null);
         valores.put("nombre_lista",nL);
         valores.put("id_categoria", idC);
-        //Log.i("uno", "engadirLista: ");
         long id = sqlLiteDB.insert(TABOA_LISTAS,null,valores);
-        //Log.i("aasa", id+"");
 
         return id;
     }
 
     public long engadirCategoria(Loxica_Categoria c){
         ContentValues valores = new ContentValues();
-        //valores.put("id_categoria",null);
         valores.put("id_categoria",c.getId());
         valores.put("nombre_categoria", c.getNombre());
-        Log.i("uno", c.getNombre());
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
-        Log.i("uno", id+"");
-
         return id;
     }
 
@@ -149,12 +97,9 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     public long engadirCategoria(int size,String nC){
         size+=1;
         ContentValues valores = new ContentValues();
-        //valores.put("id_categoria",null);
         valores.put("id_categoria",size);
         valores.put("nombre_categoria", nC);
-        Log.i("uno", nC);
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
-        Log.i("aasa", id+"");
 
         return id;
     }
@@ -163,9 +108,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
         valores.put("nombre_categoria", nC);
-        Log.i("uno", nC);
         long id = sqlLiteDB.insert(TABOA_CATEGORIAS,null,valores);
-        Log.i("aasa", id+"");
 
         return id;
     }
@@ -180,9 +123,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         valores.put("notas",a.getNotas());
         valores.put("imagen",a.getRutaImagen());
         valores.put("comprado",a.isSeleccionado());
-        //Log.i("prueba", "engadirCategoria: ");
         long id = sqlLiteDB.insert(TABOA_ARTICULOS,null,valores);
-        //Log.i("prueba", id+"");
 
         return id;
     }
@@ -256,17 +197,13 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     public ArrayList<Loxica_Categoria> obterCategorias() {
         ArrayList<Loxica_Categoria> categorias = new ArrayList<Loxica_Categoria>();
 
-        Log.i("cosas", "obterCategorias");
         Cursor datosCategorias = sqlLiteDB.rawQuery("select * from Categoria", null);
         if (datosCategorias.moveToFirst()) {
             Loxica_Categoria categoria;
             while (!datosCategorias.isAfterLast()) {
                 categoria = new Loxica_Categoria(datosCategorias.getInt(0),
                         datosCategorias.getString(1));
-
-                Log.i("cosas", "añadida");
                 categorias.add(categoria);
-                Log.i("cosas", categoria.getNombre().toString());
                 datosCategorias.moveToNext();
             }
         }
@@ -314,8 +251,6 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
     public Loxica_Lista obterLista(String nL, Loxica_Categoria c) {
         Loxica_Lista lista =new Loxica_Lista();
 
-        Log.i("datos", nL);
-        Log.i("datos", c.getId()+"");
         String[] parametros = new String[]{nL,c.getId()+""};
         Cursor datosListas = sqlLiteDB.rawQuery("select * from Lista where nombre_lista like ? and id_categoria=?", parametros);
         if (datosListas.moveToFirst()) {
@@ -331,7 +266,6 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public int obterIdCategoria(String nC) {
         int id=0;
-        Log.i("prueba2", nC+"nombre cat");
         String[] parametros = new String[]{nC};
         Cursor datosCategorias = sqlLiteDB.rawQuery("select id_categoria from Categoria where nombre_categoria like ?", parametros);
         if (datosCategorias.moveToFirst()) {
@@ -409,23 +343,16 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
             Loxica_Lista lista;
             while (!datosListas.isAfterLast()) {
 
-//                for(Loxica_Categoria c:categorias) {
                 articulos =new ArrayList<Loxica_Articulo>();
                     if(datosListas.getInt(2)== categoria.getId()) {
                         lista = new Loxica_Lista(datosListas.getInt(0),
                                 datosListas.getString(1), categoria, articulos);
                         listas.add(lista);
                     }
-//                }
                 datosListas.moveToNext();
             }
         }
         return listas;
-    }
-
-    public boolean checkDataBase() {
-        File dbFile = new File(PATH_BD + NOME_BD);
-        return dbFile.exists();
     }
 
     public void abrirBD(){

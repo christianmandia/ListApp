@@ -29,13 +29,31 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 public class Activity_NuevaLista extends Activity {
+
+    /**
+     * cat é un ArrayList coas Categorias que recibe da Activity_MisListas que mostra o Spinner.
+     **/
     ArrayList<Loxica_Categoria> cat;
-
-
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
+    private static ConstraintLayout constraintLayout;
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
-
+    /**
+     * nCat é unha referencia ao nome da Categoría que está seleccionada no Spinner.
+     **/
     private String nCat;
+    /**
+     * sNombreLista é un String que garda como referencia o contenido do EditText do nome da Lista a engadir.
+     **/
+    private String sNombreLista;
 
+    /**
+     * Controla os clicks que se realicen nos elementos da Activity.
+     **/
     private void xestionarEventos(){
         final Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_NuevaLista);
 
@@ -59,12 +77,7 @@ public class Activity_NuevaLista extends Activity {
             @Override
             public void onClick(View v) {
                 EditText etNombreLista=(EditText)findViewById(R.id.etNombreLista_NuevaLista);
-
-                Log.i("aadaa", "onClick: ");
-
-                Log.i("aadaa", "obter id");
                 int id=baseDatos.obterIdCategoria(nCat);
-                Log.i("aadaa", "obterCat");
                 Loxica_Categoria c=baseDatos.obterCategoria(id);
                 String nL=etNombreLista.getText().toString();
 
@@ -72,24 +85,7 @@ public class Activity_NuevaLista extends Activity {
 
                     Loxica_Lista l=baseDatos.obterLista(nL,c);
                     if(l.getNombre()==null) {
-
-                        Log.i("aadaa", "engadirLista");
-                        long add = baseDatos.engadirLista(nL, id);
-                        Log.i("prueba", add+"");
-
-                        //if(add==1){
-                            //etNombreLista.setText("");
-                            //Toast.makeText(getApplicationContext(),"lista engadida", Toast.LENGTH_SHORT).show();
-                        //}
-                        /*
-                        Log.i("aadaa", "obterLista");
-                        l = baseDatos.obterLista(nL,c);
-
-
-                        Intent datos = new Intent();
-                        datos.putExtra(Activity_MisListas.NUEVALISTA, l);
-                        setResult(RESULT_OK, datos);
-                        */
+                        baseDatos.engadirLista(nL, id);
                         finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"Xa existe unha lista chamada así  en esa categoría",Toast.LENGTH_LONG).show();
@@ -109,6 +105,9 @@ public class Activity_NuevaLista extends Activity {
         });
     }
 
+    /**
+     * Cargará o ArrayList cat e o Spinner coas categorias que recibirá da Activity_MisListas.
+     **/
     private void cargarCategorias(){
 
         Spinner categorias=findViewById(R.id.spnCategorias_NuevaLista);
@@ -121,9 +120,6 @@ public class Activity_NuevaLista extends Activity {
         categorias.setAdapter(miAdaptador);
 
     }
-
-    private static ConstraintLayout constraintLayout;
-
     /**
      * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
      **/
@@ -151,14 +147,8 @@ public class Activity_NuevaLista extends Activity {
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
             spnC.setBackgroundColor(Color.DKGRAY);
-
-
         }
-        //nome.setText(valorNome);
-
-
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle guardaEstado) {
@@ -178,20 +168,11 @@ public class Activity_NuevaLista extends Activity {
         etNombreLista.setText(sNombreLista);
     }
 
-    private String sNombreLista;
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
-//        if (baseDatos==null) {   // Abrimos a base de datos para escritura
-            baseDatos = baseDatos.getInstance(getApplicationContext());
-            //baseDatos = new BaseDatos(getApplicationContext());
-            baseDatos.abrirBD();
-//        }
-        //Log.i("PROBA",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-
+        baseDatos = baseDatos.getInstance(getApplicationContext());
+        baseDatos.abrirBD();
     }
 
     @Override
@@ -199,8 +180,6 @@ public class Activity_NuevaLista extends Activity {
         super.onResume();
         aplicarPreferencias();
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,4 +191,5 @@ public class Activity_NuevaLista extends Activity {
         xestionarEventos();
         cargarCategorias();
     }
+
 }
