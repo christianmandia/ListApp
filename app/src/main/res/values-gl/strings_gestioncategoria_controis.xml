@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="tvCategorias_GestionCategorias">Categories</string>
     <string name="tvNombre_GestionCategorias">Nova Categoria</string>
     <string name="tvImagen_GestionCategorias">Imaxe da Categoria</string>
 </resources>

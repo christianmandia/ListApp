@@ -218,6 +218,7 @@ public class Activity_GestionCategoria extends Activity {
         EditText etNombreCategoria=(EditText)findViewById(R.id.etNombreCat_GestionCategorias);
         EditText etmodificarCategoria=(EditText)findViewById(R.id.etModificarCategoria_GestionCategorias);
 
+        TextView tvCategorias=(TextView)findViewById(R.id.tvCategorias_GestionCategorias);
 
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
         if(fondo){
@@ -228,6 +229,7 @@ public class Activity_GestionCategoria extends Activity {
             etmodificarCategoria.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             etNombreCategoria.setTextColor(getResources().getColor(R.color.white));
             etNombreCategoria.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            tvCategorias.setTextColor(getResources().getColor(R.color.white));
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ListApp</string>
+
+    <string name="menu_botones_titulo">You need a categorie before</string>
+    <string-array name="menu_botones">
+        <item>Import Categories</item>
+        <item>Create New Categorie</item>
+    </string-array>
+</resources>

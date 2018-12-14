@@ -58,13 +58,12 @@
             android:src="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="@+id/etNombreCat_GestionCategorias"
             app:layout_constraintStart_toEndOf="@+id/etNombreCat_GestionCategorias"
-            app:layout_constraintTop_toTopOf="@+id/etNombreCat_GestionCategorias"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toTopOf="@+id/etNombreCat_GestionCategorias" />
 
         <Spinner
             android:id="@+id/spnCategorias_GestionCategorias"
             android:layout_width="210sp"
-            android:layout_height="wrap_content"
+            android:layout_height="35sp"
             android:layout_marginEnd="8sp"
             android:layout_marginTop="8sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -90,7 +89,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/etModificarCategoria_GestionCategorias"
             app:layout_constraintStart_toEndOf="@+id/etModificarCategoria_GestionCategorias"
             app:layout_constraintTop_toTopOf="@+id/etModificarCategoria_GestionCategorias"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.75" />
 
         <EditText
             android:id="@+id/etNombreCat_GestionCategorias"
@@ -133,6 +132,15 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <TextView
+            android:id="@+id/tvCategorias_GestionCategorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="68dp"
+            android:text="@string/tvCategorias_GestionCategorias"
+            app:layout_constraintBottom_toBottomOf="@+id/spnCategorias_GestionCategorias"
+            app:layout_constraintEnd_toStartOf="@+id/spnCategorias_GestionCategorias"
+            app:layout_constraintTop_toTopOf="@+id/spnCategorias_GestionCategorias" />
 
 
     </android.support.constraint.ConstraintLayout>

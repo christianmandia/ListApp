@@ -157,9 +157,13 @@ public class Activity_MisListas extends Activity {
         ibtnAñadirLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intento=new Intent(getApplicationContext(),Activity_NuevaLista.class);
-                intento.putExtra(CATEGORIAS,cat);
-                startActivityForResult(intento,COD_ADDLISTA);
+                if(cat.size()>1 && cat.get(0).getId()==0) {
+                    Intent intento = new Intent(getApplicationContext(), Activity_NuevaLista.class);
+                    intento.putExtra(CATEGORIAS, cat);
+                    startActivityForResult(intento, COD_ADDLISTA);
+                }else{
+                    genDialogs(CATEGORIA);
+                }
             }
         });
         final Spinner spinerCat=(Spinner)findViewById(R.id.spnCategorias_mislistas);
@@ -345,6 +349,7 @@ public class Activity_MisListas extends Activity {
     private static AlertDialog dialog;
     private static final int ELIMINAR = 1;
     private static final int PROGRESS = 2;
+    private static final int CATEGORIA = 3;
 
 
     protected Dialog onCreateDialog(int id) {
@@ -370,6 +375,7 @@ public class Activity_MisListas extends Activity {
                 });
                 return d.create();
         */
+                /*
             case PROGRESS:
 
                 String infService = Context.LAYOUT_INFLATER_SERVICE;
@@ -383,6 +389,7 @@ public class Activity_MisListas extends Activity {
                 d.show();
                 closeOptionsMenu();
                 break;
+                */
         }
 
         return null;
@@ -456,10 +463,68 @@ public class Activity_MisListas extends Activity {
 
                     //
                 break;
+            case CATEGORIA:
+
+                d=new AlertDialog.Builder(this);
+                d.setTitle(R.string.menu_botones_titulo)
+                        .setItems(R.array.menu_botones, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int posicion) {
+                                // O usuario selecciona unha das opcións do listado
+                                Log.i("prueba3", "P");
+                                switch(posicion){
+                                    case 0:
+                                        thread = new Thread(){
+
+                                            @Override
+                                            public void run(){
+                                                descargarArquivo();
+                                            }
+                                        };
+
+                                        genDialogs(PROGRESS);
+                                        thread.start();
+
+                                        if ((miñaTarefa==null) || (miñaTarefa.getStatus()== AsyncTask.Status.FINISHED)){
+                                            miñaTarefa = new MiñaTarefa();
+                                            miñaTarefa.execute();
+                                        }
+
+                                        try {
+                                            thread.join();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        try {
+                                            lerArquivo();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (XmlPullParserException e) {
+                                            e.printStackTrace();
+                                        }
+                                        break;
+                                    case 1:
+                                        Intent gCategorias=new Intent(getApplicationContext(), Activity_GestionCategoria.class);
+                                        if(cat==null){
+                                            cat=new ArrayList<Loxica_Categoria>();
+                                        }
+
+                                        gCategorias.putExtra(CATEGORIAS,cat);
+                                        startActivityForResult(gCategorias,COD_GCAT);
+                                        break;
+
+                                    default:break;
+                                }
+                            }
+                        });
+                d.create();
+                d.show();
+
+                break;
         }
 
 
     }
+    /*
     private void setProgressDialog(boolean show){
         d= new AlertDialog.Builder(this);
         String infService = Context.LAYOUT_INFLATER_SERVICE;
@@ -471,6 +536,7 @@ public class Activity_MisListas extends Activity {
         if (show)dialog.show();
         else dialog.dismiss();
     }
+    */
 
             @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -483,9 +549,11 @@ public class Activity_MisListas extends Activity {
     @Override
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
+        /*
         if(dialog!=null){
             dialog.dismiss();
         }
+        */
     }
 
     private void cargarListas(){

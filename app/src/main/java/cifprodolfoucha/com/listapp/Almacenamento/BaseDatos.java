@@ -137,6 +137,15 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    /**
+     * Este metodo garda na BD unha nova categoria
+     *
+     * @params size, o int co tamaño
+     * @params nc, o que sexa
+     * @returns Un long que é o numero de fila da insercion
+     * @author Christian
+     * @version 1
+     **/
     public long engadirCategoria(int size,String nC){
         size+=1;
         ContentValues valores = new ContentValues();
