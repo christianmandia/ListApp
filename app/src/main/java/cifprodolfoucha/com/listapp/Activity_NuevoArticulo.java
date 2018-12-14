@@ -33,27 +33,78 @@ public class Activity_NuevoArticulo extends Activity {
     //private String nomeFoto="";
     //private boolean pasaFoto;
 
+    /**
+     * rutaArquivo
+     **/
     private String rutaArquivo="";
+    /**
+     * nomeSobrescribir
+     **/
     private String nomeSobrescribir="";
+    /**
+     * gardar
+     **/
     private static boolean gardar=false;
+    /**
+     * MY_CAMERA_REQUEST_CODE
+     **/
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    /**
+     *
+     **/
     private File img,imaxe,directorio;
+    /**
+     * articulos é un ArrayList dos artículos, que recibe da Activity_Lista.
+     **/
     private ArrayList<Loxica_Articulo> articulos =new ArrayList();
+    /**
+     * articulos2 é un ArrayList onde se gardarán os artículos que vaiamos engadindo, para mandalos de volta a Activity_Lista e que os engada ó RecycleView.
+     **/
     private ArrayList<Loxica_Articulo> articulos2=new ArrayList();
+    /**
+     * idListaRecibida é unha referencia ao id da Lista, dato que se recibiu da Activity_Lista.
+     **/
     private int idListaRecibida;
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
     private static ConstraintLayout constraintLayout;
+    /**
+     * sNombre será unha referencia ao contido do EditText do nome do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private String sNombre;
+    /**
+     * iCantidad será unha referencia ao contido do EditText da cantidade do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private int iCantidad;
+    /**
+     * dPrecio será unha referencia ao contido do EditText do precio do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private double dPrecio;
+    /**
+     * sNotas será unha referencia ao contido do EditText das notas do Artículo para poder recuperalas se se xira a pantalla.
+     **/
     private String sNotas;
+    /**
+     * sImagen será unha referencia á ruta da imaxe do Artículo para poder recuperalo se se xira a pantalla, que se cargará no ImageView.
+     **/
     private String sImagen="";
+    /**
+     * Cant será unha variable que indique se o Artículo a engadir ten algun dato escrito no EditText de cantidade.
+     **/
     private boolean Cant;
+    /**
+     * Pre será unha variable que indique se o Artículo a engadir ten algun dato escrito no EditText de precio.
+     **/
     private boolean Pre;
 
 
     /**
-     * Cargará o ArrayList cat e o Spinner coas categorias que recibirá da Activity_MisListas.
+     * Controla os clicks que se realicen nos elementos da Activity.
      **/
     private void xestionarEventos(){
          ImageButton ibtn_Cancelar=findViewById(R.id.ibtn_CancelarNuevoArticulo);
@@ -152,6 +203,9 @@ public class Activity_NuevoArticulo extends Activity {
         });
     }
 
+    /**
+     * Limpia os EditText e o ImageView se se queren engadir máis Artículos.
+     **/
     public void borrarDatos(){
         EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
         EditText etCantidad=(EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
@@ -169,7 +223,10 @@ public class Activity_NuevoArticulo extends Activity {
         ivFoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
     }
 
-
+    /**
+     * Engade un Artículo á base de datos e ó ArrayList articulos2, sempre que non exista nesa lista un Artículo co mesmo nome.
+     * @return true se o Artículo puido ser engadido.
+     **/
     public boolean añadirArticulo() {
         boolean añadido=false;
 

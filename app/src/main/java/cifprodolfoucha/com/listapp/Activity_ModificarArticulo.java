@@ -34,20 +34,66 @@ import static android.support.v4.content.FileProvider.getUriForFile;
 
 public class Activity_ModificarArticulo extends Activity {
 
+
+    /**
+     *
+     **/
     private String nomeFoto="";
+    /**
+     *
+     **/
     private String rutaArquivo="",rutaArquivoRecibido="";
+    /**
+     *
+     **/
     private String nomeSobrescribir="";
+    /**
+     *
+     **/
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+    /**
+     *
+     **/
     private File img,imaxeRecibida,imaxe,directorio,temp;
+    /**
+     *
+     **/
     private Loxica_Articulo articulo;
+    /**
+     *
+     **/
     private int idL;
+    /**
+     * modFoto
+     **/
     private boolean modFoto=false;
+    /**
+     * sNombre será unha referencia ao contido do EditText do nome do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private String sNombre;
+    /**
+     * iCantidad será unha referencia ao contido do EditText da cantidade do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private int iCantidad;
+    /**
+     * dPrecio será unha referencia ao contido do EditText do precio do Artículo para poder recuperalo se se xira a pantalla.
+     **/
     private double dPrecio;
+    /**
+     * sNotas será unha referencia ao contido do EditText das notas do Artículo para poder recuperalas se se xira a pantalla.
+     **/
     private String sNotas;
+    /**
+     * sImagen será unha referencia á ruta da imaxe do Artículo para poder recuperalo se se xira a pantalla, que se cargará no ImageView.
+     **/
     private String sImagen="";
+    /**
+     * Cant será unha variable que indique se o Artículo a engadir ten algun dato escrito no EditText de cantidade.
+     **/
     private boolean Cant;
+    /**
+     * Pre será unha variable que indique se o Artículo a engadir ten algun dato escrito no EditText de precio.
+     **/
     private boolean Pre;
 
     /**

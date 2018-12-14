@@ -28,28 +28,14 @@ public class Loxica_Articulo implements Serializable {
         this.marcado=false;
     }
 
+
     /**
-     *
-     * @return
-     **/
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-    /**
-     *
-     * @param rutaImagen
-     **/
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
-    }
-    /**
-     *
-     * @return
+     * Comproba se o Artículo ten imaxe.
+     * @return true se o Artículo ten unha imaxe.
      **/
     public boolean riExiste(){
         return rutaImagen.equals("");
     }
-
     public String getNombre() {
         return nombre;
     }
@@ -64,6 +50,14 @@ public class Loxica_Articulo implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public boolean isSeleccionado() {

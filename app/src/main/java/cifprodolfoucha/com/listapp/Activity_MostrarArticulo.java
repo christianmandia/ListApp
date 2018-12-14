@@ -19,10 +19,18 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 
 public class Activity_MostrarArticulo extends Activity {
 
+    /**
+     * articulo será unha referencia ao Artículo recibido da Activity_Lista.
+     **/
     private Loxica_Articulo articulo =null;
-
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
     private static ConstraintLayout constraintLayout;
 
+    /**
+     * Controla os clicks que se realicen nos elementos da Activity.
+     **/
     private void xestionarEventos(){
         ImageButton ibtn_Volver=findViewById(R.id.ibtn_VolverMostrarArticulo);
 
@@ -33,6 +41,10 @@ public class Activity_MostrarArticulo extends Activity {
             }
         });
     }
+
+    /**
+     * Carga os datos do Artículo recibido nos TextView e a imaxe do Artículo, se a ten, no ImageView.
+     **/
     private void cargarArticulo(){
         TextView tvNombreArticulo=findViewById(R.id.tvNombreArticuloMostrado_MostrarArticulo);
         TextView tvPrecioArticulo=findViewById(R.id.tvPrecioArticuloMostrado_MostrarArticulo);

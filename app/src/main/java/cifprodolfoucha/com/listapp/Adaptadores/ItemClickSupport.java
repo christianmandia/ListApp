@@ -7,6 +7,9 @@ import cifprodolfoucha.com.listapp.R;
 
 public class ItemClickSupport {
 
+    /**
+     * Esta é unha clase que implmentei para poder realizar o LongClick sobre o RecyclreView.
+     **/
 
 
     private final RecyclerView mRecyclerView;

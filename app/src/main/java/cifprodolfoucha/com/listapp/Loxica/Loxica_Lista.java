@@ -27,8 +27,7 @@ public class Loxica_Lista implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * @return o número de articulos comprados e o total de articulos da lista.
      **/
     public String diferenciaArticulos() {
         int total = 0;
@@ -45,8 +44,8 @@ public class Loxica_Lista implements Serializable {
         return checked + "/" + total;
     }
     /**
-     *
-     * @return
+     * Obten o precio dos artículos comprados.
+     * @return o precio dos productos da lista que estean comprados.
      **/
     public float precioChecked(){
         float precioChecked=0;
@@ -60,8 +59,8 @@ public class Loxica_Lista implements Serializable {
         return precioChecked;
     }
     /**
-     *
-     * @return
+     * Comproba se todos os artículos da lista estan comprados.
+     * @return true se todos os artículos da lista están comprados.
      **/
     public boolean TienesTodo(){
         int total=0;
