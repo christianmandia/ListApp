@@ -2,14 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <item
-        android:id="@+id/app_bar_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checkable="true"
-        android:title="Switch"
-        app:actionLayout="@layout/switch_item" />
     <group android:id="@+id/GrupoOpciones">
         <item
             android:id="@+id/MarcarComprados"

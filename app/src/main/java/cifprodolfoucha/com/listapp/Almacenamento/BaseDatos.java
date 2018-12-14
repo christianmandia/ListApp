@@ -425,16 +425,13 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
     public boolean checkDataBase() {
         File dbFile = new File(PATH_BD + NOME_BD);
-        //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
         return dbFile.exists();
     }
 
     public void abrirBD(){
-        //if(checkDataBase()){
         if (sqlLiteDB==null || !sqlLiteDB.isOpen()){
             sqlLiteDB = sInstance.getWritableDatabase();
         }
-        //}
     }
 
     public void pecharBD(){

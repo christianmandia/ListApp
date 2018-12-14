@@ -6,6 +6,9 @@ import android.view.View;
 import cifprodolfoucha.com.listapp.R;
 
 public class ItemClickSupport {
+
+
+
     private final RecyclerView mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;

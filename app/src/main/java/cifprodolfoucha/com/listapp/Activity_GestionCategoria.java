@@ -209,6 +209,9 @@ public class Activity_GestionCategoria extends Activity {
 
     private static ConstraintLayout constraintLayout;
 
+    /**
+     * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
+     **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_GestionCategorias);

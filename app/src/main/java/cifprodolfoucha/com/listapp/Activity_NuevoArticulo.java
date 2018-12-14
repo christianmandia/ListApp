@@ -29,26 +29,19 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
 public class Activity_NuevoArticulo extends Activity {
-/*
-    ListView lvArticulos;
-    public Activity_NuevoArticulo(ListView lvArticulos) {
-        this.lvArticulos=lvArticulos;
-    }
-*/
+
     private  ArrayList<Loxica_Articulo> articulos =new ArrayList();
     private  ArrayList<Loxica_Articulo> articulos2=new ArrayList();
 
     private int idListaRecibida;
 
-    private String nomeFoto="";
+    //private String nomeFoto="";
     private String rutaArquivo="";
     private String nomeSobrescribir="";
     private static boolean gardar=false;
-    private final int CODIGO_IDENTIFICADOR=1;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private File img,imaxe,directorio,temp;
-    private boolean pasaFoto;
-    //private Bitmap bitmap;
+    //private boolean pasaFoto;
     private BaseDatos baseDatos;
 
     private void xestionarEventos(){
@@ -56,12 +49,6 @@ public class Activity_NuevoArticulo extends Activity {
          ImageButton ibtn_Guardar=findViewById(R.id.ibtn_GuardarNuevoArticulo);
          ImageButton ibtn_GuardarYContinuar=findViewById(R.id.ibtn_GuardarNuevoArticuloYContinuar);
          ImageButton ibtn_Foto=findViewById(R.id.ibtn_AñadirFoto_NuevoArticulo);
-
-
-        //final EditText etNombreArticulo=findViewById(R.id.etNombreArticulo_NuevoArtículo);
-
-
-
 
         ibtn_Cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,17 +85,9 @@ public class Activity_NuevoArticulo extends Activity {
         ibtn_Foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 /*
-                 File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                 File arquivo = new File(ruta,nomeFoto);
-
-                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                 intento.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivo));
-                startActivityForResult(intento, REQUEST_CODE_GRAVACION_OK);
-                */
                 //File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                Time now=new Time();
-                now.setToNow();
+                //Time now=new Time();
+                //now.setToNow();
 
                 directorio = new File(Environment.getExternalStorageDirectory(), "ListApp");
                 if (!directorio.exists()) {
@@ -119,23 +98,16 @@ public class Activity_NuevoArticulo extends Activity {
                     img.mkdirs();
                 }
 
-
-
                 if(!rutaArquivo.equals("")){
                     String[] nombre=rutaArquivo.split("/");
                     nomeSobrescribir=nombre[nombre.length-1];
-                    //Toast.makeText(getApplicationContext(),nomeSobrescribir,Toast.LENGTH_LONG).show();
                 }
-
-
-
-
-                nomeFoto="img-"+now+".jpg";
+//                nomeFoto="img-"+now+".jpg";
                 //File arquivo = new File(ruta,nomeFoto);
                 //imaxe = new File(img,nomeFoto);
 
 
-                Uri contentUri=null;
+//                Uri contentUri=null;
 /*
                 if (Build.VERSION.SDK_INT >= 24) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -153,18 +125,10 @@ public class Activity_NuevoArticulo extends Activity {
 
 
 
-                Log.i("inicia","llega a llamada");
                 Intent intento = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Log.i("media","llega a putExtra");
-                intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-                Log.i("continua","llega a startActivity");
-
-
+                //intento.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                 Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-
                 startActivityForResult(cam, MY_CAMERA_REQUEST_CODE);
-                Log.i("finaliza","final");
 
                 if(!nomeSobrescribir.equals("")){
                     File f=new File(img,nomeSobrescribir);
@@ -176,28 +140,7 @@ public class Activity_NuevoArticulo extends Activity {
 
         });
     }
-    /*
-    public void saveImage(Bitmap bmp, String filename)
-    {
-        Intent mediaScanIntent = new Intent(Intent.Action_);
 
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(filename);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-*/
     public void borrarDatos(){
         EditText etNombre=(EditText) findViewById(R.id.etNombreArticulo_NuevoArticulo);
         EditText etCantidad=(EditText) findViewById(R.id.etCantidadArticulo_NuevoArticulo);
@@ -223,7 +166,7 @@ public class Activity_NuevoArticulo extends Activity {
         for(Loxica_Articulo a: articulos){
 
             if(a.getNombre().toLowerCase().equals(etNombre.getText().toString().toLowerCase())) {
-                //llamadas();
+
                 encontrado=true;
             }
 
@@ -241,24 +184,17 @@ public class Activity_NuevoArticulo extends Activity {
             if (!etPrecio.getText().toString().isEmpty()) {
                 precio = Double.parseDouble(etPrecio.getText().toString());
             }
-            //llamadas(etPrecio.getText().toString());
-            Loxica_Articulo a =null;
+            Loxica_Articulo a;
 
+            /*
             if(pasaFoto) {
-
-                //Toast.makeText(this,arquivo.getAbsolutePath(),Toast.LENGTH_SHORT).show();
-                //if (!arquivo.exists()) return;          // Non hai foto
                 rutaArquivo = imaxe.getAbsolutePath();
 
-
-
-
             }
+            */
 
 
             int id = baseDatos.obterNovoIdArticulo(idListaRecibida);
-            //id+=1;
-            Log.i("prueba", id+" - "+idListaRecibida);
             if(!etNombre.getText().toString().equals("")) {
                 if (!rutaArquivo.equals("")) {
                     a = new Loxica_Articulo(id, etNombre.getText().toString(), false, cantidad, precio, etNotas.getText().toString(), rutaArquivo);
@@ -267,22 +203,16 @@ public class Activity_NuevoArticulo extends Activity {
                 }
                 long res = baseDatos.engadirArticulo(a, idListaRecibida);
                 if (res > 0) {
-                    Log.i("LRecibida", ":Exito: ");
-                } else {
-                    Log.i("LRecibida", ":NO: ");
+                    articulos2.add(a);
+                    añadido=true;
+                }else{
+                    Toast.makeText(this,"No se pudo añadir el articulo", Toast.LENGTH_SHORT).show();
                 }
 
-                articulos2.add(a);
-                añadido=true;
 
             }else{
                 Toast.makeText(this,"No puedes crear un articulo sin nombre, animal", Toast.LENGTH_SHORT).show();
             }
-            /*
-            Intent datos = new Intent();
-             datos.putExtra(Activity_Lista.NEWArticulos, articulos2);
-             setResult(RESULT_OK, datos);
-             */
         }
 
 
@@ -312,89 +242,31 @@ public class Activity_NuevoArticulo extends Activity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("informacionsobrerequest",requestCode+"");
-        Log.i("informacionsobreresult",resultCode+"");
         if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK )
         { {
-            // Saca foto
-            //File ruta = img;
-            Log.i("entra","entra a guardar");
-            File arquivo = new File(img, nomeFoto);
+            File arquivo;
             Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
-
-
             Bitmap bitmap=(Bitmap)data.getExtras().get("data");
-
             if(bitmap!=null) {
                 String img = lg.SaveImage(this, bitmap, "Img");
-                //if (!arquivo.exists()) return;          // Non hai foto
-                //rutaArquivo=arquivo.getAbsolutePath();
-
-                Log.i("entraguardarfoto", "entra a guardar");
-
                 ImageView imgview = (ImageView) findViewById(R.id.ivImagenArticulo_NuevoArticulo);
-                //Bitmap bitmap = BitmapFactory.decodeFile(rutaArquivo);
-                //Toast.makeText(this,"LAs cosaS",Toast.LENGTH_SHORT).show();
-
-                //bitmap = (Bitmap)data.getExtras().get("data");
-//            imgview.setImageBitmap(bitmap);
-
-                Log.i("rutaimagen", img);
-
                 arquivo=new File(img);
                 imaxe=arquivo;
                 rutaArquivo=img;
-
-
                 Bitmap bm = BitmapFactory.decodeFile(img);
-
-                Log.i("bitmapimagen", bm + "");
                 imgview.setImageBitmap(bm);
-
                 gardar=true;
 
-                //imaxe=new File(img,nomeFoto);
-
-
-                //imgview.setScaleType(ImageView.ScaleType.FIT_XY);
-/*
-            if(!nomeSobrescribir.equals("")){
-                //File f=new File(ruta,nomeSobrescribir);
-                File f=new File(img,nomeSobrescribir);
-                f.delete();
-                arquivo.renameTo(f);
-            }
-*/
-
-
             }
 
         }
         }
     }
-/*
-    public void pedirPermiso(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //requestPermissions( new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},CODIGO_IDENTIFICADOR);
-            //requestPermissions( new String[]{Manifest.permission.CAMERA},CODIGO_IDENTIFICADOR);
-        }
-    }
-/*
-    @Override
-     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                 //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-             } else {
-                 //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-             }
-         }
-    }
-*/
-
     private static ConstraintLayout constraintLayout;
 
+    /**
+     * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
+     **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -432,12 +304,8 @@ public class Activity_NuevoArticulo extends Activity {
             constraintLayout.setBackgroundColor(Color.BLACK);
         }else{
             setTheme(R.style.Diurno);
-
             constraintLayout.setBackgroundColor(Color.WHITE);
-
-
         }
-        //nome.setText(valorNome);
 
 
     }
@@ -479,9 +347,6 @@ public class Activity_NuevoArticulo extends Activity {
 
         guardaEstado.putSerializable("articulos", articulos);
         guardaEstado.putSerializable("articulos2",articulos2);
-        //t = texto.getText().toString();
-        //lo "guardamos" en el Bundle
-        //guardaEstado.putString("text", t);
     }
 
     @Override
@@ -519,11 +384,6 @@ public class Activity_NuevoArticulo extends Activity {
         }else{
             ivimagen.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_report_image));
         }
-
-        //recuperamos el String del Bundle
-        //t = recuperaEstado.getString("text");
-        //Seteamos el valor del EditText con el valor de nuestra cadena
-       // texto.setText(t);
     }
 
     private String sNombre;
@@ -554,15 +414,11 @@ public class Activity_NuevoArticulo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_nuevoarticulo);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_NuevoArticulo);
-        //(ScrollView)findViewById();
 
         idListaRecibida=getIntent().getIntExtra("idLista",0);
-//        Log.i("LRecibida", idListaRecibida+"");
         if((articulos =(ArrayList<Loxica_Articulo>) getIntent().getSerializableExtra("articulos"))==null){
             articulos =new ArrayList<Loxica_Articulo>();
         }
-
-//        pedirPermiso();
         xestionarEventos();
     }
 }

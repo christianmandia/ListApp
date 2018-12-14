@@ -3,15 +3,12 @@ package cifprodolfoucha.com.listapp;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,36 +55,146 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
+
 public class Activity_MisListas extends Activity {
-
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
+    /**
+     * cat é un ArrayList coas Categorias que mostra o spinner.
+     **/
     private ArrayList<Loxica_Categoria> cat;
+    /**
+     * listas é o un ArayList coas listas que teñen a mesma categoría que o Spinner ten seleccionada.
+     **/
     private ArrayList<Loxica_Lista> listas =new ArrayList<Loxica_Lista>();
-    Menu m=null;
-    private Loxica_Lista lista1;
+    /**
+     * pos é o número que representa a posicíon da lista dentro do ArrayList listas.
+     **/
     private int pos;
-    private Adaptador_Categorias miAdaptador;
-    private Adaptador_MisListas miAdaptadorMisListas;
+    /**
+     * Adaptador_Categorias é unha referencia global ao adaptador que utilizará o spinner das categorías.
+     **/
+    private Adaptador_Categorias Adaptador_Categorias;
+    /**
+     * Adaptador_MisListas é unha referencia global ao adaptador que utilizará o ListView das listas.
+     **/
+    private Adaptador_MisListas Adaptador_MisListas;
+    /**
+     * lista será unha referencia global ao ListView das listas.
+     **/
     private ListView lista;
-    //private int COD_LOGIN=30;
+    /**
+     * COD_GCAT é un numero que se utilizará para facer unha chamada a Activity_GestionCategoria e para recibir datos dela se fose necesario.
+     **/
     private int COD_GCAT=35;
+    /**
+     * COD_ADDLISTA é un numero que se utilizará para facer unha chamada a Activity_NuevaLista e para recibir datos dela se fose necesario.
+     **/
     private int COD_ADDLISTA=40;
-    private int RESULT_LOGIN=10;
+    /**
+     * COD_PETICION é un numero que se utilizará para facer unha chamada a Activity_Lista e para recibir datos dela se fose necesario.
+     **/
     private static final int COD_PETICION = 33;
+    /**
+     * LISTAENVIADA é un String para utilizar como referencia ao envio do ArrayList listas a outras Activities ou para recibila de volta.
+     **/
     public static String LISTAENVIADA= "lista";
+    /**
+     * CATEGORIAS é un String para utilizar como referencia ao envio do ArrayList cat a outras Activities.
+     **/
     public static String CATEGORIAS= "categorias";
-    public static String NUEVALISTA="listaEnviada";
-    // Usado por si necesitamos diferentes permisos, para identificar cual de ellos es
-    private final int CODIGO_PERMISO_ESCRITURA =1;
-    private final int CODIGO_PERMISO_CAMARA=2;
+    /**
+     * CODIGO_PERMISOS será o codigo que se utilizará para solicitar os permisos.
+     **/
+    private final int CODIGO_PERMISOS=1;
+    /**
+     * tarefaAsync será un fío secundario asíncrono para pechar o diálogo da ProgresBar.
+     **/
+    private TarefaAsync tarefaAsync;
+    /**
+     * TEMPO_FINAL será as veces que se execute un bucle do fío secundario asíncrono.
+     **/
+    private static final int TEMPO_FINAL = 10;
+    /**
+     * d será o builder dos AlertDialogs que se xerarán nesta Activity.
+     **/
+    private AlertDialog.Builder d;
+    /**
+     * dialog será o Dialogo da ProgresBar para poder Pechalo dende a o fío secundario.
+     **/
+    private static AlertDialog dialog;
+    /**
+     * ELIMINAR é o número de referencia para xerar o dialogo que aparecerá se queremos eliminar unha lista.
+     **/
+    private static final int ELIMINAR = 1;
+    /**
+     * PROGRESS é o número de referencia para xerar o dialogo da ProgresBar.
+     **/
+    private static final int PROGRESS = 2;
+    /**
+     * CATEGORIA é o número de referencia para xerar un diálogo de botóns se non
+     **/
+    private static final int CATEGORIA = 3;
+    /**
+     * IMAXE_DESCARGAR será un ficheiro que se descargará mendiante a enlace anterior, se decidimos descargalo.
+     **/
+    private final String IMAXE_DESCARGAR="http://wiki.cifprodolfoucha.es/AplicacionesAndroid/20182019/ListApp.xml";
+    /**
+     * newArquivo será un ficheiro que se descargará mendiante a enlace anterior, se decidimos descargalo.
+     **/
+    private File newArquivo;
+    /**
+     * thread será un fío secundario por onde se descargará un ficheiro, se decidimos descargalo.
+     **/
+    private Thread thread;
+    /**
+     * directorio será o cartafol da aplicación, onde se gardarán os documentos que se descarguen e a s imaxes.
+     **/
+    private File directorio;
+    /**
+     * ficheiros será o cartafol onde se gardarán os documentos.
+     **/
+    private File ficheiros;
+    /**
+     * msg é un String que se utilizará para mandar mensaxes por Toast ao usuario tras realizar algúns métodos.
+     **/
+    private String msg="";
+    /**
+     * cat2 é un ArrayList de Categorias que se utilizará para obter as Categorías dun ficheiro XML se decidimos descargalo.
+     **/
+    private ArrayList<Loxica_Categoria> cat2;
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
+    private static ConstraintLayout constraintLayout;
+    /**
+     * CAT_PREF é o nome do ficheiro onde se gardarán as referencias privadas (no caso desta Aplicación usaráse para gardar e ler a versión do documento XML se o chegamos a descargar).
+     **/
+    public static final String CAT_PREF = "CAT_PREF" ;
+    /**
+     * sp son as Preferencias compartidas que obteremos do ficheiro anteror.
+     **/
+    private SharedPreferences sp;
 
+
+    /**
+     * Realiza a copia, se non existe xa, da base de datos aloxada no cartafol Assets
+     *          no cartafol databases da aplicación.
+     *          (assets -> /data/data/cifprodolfoucha.com.listapp/databases)
+     **/
     private void copiarBD() {
         String bddestino = "/data/data/" + getPackageName() + "/databases/"
                 + BaseDatos.NOME_BD;
         File file = new File(bddestino);
         if (file.exists()) {
-            Toast.makeText(getApplicationContext(), "A BD NON SE VAI COPIAR. XA EXISTE", Toast.LENGTH_LONG).show();
-            return; // XA EXISTE A BASE DE DATOS
+            //Toast.makeText(getApplicationContext(), "A BD NON SE VAI COPIAR. XA EXISTE", Toast.LENGTH_LONG).show();
+            return;
         }
 
         String pathbd = "/data/data/" + getPackageName()
@@ -104,51 +211,41 @@ public class Activity_MisListas extends Activity {
             byte[] buffer = new byte[1024];
             int length;
             while ((length = inputstream.read(buffer))>0) {
-                Log.i("cosas", length+" 1 ");
                 outputstream.write(buffer,0,length);
             }
 
             inputstream.close();
             outputstream.flush();
             outputstream.close();
-            Toast.makeText(getApplicationContext(), "BASE DE DATOS COPIADA", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "BASE DE DATOS COPIADA", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "Mensage de error", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
     }
 
-
+    /**
+     * Controla os clicks que se realicen nos elementos da Activity.
+     **/
     public void gestionEventos(){
         lista = findViewById(R.id.lvmislistas_mislistas);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?>adapter,View v, int position, long id){
-                //ItemClicked item = adapter.getItemAtPosition(position);
-
-
-                //Intent intent = new Intent(Activity.this,destinationActivity.class);
-                //based on item add info to intent
-                //startActivity(intent);
-                //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_LONG).show();
                 Loxica_Lista lista1 = listas.get(position);
                 pos=position;
                 Intent intento=new Intent(getApplicationContext(),Activity_Lista.class);
                 intento.putExtra("list", lista1);
                 startActivityForResult(intento,COD_PETICION);
-
-
             }
-
         });
 
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //showDialog(ELIMINAR);
                 pos=position;
-
                 return false;
             }
         });
@@ -172,7 +269,6 @@ public class Activity_MisListas extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if(view!=null) {
-                    //String nomeCategoria = ((TextView)((ConstraintLayout)view).getViewById(R.id.tvNombre_Categoria)).getText().toString();
                     String nomeCategoria = ((TextView) view).getText().toString();
                     Loxica_Categoria c = baseDatos.obterCategoria(nomeCategoria);
                     if (c.getId() != 0) {
@@ -190,19 +286,18 @@ public class Activity_MisListas extends Activity {
         });
     }
 
+    /**
+     * É o metodo que creará e vinculará o menú contextual á ListView das listas.
+     **/
     private void rexistarMenusEmerxentes(){
         ListView lv = findViewById(R.id.lvmislistas_mislistas);
         registerForContextMenu(lv);
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-
-        // Comprobamos se o menú contextual se lanzou sobre a etiqueta ou sobre
-        // a lista
          if (v.getId() == R.id.lvmislistas_mislistas) {
             inflater.inflate(R.menu.menu_mislistas_emerxente, menu);
         }
@@ -216,31 +311,25 @@ public class Activity_MisListas extends Activity {
 
 
         switch (item.getItemId()) {
-
-            // Ítems premidos sobre o TextView
-            // Lanza un Toast coa opción do menú contextual que se seleccinou
-
-            // Ítems premidos sobre o ListView
             case R.id.mniBorrarLista_MisListas:
                 genDialogs(ELIMINAR);
-                /*
-                listas.remove(pos);
-                miAdaptadorMisListas.notifyDataSetChanged();
-                //miAdaptadorMisListas.remove(miAdaptadorMisListas.getItem(info.position));
-                miAdaptadorMisListas.setNotifyOnChange(true);
-                */
                 return true;
 
             case R.id.mniInicializarLista_MisListas:
                 Loxica_Lista listaSel=listas.get(pos);
                 inicializar(listaSel);
-                miAdaptadorMisListas.notifyDataSetChanged();
+                Adaptador_MisListas.notifyDataSetChanged();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
+
+    /**
+     * Rexistrará todos os artículos da lista onde se fixo o LongClick.
+     * @param listaSel será a lista onde se fixo o LongClick.
+     **/
     private void inicializar(Loxica_Lista listaSel) {
         for(Loxica_Articulo articuloL:listaSel.getArticulos()){
             baseDatos.setNoComprado(articuloL.getId(),listaSel.getId());
@@ -251,12 +340,10 @@ public class Activity_MisListas extends Activity {
 
     @Override
     public synchronized boolean onOptionsItemSelected(MenuItem item) {
-        //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
         switch(item.getItemId()){
             case R.id.menuCategorias:
 
                 Intent gCategorias=new Intent(getApplicationContext(), Activity_GestionCategoria.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
 
                 if(cat==null){
                     cat=new ArrayList<Loxica_Categoria>();
@@ -264,13 +351,10 @@ public class Activity_MisListas extends Activity {
 
                 gCategorias.putExtra(CATEGORIAS,cat);
                 startActivityForResult(gCategorias,COD_GCAT);
-                //startActivity(gCategorias);
                 return true;
             case R.id.ajustes:
 
                 Intent ajustes=new Intent(getApplicationContext(), Preferencias_Ajustes.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
-                //startActivityForResult(login,COD_LOGIN);
                 startActivity(ajustes);
                 return true;
             case R.id.descargarCategorias:
@@ -286,9 +370,9 @@ public class Activity_MisListas extends Activity {
                 genDialogs(PROGRESS);
                 thread.start();
 
-                if ((miñaTarefa==null) || (miñaTarefa.getStatus()== AsyncTask.Status.FINISHED)){
-                    miñaTarefa = new MiñaTarefa();
-                    miñaTarefa.execute();
+                if ((tarefaAsync ==null) || (tarefaAsync.getStatus()== AsyncTask.Status.FINISHED)){
+                    tarefaAsync = new TarefaAsync();
+                    tarefaAsync.execute();
                 }
 
                 try {
@@ -305,25 +389,24 @@ public class Activity_MisListas extends Activity {
                 }
 
 
-                if(!erro.equals("")) {
-                    Toast.makeText(getApplicationContext(), erro, Toast.LENGTH_LONG).show();
+                if(!msg.equals("")) {
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 }
                 return true;
             case R.id.inicializarListas:
                 for(Loxica_Lista l:listas){
                     inicializar(l);
                 }
-                miAdaptadorMisListas.notifyDataSetChanged();
+                Adaptador_MisListas.notifyDataSetChanged();
                 return true;
             default:return super.onOptionsItemSelected(item);
         }
     }
 
-
-    private static final int TEMPO_FINAL = 10;
-    private MiñaTarefa miñaTarefa;
-
-    private class MiñaTarefa extends AsyncTask<Void, Integer, Boolean> {
+    /**
+     * Clase que fai un fío secundario, que nesta Activity úsase para pechar o diálogo da ProgresBar.
+     **/
+    private class TarefaAsync extends AsyncTask<Void, Integer, Boolean> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -344,56 +427,10 @@ public class Activity_MisListas extends Activity {
     };
 
 
-
-    private AlertDialog.Builder d;
-    private static AlertDialog dialog;
-    private static final int ELIMINAR = 1;
-    private static final int PROGRESS = 2;
-    private static final int CATEGORIA = 3;
-
-
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case ELIMINAR:
-                /*
-                d = new AlertDialog.Builder(this);
-                d.setIcon(android.R.drawable.ic_dialog_info);
-                d.setTitle("Eliminar");
-                d.setMessage("Está seguro de que desea eliminar este elemento?");
-                d.setCancelable(false);
-                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-
-                         listas.remove(pos);
-                        miAdaptadorMisListas.notifyDataSetChanged();
-
-                    }
-                });
-                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                    }
-                });
-                return d.create();
-        */
-                /*
-            case PROGRESS:
-
-                String infService = Context.LAYOUT_INFLATER_SERVICE;
-                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
-                // Inflamos o compoñente composto definido no XML
-                d=new AlertDialog.Builder(this);
-                View inflador = li.inflate(R.layout.dlg_progressbarr, null);
-                d.setView(inflador);
-                d.setTitle("Descargando");
-                dialog=d.create();
-                d.show();
-                closeOptionsMenu();
-                break;
-                */
-        }
-
-        return null;
-    }
+    /**
+     * Xerará os diálogos que se utilizan nesta Activity.
+     * @param id o id polo cal se xerará un tipo de diálogo ou outro.
+     **/
     protected void genDialogs(int id){
         switch(id){
             default:
@@ -426,7 +463,7 @@ public class Activity_MisListas extends Activity {
                             if (res > 0) {
 
                                 listas.remove(pos);
-                                miAdaptadorMisListas.notifyDataSetChanged();
+                                Adaptador_MisListas.notifyDataSetChanged();
 
                             } else {
                                 Toast.makeText(getApplicationContext(), "Non se eliminou", Toast.LENGTH_SHORT).show();
@@ -484,9 +521,9 @@ public class Activity_MisListas extends Activity {
                                         genDialogs(PROGRESS);
                                         thread.start();
 
-                                        if ((miñaTarefa==null) || (miñaTarefa.getStatus()== AsyncTask.Status.FINISHED)){
-                                            miñaTarefa = new MiñaTarefa();
-                                            miñaTarefa.execute();
+                                        if ((tarefaAsync ==null) || (tarefaAsync.getStatus()== AsyncTask.Status.FINISHED)){
+                                            tarefaAsync = new TarefaAsync();
+                                            tarefaAsync.execute();
                                         }
 
                                         try {
@@ -524,81 +561,36 @@ public class Activity_MisListas extends Activity {
 
 
     }
-    /*
-    private void setProgressDialog(boolean show){
-        d= new AlertDialog.Builder(this);
-        String infService = Context.LAYOUT_INFLATER_SERVICE;
-        LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
-        View inflador = li.inflate(R.layout.dlg_progressbarr, null);
-        //View view = getLayoutInflater().inflate(R.layout.progress);
-        d.setView(inflador);
-        Dialog dialog = d.create();
-        if (show)dialog.show();
-        else dialog.dismiss();
-    }
-    */
 
-            @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_menu, menu);
-        m=menu;
         return true;
     }
 
-    @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-        /*
-        if(dialog!=null){
-            dialog.dismiss();
-        }
-        */
-    }
-
+    /**
+     * Cargará as listas no ArrayList listas e as colocará na ListView se o ArrayList das categorías cat non é nulo.
+     **/
     private void cargarListas(){
         ListView lista = findViewById(R.id.lvmislistas_mislistas);
-/*
-        if(cat!=null) {
-            listas = baseDatos.obterListas(cat);
-
-            for (Loxica_Lista l : listas) {
-                ArrayList<Loxica_Articulo> articulos = baseDatos.obterArticulos(l.getId());
-                l.setArticulos(articulos);
-            }
-*/
         if(cat!=null) {
             listas = baseDatos.obterListas(cat);
             for(Loxica_Lista l: listas){
                 ArrayList<Loxica_Articulo> articulos =baseDatos.obterArticulos(l.getId());
                 if(articulos !=null) {
-                    for (Loxica_Articulo a: articulos){
-                        Log.i("addArticulos", a.getNombre());
-                    }
                     l.setArticulos(articulos);
                 }
             }
-/*
-        ArrayList<Loxica_Articulo> articulos=new ArrayList<>();
-        articulos.add(new Loxica_Articulo("pilas AA",false,1,0.5,""));
-        articulos.add(new Loxica_Articulo("articulo2",true,3,15,""));
-        articulos.add(new Loxica_Articulo("mazá",true,10,30,""));
-
-        listas.add(new Loxica_Lista("Lista1",(new Loxica_Categoria("Categoria1","Imagen1")),articulos));
-
-        ArrayList<Loxica_Articulo> articulos2=new ArrayList<>();
-        articulos2.add(new Loxica_Articulo("articulo4",true,1,2,""));
-        articulos2.add(new Loxica_Articulo("articulo5",true,1,20,""));
-        articulos2.add(new Loxica_Articulo("articulo6",true,4,5,""));
-
-        listas.add(new Loxica_Lista("Lista2",(new Loxica_Categoria("Categoria2","Imagen2")),articulos2));
-*/
-
-
-            miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
-            lista.setAdapter(miAdaptadorMisListas);
+            Adaptador_MisListas = new Adaptador_MisListas(this, listas);
+            lista.setAdapter(Adaptador_MisListas);
         }
-        }
+    }
+
+    /**
+     * Cargará as listas, que pertenzan á Categoría que se lle pasa,
+     *      no ArrayList listas e as colocará na ListView se o ArrayList das categorías cat non é nulo.
+     * @param c será a categoría pola cal se filtará na base de datos para oter as listas.
+     **/
     private void cargarListas(Loxica_Categoria c){
         ListView lista = findViewById(R.id.lvmislistas_mislistas);
         if(cat!=null) {
@@ -607,77 +599,41 @@ public class Activity_MisListas extends Activity {
             for(Loxica_Lista l: listas){
                 ArrayList<Loxica_Articulo> articulos =baseDatos.obterArticulos(l.getId());
                 if(articulos !=null) {
-                    for (Loxica_Articulo a: articulos){
-                        Log.i("addArticulos", a.getNombre());
-                    }
                     l.setArticulos(articulos);
                 }
             }
-            miAdaptadorMisListas = new Adaptador_MisListas(this, listas);
-            lista.setAdapter(miAdaptadorMisListas);
+            Adaptador_MisListas = new Adaptador_MisListas(this, listas);
+            lista.setAdapter(Adaptador_MisListas);
         }
     }
 
+    /**
+     * Cargará o ArrayList cat e o Spinner coas categorias que obterá da base de datos.
+     **/
     private void cargarCategorias(){
         Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
-
-        Log.i("prueba", "cargarCategorias: antes try ");
         try{
-            Log.i("prueba", "cargarCategorias: ");
             cat=baseDatos.obterCategorias();
-
             if(cat.size()==0){
                 Loxica_Categoria c=new Loxica_Categoria(0,getResources().getString(R.string.nomeCategoria));
                 baseDatos.engadirCategoria(c);
                 cat.add(c);
             }
-
-            Log.i("prueba", cat.size()+"");
-            miAdaptador = new Adaptador_Categorias(this, cat);
-//            Log.i("uno", cat.size()+"");
-            categorias.setAdapter(miAdaptador);
+            Adaptador_Categorias = new Adaptador_Categorias(this, cat);
+            categorias.setAdapter(Adaptador_Categorias);
         }catch(Exception e){
             cat=null;
-            Log.i("prueba", "error");
         }
-
     }
 
-/*
-    public final static String Login= "login";
-    public final static String Pass= "pass";
-*/
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
-        if (requestCode == COD_LOGIN) {
-            if (resultCode == RESULT_LOGIN) {
-                if (data.hasExtra(Activity_Lista.Login && Activity_Lista.Pass){
-
-                }
-            }
-        }
-        */
-
         if (requestCode == COD_PETICION) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Activity_Lista.LISTAENVIADA)) {
-                    //Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
-
                     Loxica_Lista l=(Loxica_Lista)data.getSerializableExtra(LISTAENVIADA);
-                    //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
-                    /*
-                    /*
-                    */
-
-
-                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
-                    //listas=new ArrayList<Loxica_Lista>();
-                    //cargarListas();
                     listas.remove(pos);
                     listas.add(pos,l);
-                    miAdaptadorMisListas.notifyDataSetChanged();
-                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
-
+                    Adaptador_MisListas.notifyDataSetChanged();
                 }
 
             }
@@ -685,49 +641,27 @@ public class Activity_MisListas extends Activity {
 
         if (requestCode == COD_ADDLISTA) {
             cargarListas();
-
-            /*
-            if (resultCode == RESULT_OK) {
-                if (data.hasExtra(NUEVALISTA)) {
-                    Loxica_Lista l=(Loxica_Lista)data.getSerializableExtra(NUEVALISTA);
-                    listas.add(l);
-
-
-
-                    miAdaptadorMisListas.notifyDataSetChanged();
-                    //Toast.makeText(getApplicationContext(),l.getNombre(),Toast.LENGTH_SHORT).show();
-
-                }
-
-            }
-            */
         }
 
         if(requestCode == COD_GCAT){
             cargarCategorias();
+            /*
             if(resultCode == RESULT_OK){
-                /*
-                if(data.hasExtra(CATEGORIAS)){
-
-                    //Spinner categorias=findViewById(R.id.spnCategorias_mislistas);
-                    //cat=(ArrayList<Loxica_Categoria>)data.getSerializableExtra(CATEGORIAS);
-                    //miAdaptador = new Adaptador_Categorias(this, cat);
-                    cargarCategorias();
-                    //categorias.setAdapter(miAdaptador);
-
-                }
-                */
             }
+            */
         }
     }
 
 
+    /**
+     * Comproba se a base de datos xa existe.
+     * @return true se a base de datos xa eiste.
+     **/
     private boolean existeBD(){
         String bddestino = "/data/data/" + getPackageName() + "/databases/"
                 + BaseDatos.NOME_BD;
         File file = new File(bddestino);
         if (file.exists()) {
-            Toast.makeText(getApplicationContext(), "A BD NON SE VAI COPIAR. XA EXISTE", Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
@@ -735,8 +669,6 @@ public class Activity_MisListas extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
         if(!existeBD()) {
             copiarBD();
         }
@@ -745,20 +677,6 @@ public class Activity_MisListas extends Activity {
         cargarCategorias();
         cargarListas();
     }
-/*
-    @Override
-    protected void onStop() {
-
-        super.onStop();
-        if (baseDatos!=null){    // Pechamos a base de datos.
-            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-
-            baseDatos.pecharBD();
-            baseDatos=null;
-        }
-
-    }
-*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -769,36 +687,23 @@ public class Activity_MisListas extends Activity {
         }
     }
 
+    /**
+     * Fai a petición dos permisos de escritura e de uso da cámara.
+     **/
     public void pedirPermiso() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA}, CODIGO_PERMISO_ESCRITURA);
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA}, CODIGO_PERMISOS);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case CODIGO_PERMISO_ESCRITURA: {
-                // Se o usuario premeou o boton de cancelar o array volve cun null
+            case CODIGO_PERMISOS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // PERMISO CONCEDIDO
                 } else {
-                    // PERMISO DENEGADO
-                    Toast.makeText(this,"É NECESARIO O PERMISO PARA GARDAR A IMAXE NA SD CARD",Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-
-            // Comprobamos os outros permisos
-            case CODIGO_PERMISO_CAMARA: {
-                // Se o usuario premeou o boton de cancelar o array volve cun null
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // PERMISO CONCEDIDO
-                } else {
-                    // PERMISO DENEGADO
-                    Toast.makeText(this,"É NECESARIO O PERMISO DA CAMARA",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"SON NECESARIOS OS PERMISOS",Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -806,38 +711,9 @@ public class Activity_MisListas extends Activity {
         }
     }
 
-
-    public static enum TIPOREDE{MOBIL,ETHERNET,WIFI,SENREDE};
-    private TIPOREDE conexion;
-
-    private final String IMAXE_DESCARGAR="http://wiki.cifprodolfoucha.es/AplicacionesAndroid/20182019/ListApp.xml";
-    private File newArquivo;
-    private Thread thread;
-
-    private TIPOREDE comprobarRede(){
-        NetworkInfo networkInfo=null;
-
-        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = connMgr.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-            switch(networkInfo.getType()){
-                case ConnectivityManager.TYPE_MOBILE:
-                    return TIPOREDE.MOBIL;
-                case ConnectivityManager.TYPE_ETHERNET:
-                    // ATENCION API LEVEL 13 PARA ESTA CONSTANTE
-                    return TIPOREDE.ETHERNET;
-                case ConnectivityManager.TYPE_WIFI:
-                    // NON ESTEAS MOITO TEMPO CO WIFI POSTO
-                    // MAIS INFORMACION EN http://www.avaate.org/
-                    return TIPOREDE.WIFI;
-            }
-        }
-        return TIPOREDE.SENREDE;
-    }
-
-    private File directorio,ficheiros;
-    private String erro="";
+    /**
+     * Intenta descargar o ficheiro XML no cartafol documentos, dentro do cartafol creado para a aplicación.
+     **/
     private void descargarArquivo() {
 
         directorio = new File(Environment.getExternalStorageDirectory(), "ListApp");
@@ -860,10 +736,6 @@ public class Activity_MisListas extends Activity {
         HttpURLConnection conn=null;
         String nomeArquivo = Uri.parse(IMAXE_DESCARGAR).getLastPathSegment();
         newArquivo = new File(ficheiros,nomeArquivo);
-        if(newArquivo.exists()){
-            //Toast.makeText(getApplicationContext(),"As categorias xa están importadas",Toast.LENGTH_SHORT).show();
-            erro="As categorias xa están importadas";
-            return;}
         try {
 
             conn = (HttpURLConnection) url.openConnection();
@@ -875,14 +747,12 @@ public class Activity_MisListas extends Activity {
             conn.connect();
 
             int response = conn.getResponseCode();
-            if (response ==HttpURLConnection.HTTP_MOVED_TEMP){  // Se dera un código 302, sería necesario volver a descargar cunha uri nova que ven indicada no método getHeaderField("Location")
-                // url = new URL(conn.getHeaderField("Location"));
-                // Neste caso habería que refacer o método xa que teríamos que volver a poñer o mesmo código anterior de conexión pero con esta Url nova.
+            if (response ==HttpURLConnection.HTTP_MOVED_TEMP){
+
             }
             else if (response != HttpURLConnection.HTTP_OK){
                 // Algo foi mal, deberíamos informar a Activity cunha mensaxe
-                erro="Erro de conexion";
-                Log.i("COMUNICACION", "fallo");
+                msg="Erro ao descargar";
                 return;
             }
 
@@ -897,21 +767,23 @@ public class Activity_MisListas extends Activity {
             os.close();
             in.close();
             conn.disconnect();
-            erro="Categorias importadas";
-            Log.i("COMUNICACION","ACABO");
+            msg="Categorias importadas";
         }
         catch (FileNotFoundException e) {
-            erro="Non atopado ficheiro";
-            Log.e("COMUNICACION",e.getMessage());
+            msg="Non atopado ficheiro";
         } catch (IOException e) {
-            erro="";
+            //msg="";
             e.printStackTrace();
-            Log.e("COMUNICACION",e.getMessage());
         }
 
     }
 
-    private ArrayList<Loxica_Categoria> cat2;
+    /**
+     * Fai a lectura do ficheiro XML unha vez descargado e carga as categorías se a versión do XML é superior
+     *              á gardada na preferencia.
+     * @throws IOException
+     * @throws XmlPullParserException
+     **/
     private void lerArquivo() throws IOException, XmlPullParserException {
 
         cat2=new ArrayList<Loxica_Categoria>();
@@ -927,14 +799,10 @@ public class Activity_MisListas extends Activity {
             if(evento == XmlPullParser.START_TAG) {
 
                 if (parser.getName().equals("ListApp")) {
-
-                    //Log.i("prueba", "NOOO");
                     evento=parser.nextTag();
                 }
                 if (parser.getName().equals("version_ficheiro")) {
-                    //Log.i("prueba", Integer.parseInt(parser.nextText())+"");
                     int v=0,v2;
-
                     if (sp.contains("VERSION")) {
                         v=sp.getInt("VERSION",0);
                     }
@@ -945,47 +813,36 @@ public class Activity_MisListas extends Activity {
                         editor.putInt("VERSION", v2);
                         editor.commit();
                     }
-
                 }
                  if (parser.getName().equals("categoria")) {
                      c = new Loxica_Categoria();
-                     //evento = parser.nextTag();
                      c.setNombre(parser.nextText());
                      cat2.add(c);
-                     //Log.i("prueba", c.getNombre()+"");
-                     //evento=parser.nextTag();
                  }
             }
             if(evento == XmlPullParser.END_TAG) {
                 if (parser.getName().equals("categoria")) {
-                    //cat2.add(c);
                 }
             }
-
             evento = parser.next();
         }
-
         is.close();
-
         for(Loxica_Categoria categoria :cat2){
-            Log.i("prueba", categoria.getNombre()+"");
-
             baseDatos.engadirCategoria(categoria.getNombre());
         }
        cargarCategorias();
-
     }
 
-
+    /**
+     * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
+     **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
 
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
-        String s=preferencias.getString("preferencia_idVersionCategorias","0");
 
         sp = getSharedPreferences(CAT_PREF, Context.MODE_PRIVATE);
-
 
         if(fondo){
             setTheme(R.style.Nocturno);
@@ -995,32 +852,9 @@ public class Activity_MisListas extends Activity {
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
             spnC.setBackgroundColor(Color.DKGRAY);
-
-
         }
-        //nome.setText(valorNome);
-
-
     }
 
-
-    //private int spnPos;
-
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //baseDatos=(BaseDatos)savedInstanceState.getSerializable("baseDatos");
-        //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
-        //spnC.setSelection(savedInstanceState.getInt("spnPos"));
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //outState.putSerializable("baseDatos",baseDatos);
-        //outState.putInt("spnPos",spnPos);
-    }
 
     @Override
     protected void onResume() {
@@ -1028,27 +862,14 @@ public class Activity_MisListas extends Activity {
         aplicarPreferencias();
     }
 
-    private static ConstraintLayout constraintLayout;
-    public static final String CAT_PREF = "USER_PREF" ;
-
-    SharedPreferences sp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_mislistas);
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_MisLista);
-
-
-/*
-        copiarBD();
-        cargarListas();
-        cargarCategorias();
-*/
         rexistarMenusEmerxentes();
         gestionEventos();
         pedirPermiso();
-        aplicarPreferencias();
     }
 
 }

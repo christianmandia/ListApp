@@ -55,6 +55,9 @@ public class Activity_MostrarArticulo extends Activity {
 
     private static ConstraintLayout constraintLayout;
 
+    /**
+     * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
+     **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -77,10 +80,10 @@ public class Activity_MostrarArticulo extends Activity {
             tvNotas.setTextColor(getResources().getColor(R.color.white));
             tvPrecio.setTextColor(getResources().getColor(R.color.white));
             tvCantidad.setTextColor(getResources().getColor(R.color.white));
-            tvNombreM.setTextColor(getResources().getColor(R.color.white));
-            tvNotasM.setTextColor(getResources().getColor(R.color.white));
-            tvPrecioM.setTextColor(getResources().getColor(R.color.white));
-            tvCantidadM.setTextColor(getResources().getColor(R.color.white));
+            tvNombreM.setTextColor(getResources().getColor(R.color.yellow));
+            tvNotasM.setTextColor(getResources().getColor(R.color.yellow));
+            tvPrecioM.setTextColor(getResources().getColor(R.color.yellow));
+            tvCantidadM.setTextColor(getResources().getColor(R.color.yellow));
 
         }else{
             setTheme(R.style.Diurno);

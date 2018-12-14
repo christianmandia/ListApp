@@ -35,59 +35,80 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 public class Activity_Lista extends Activity {
 
+    /**
+     * NEWArticulos é un String para utilizar comom referencia ao envio dun Articulo a outras Activities.
+     **/
     public final static String NEWArticulos = "nuevo";
+    /**
+     * MODArticulo é un String para utilizar comom referencia ao envio dun Articulo a outras Activities.
+     **/
     public final static String MODArticulo = "articuloModificado";
+    /**
+     * COD_PETICION é un numero que se utilizará para facer unha chamada a Activity_NuevoArticulo e para recibir datos dela se fose necesario.
+     **/
     private static final int COD_PETICION = 33;
+    /**
+     * COD_PETICION_MODIFICACION é un numero que se utilizará para facer unha chamada a Activity_ModificarArticulo e para recibir datos dela se fose necesario.
+     **/
     private static final int COD_PETICION_MODIFICACION = 34;
+    /**
+     * constraintLayout é unha referencia do layout da Activity para poder cambiar o fondo dependendo de se nos Axustes seleccionamos o modo noite.
+     **/
+    private static ConstraintLayout constraintLayout;
+    /**
+     * listaRecibida será a Lista que chegará da Activity_MisListas, e da cal se extraerán os Articulos para mostrar no RecyclerView.
+     **/
     private Loxica_Lista listaRecibida;
     private ArrayList<Loxica_Articulo> articulos = new ArrayList();
+    /**
+     * a é unha referencia ao Contexto da propia Activity.
+     **/
     private Context a = this;
+    /**
+     * CATEGORIAS é un String para utilizar como referencia para recibir unha Lista da Activity_MisListas.
+     **/
     public static final String LISTAENVIADA= "lista";
+    /**
+     * baseDatos é un acceso á clase BaseDatos onde se xestionan as consultas á base de datos.
+     **/
     private BaseDatos baseDatos;
-
-
-    Loxica_Articulo articuloSeleccionado = new Loxica_Articulo();
+    /**
+     * ELIMINAR é o número de referencia para xerar o dialogo que aparecerá se queremos eliminar un Artículo.
+     **/
+    private static final int ELIMINAR = 1;
+    /**
+     * d será o builder dos AlertDialogs que se xerarán nesta Activity.
+     **/
+    private AlertDialog.Builder d;
+    /**
+     * prevPos será unha referencia á posición do último Artículo ao que se lle fixo LongClick e poder desmarcalo se fose necesario.
+     **/
     int prevPos = -1;
-
-    //Menu m = null;
-
-    //Adapatador_Lista adaptador=null;
-    Adaptador_ListaRV adaptador = null;
+    /**
+     * articuloSeleccionado será o Artículo ao que se lle ficho LongClick.
+     **/
+    private Loxica_Articulo articuloSeleccionado = new Loxica_Articulo();
+    /**
+     * adaptador será unha referencia ao Adaptador personalizado do RecyclerView.
+     **/
+    private Adaptador_ListaRV adaptador = null;
+    /**
+     * mActionMode é unha referencia ao modo do Menu de Acción, para poder facelo aparecer e desaparecer.
+     **/
+    private ActionMode mActionMode;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_listadefault, menu);
-
-    //    m = menu;
-
         return true;
     }
 
 
+    /**
+     * Cargará o RecyclerView cos Articulos da lista.
+     **/
     private void cargarLista() {
-        //String[] articulos={"pilas AA","articulo2","mazá","articulo4","articulo5","articulo6"};
-        //int[] cantidad={1,2,10,0,0,4};
-        //double[] precio={0.5,15,30,0,20,0};
-
-
-//        ListView lista = findViewById(R.id.lvElementosLista_Lista);
         final RecyclerView rvLista = findViewById(R.id.rvElementosLista_Lista);
-
-        //Adapatador_ListaDefault meuAdaptador = new Adapatador_ListaDefault(this,articulos,cantidad,precio);
-        //lista.setAdapter(meuAdaptador);
-
-/*
-        articulos.add(new Loxica_Articulo("pilas AA",false,1,0.5,""));
-        articulos.add(new Loxica_Articulo("articulo2",true,3,15,""));
-        articulos.add(new Loxica_Articulo("mazá",true,10,30,""));
-        articulos.add(new Loxica_Articulo("articulo4",false,1,0,""));
-        articulos.add(new Loxica_Articulo("articulo5",true,1,20,""));
-        articulos.add(new Loxica_Articulo("articulo6",false,4,0,""));
-*/
-//        adaptador=new Adapatador_Lista(this,articulos);
-
-        //adaptador=new Adaptador_ListaRV(articulos);
 
         articulos = listaRecibida.getArticulos();
         adaptador = new Adaptador_ListaRV(articulos);
@@ -96,22 +117,11 @@ public class Activity_Lista extends Activity {
 
             @Override
             public void onClick(View v) {
-/*
-                if(mActionMode!=null) {
-                    mActionMode.finish();
-                    mActionMode = null;
-                }
-*/
-
-
-
-
                 ((Activity_Lista)a).destuirMenuAccion();
 
                 CheckedTextView c = (CheckedTextView) v.findViewById(R.id.ctvNombreArticulo_ElementoLista2);
 
                 Loxica_Articulo articulo = articulos.get(rvLista.getChildAdapterPosition(v));
-                //Toast.makeText(getApplicationContext(),a.isSeleccionado()+"",Toast.LENGTH_LONG).show();
 
                 if (!articulo.isMarcado()) {
                     if (articulo.isSeleccionado()) {
@@ -144,35 +154,31 @@ public class Activity_Lista extends Activity {
 
     }
 
+    /**
+     * Desmarcará o último Articulo seleccionado.
+     **/
     private void desmarcarArticulo(){
         if (prevPos != -1 && articulos.get(prevPos).isMarcado()) {
             articulos.get(prevPos).setMarcado(false);
             adaptador.notifyItemChanged(prevPos);
         }
-
-
     }
 
-
-
+    /**
+    * Controla os clicks que se realicen nos elementos da Activity.
+    **/
     private void xestionarEventos() {
-
-
-        Bundle bundle = new Bundle();
 
         ImageButton ibtnAñadirElemento = (ImageButton) findViewById(R.id.ibtnNuevoElemento_Lista);
         ibtnAñadirElemento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showDialog(TEXTO);
                 desmarcarArticulo();
                 prevPos=-1;
                 destuirMenuAccion();
                 Intent nuevoArticulo = new Intent(getApplicationContext(), Activity_NuevoArticulo.class);
-                //ArrayList<Loxica_Articulo> a2= (ArrayList<Loxica_Articulo>) articulos.clone();
                 nuevoArticulo.putExtra("idLista", listaRecibida.getId());
                 nuevoArticulo.putExtra("articulos", articulos);
-                //startActivity(nuevoArticulo);
                 startActivityForResult(nuevoArticulo, COD_PETICION);
             }
         });
@@ -186,59 +192,19 @@ public class Activity_Lista extends Activity {
 
                 articuloSeleccionado = articulos.get(position);
 
-                //Arreglo chapuza
-                //if(prevPos!=-1 && prevPos!=position && articulos.get(prevPos).isMarcado()) {
-                //Toast.makeText(getApplicationContext(),prevPos+" "+position,Toast.LENGTH_LONG).show();
-
                 if (prevPos != -1 && position!=prevPos && articulos.get(prevPos).isMarcado() ) {
-                    //rvElListaD.findViewHolderForAdapterPosition(prevPos).itemView.setBackgroundColor(0xFF00FFFF);
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
                     Log.i("prueba", "desmarcar PRE");
                 }
 
-                //Toast.makeText(getApplicationContext(),position+"",Toast.LENGTH_SHORT).show();
-
-
-
-                //v.setBackgroundColor(0xFF00FF00);
-                //if(prevPos!=position) {
-
-                /*
-
-                    if (articuloSeleccionado.isMarcado()) {
-                        articuloSeleccionado.setMarcado(false);
-
-                        adaptador.notifyItemChanged(position);
-//                    setMenuDefecto();
-                    } else {
-                        articuloSeleccionado.setMarcado(true);
-
-                        adaptador.notifyItemChanged(position);
-                        Log.i("prueba", "marcar");
-//                    setMenu2();
-                    }
-                    */
-                //}
-                //v.setBackground(null);
-                ////////////////
-
-
-
-
-
-
                     if (mActionMode != null) {
-
                         mActionMode.finish();
                         mActionMode = null;
-
                     }
-
                     if(prevPos==position && !articuloSeleccionado.isMarcado()){
                         prevPos=-1;
                         return true;
-
                     }else {
 
                         articuloSeleccionado.setMarcado(true);
@@ -246,10 +212,8 @@ public class Activity_Lista extends Activity {
                         adaptador.notifyItemChanged(position);
 
                         prevPos = position;
-                        // Start the CAB using the ActionMode.Callback defined above
 
                         mActionMode = ((Activity) a).startActionMode(mActionModeCallback);
-                        //view.setSelected(true);
 
                         return true;
                     }
@@ -260,11 +224,12 @@ public class Activity_Lista extends Activity {
 
     }
 
-    private ActionMode mActionMode;
 
+    /**
+     * Destruirá o menú de accion.
+     **/
     private void destuirMenuAccion(){
         if (mActionMode != null) {
-
             mActionMode.finish();
             mActionMode = null;
         }
@@ -272,40 +237,8 @@ public class Activity_Lista extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //Toast.makeText(this,"BEEEEEE",Toast.LENGTH_LONG).show();
-
         destuirMenuAccion();
-
         switch (item.getItemId()) {
-        /*
-            case R.id.EditarArticulo:
-                //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
-                articulos.get(prevPos).setMarcado(false);
-                adaptador.notifyItemChanged(prevPos);
-                destuirMenuAccion();
-//                setMenuDefecto();
-
-                Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
-                modificarArticulo.putExtra("articulo", articuloSeleccionado);
-                startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
-                return true;
-            case R.id.EliminarArticulo:
-
-                showDialog(ELIMINAR);
-  //            destuirMenuAccion();
-                return true;
-            case R.id.MostrarArticulo:
-                Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
-                //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
-                destuirMenuAccion();
-
-                mostrarArticulo.putExtra("articulo", articuloSeleccionado);
-                startActivity(mostrarArticulo);
-
-                return true;
-        */
-
             case R.id.MarcarComprados:
                 for(int i=0;i<articulos.size();i++){
                     baseDatos.setComprado(articulos.get(i).getId(),listaRecibida.getId());
@@ -315,42 +248,35 @@ public class Activity_Lista extends Activity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
     }
 
 
+    /**
+     * Xestionará a creación e destruccion do menu de Acción, asi como os clicks sobre os seus elementos.
+     **/
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
-        // Called when the action mode is created; startActionMode() was called
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_lista, menu);
             return true;
         }
 
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
+            return false;
         }
 
-        // Called when the user selects a contextual menu item
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
             switch (item.getItemId()) {
                 case R.id.EditarArticulo:
-                    //Toast.makeText(this,"AAAAA",Toast.LENGTH_LONG).show();
                     articulos.get(prevPos).setMarcado(false);
                     adaptador.notifyItemChanged(prevPos);
-                    //setMenuDefecto();
                     Intent modificarArticulo = new Intent(getApplicationContext(), Activity_ModificarArticulo.class);
-                    //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                     modificarArticulo.putExtra("idLista", listaRecibida.getId());
                     modificarArticulo.putExtra("articulo", articuloSeleccionado);
                     startActivityForResult(modificarArticulo, COD_PETICION_MODIFICACION);
@@ -358,13 +284,11 @@ public class Activity_Lista extends Activity {
                     return true;
                 case R.id.EliminarArticulo:
                     genDialogs(ELIMINAR);
-                    //showDialog(ELIMINAR);
                     return true;
                 case R.id.MostrarArticulo:
                     desmarcarArticulo();
                     prevPos=-1;
                     Intent mostrarArticulo = new Intent(getApplicationContext(), Activity_MostrarArticulo.class);
-                    //modificarArticulo.putExtra("titulo", articuloSeleccionado.getNombre());
                     mostrarArticulo.putExtra("articulo", articuloSeleccionado);
                     startActivity(mostrarArticulo);
                     destuirMenuAccion();
@@ -374,7 +298,6 @@ public class Activity_Lista extends Activity {
             }
         }
 
-        // Called when the user exits the action mode
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
@@ -386,38 +309,15 @@ public class Activity_Lista extends Activity {
                     adaptador.notifyItemChanged(prevPos);
                 }
             }
+            prevPos=-1;
 
         }
     };
-/*
-    private void setMenuDefecto(){
-        m.setGroupVisible(R.id.GrupoOpciones,true);
-        m.setGroupVisible(R.id.GrupoGArticulo,false);
-        /*
-        m.findItem(R.id.MostrarArticulo).setVisible(false);
-        m.findItem(R.id.EditarArticulo).setVisible(false);
-        m.findItem(R.id.EliminarArticulo).setVisible(false);
-        m.findItem(R.id.CompartirLista).setVisible(true);
 
-    }
-
-    private void setMenu2(){
-        m.setGroupVisible(R.id.GrupoOpciones,false);
-        m.setGroupVisible(R.id.GrupoGArticulo,true);
-        /*
-        m.findItem(R.id.CompartirLista).setVisible(false);
-        m.findItem(R.id.MostrarArticulo).setVisible(true);
-        m.findItem(R.id.EditarArticulo).setVisible(true);
-        m.findItem(R.id.EliminarArticulo).setVisible(true);
-
-    }
-*/
-
-    private static final int ELIMINAR = 1;
-
-    private AlertDialog.Builder d;
-
-
+    /**
+     * Xerará os diálogos que se utilizan nesta Activity.
+     * @param id o id polo cal se xerará un tipo de diálogo ou outro.
+     **/
     protected void genDialogs(int id){
         switch(id){
             default:
@@ -455,71 +355,6 @@ public class Activity_Lista extends Activity {
         }
     }
 
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            /*
-            case ELIMINAR:
-                final Activity_Lista ALista=((Activity_Lista)this);
-                d = new AlertDialog.Builder(this);
-                d.setIcon(android.R.drawable.ic_dialog_info);
-                d.setTitle("Eliminar");
-                d.setMessage("Está seguro de que desea eliminar este elemento?");
-                d.setCancelable(false);
-                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                        articulos.remove(articuloSeleccionado);
-                        adaptador.notifyItemRemoved(prevPos);
-                        prevPos=-1;
-                        ALista.destuirMenuAccion();
-
-
-
-                    }
-                });
-                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                    }
-                });
-                return d.create();
-
-/*
-            case TEXTO:
-
-                // Primeiro preparamos o interior da ventá de diálogo inflando o seu
-                // fichero XML
-                String infService = Context.LAYOUT_INFLATER_SERVICE;
-                LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
-                // Inflamos o compoñente composto definido no XML
-                View inflador = li.inflate(R.layout.dlg_nuevoelemento_listadefault, null);
-                // Buscamos os compoñentes dentro do Diálogo
-
-                final TextView etNome = (TextView) inflador.findViewById(R.id.etNombreElemento0000000000);
-
-                d = new AlertDialog.Builder(this);
-                d.setTitle("Insertar nuevo artículo");
-                // Asignamos o contido dentro do diálogo (o que inflamos antes)
-                d.setView(inflador);
-                // Non se pode incluír unha mensaxe dentro deste tipo de diálogo!!!
-
-                d.setNeutralButton("Listo", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int boton) {
-                        //Toast.makeText(getApplicationContext(), "Escribiches nome: '" + etNome.getText().toString() + "'. Contrasinal: '" + etContrasinal.getText().toString() + "' e premeches 'Aceptar'",
-                        //        Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                return d.create();
-                //return null;
-*/
-        }
-
-
-        return null;
-    }
-
-    public void haciendoCosas() {
-
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -527,45 +362,10 @@ public class Activity_Lista extends Activity {
         if (requestCode == COD_PETICION) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Activity_Lista.NEWArticulos)) {
-                    // Toast.makeText(this, "Saíches da actividade secundaria sen premer o botón Pechar", Toast.LENGTH_SHORT).show();
                     int TamañoActual = adaptador.getItemCount();
                     ArrayList<Loxica_Articulo> articulos2 = (ArrayList<Loxica_Articulo>) data.getSerializableExtra("nuevo");
-                    //Toast.makeText(this, articulos2.size()+"tam", Toast.LENGTH_SHORT).show();
-                    /*
-                    /*
-                    */
-
-
                     articulos.addAll(articulos2);
                     adaptador.notifyItemRangeInserted(TamañoActual, articulos2.size());
-                    //Toast.makeText(this, articulos2.size()+"", Toast.LENGTH_LONG).show();
-                    /*
-                     */
-
-/*
-                    for(Loxica_Articulo a:articulos2){
-                        articulos.add(a);
-                        //adaptador.notifyItemInserted(0);
-                        //Toast.makeText(this,adaptador.getItemId(0)+"",Toast.LENGTH_SHORT).show();
-                        Toast.makeText(this,articulos.get(articulos.size()-1).getNombre()+"",Toast.LENGTH_SHORT).show();
-                        //adaptador.notifyItemInserted(0);
-                        //adaptador.notifyItemRangeChanged(TamañoActual,articulos2.size());
-                        //adaptador.notifyItemInserted(articulos.size()-1);
-                        //adaptador.notifyItemChanged(articulos.size()-1);
-
-                        //Toast.makeText(this,a.getNombre(),Toast.LENGTH_SHORT).show();
-                    }
-                    adaptador.notifyItemRangeInserted(TamañoActual,articulos2.size());
-                    adaptador.notifyItemRangeChanged(TamañoActual,articulos2.size());
-                    //Toast.makeText(this,((Loxica_Articulo)articulos.get(articulos.size()-1)).getNombre()+"",Toast.LENGTH_SHORT).show();
-*/
-
-                    /*
-                    for(Loxica_Articulo a:articulos2){articulos.add(a);adaptador.notifyDataSetChanged();}
-                    */
-                    //for(Loxica_Articulo a:articulos2){articulos.add(a);adaptador.notifyItemInserted(articulos.size()-1);}
-
-
                 }
 
             }
@@ -576,29 +376,12 @@ public class Activity_Lista extends Activity {
                 if (data.hasExtra(Activity_Lista.MODArticulo)) {
 
                     Loxica_Articulo articuloRecibido = (Loxica_Articulo) data.getSerializableExtra("articuloModificado");
-
-                    //Toast.makeText(getApplicationContext(),"Llega",Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(getApplicationContext(),articuloRecibido.getNombre().toString(),Toast.LENGTH_SHORT).show();
-
-
                     articuloSeleccionado.setNombre(articuloRecibido.getNombre());
                     articuloSeleccionado.setCantidad(articuloRecibido.getCantidad());
                     articuloSeleccionado.setRutaImagen(articuloRecibido.getRutaImagen());
                     articuloSeleccionado.setNotas(articuloRecibido.getNotas());
                     articuloSeleccionado.setPrecio(articuloRecibido.getPrecio());
                     adaptador.notifyItemChanged(prevPos);
-
-                    /*
-                    articulos.remove(prevPos);
-                    adaptador.notifyItemRemoved(prevPos);
-                    articulos.add(prevPos,articuloRecibido);
-                    //articulos.add(articuloRecibido);
-                    adaptador.notifyItemInserted(prevPos);
-                    //adaptador.notifyItemInserted(adaptador.getItemCount());
-                    /**/
-                    //Toast.makeText(this,articuloRecibido.toString(),Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(this,prevPos+"",Toast.LENGTH_SHORT).show();
-
 
                 }
 
@@ -612,28 +395,19 @@ public class Activity_Lista extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle guardaEstado) {
         super.onSaveInstanceState(guardaEstado);
-
-        //guardaEstado.putSerializable("articulos",articulos);
-        //guardaEstado.putSerializable("articuloSeleccionado",articuloSeleccionado);
         guardaEstado.putInt("prevPos", prevPos);
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-//        if (baseDatos==null) {   // Abrimos a base de datos para escritura
             baseDatos = baseDatos.getInstance(getApplicationContext());
-            //baseDatos = new BaseDatos(getApplicationContext());
             baseDatos.abrirBD();
-//        }
-        //Log.i("PROBA",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
-
     }
 
-    private static ConstraintLayout constraintLayout;
-
+    /**
+     * Aplica a preferencia do Modo Nocturno e obten a preferencia onde se garda a versión do XMl.
+     **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -647,7 +421,6 @@ public class Activity_Lista extends Activity {
 
 
         }
-        //nome.setText(valorNome);
 
 
     }
@@ -655,16 +428,10 @@ public class Activity_Lista extends Activity {
     @Override
     protected void onRestoreInstanceState(Bundle recuperaEstado) {
         super.onRestoreInstanceState(recuperaEstado);
-        //articuloSeleccionado=(Loxica_Articulo)recuperaEstado.getSerializable("articuloSeleccionado");
-        //articulos=(ArrayList<Loxica_Articulo>)recuperaEstado.getSerializable("articulos");
         prevPos = recuperaEstado.getInt("prevPos");
 
         aplicarPreferencias();
-
-
-
     }
-
 
     @Override
     public void finish() {
@@ -688,8 +455,6 @@ public class Activity_Lista extends Activity {
         aplicarPreferencias();
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -702,7 +467,5 @@ public class Activity_Lista extends Activity {
 
         xestionarEventos();
         cargarLista();
-        aplicarPreferencias();
     }
-
 }

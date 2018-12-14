@@ -11,11 +11,12 @@
         android:id="@+id/tvCategorias_GestionCategorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
+        android:layout_marginStart="8sp"
+        android:textSize="@dimen/text_size_all"
         android:text="@string/tvCategorias_GestionCategorias"
-        app:layout_constraintBottom_toBottomOf="@+id/spnCategorias_GestionCategorias"
-        app:layout_constraintEnd_toStartOf="@+id/spnCategorias_GestionCategorias"
-        app:layout_constraintTop_toTopOf="@+id/spnCategorias_GestionCategorias" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="@+id/spnCategorias_GestionCategorias"
+        app:layout_constraintStart_toStartOf="@+id/spnCategorias_GestionCategorias" />
 
     <ImageButton
         android:id="@+id/ibtnEliminarCategoria_GestionCategorias"
@@ -25,7 +26,7 @@
         android:layout_marginLeft="8sp"
         android:layout_marginRight="8sp"
         android:layout_marginStart="8sp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="12sp"
         android:src="@android:drawable/ic_menu_delete"
         app:layout_constraintEnd_toEndOf="@+id/ibtnEditarCat_GestionCategorias"
         app:layout_constraintStart_toStartOf="@+id/ibtnEditarCat_GestionCategorias"
@@ -61,7 +62,7 @@
         android:id="@+id/ibtnAnhadirCategoria_GestionCategorias"
         android:layout_width="@dimen/ibtn_both_all"
         android:layout_height="@dimen/ibtn_both_all"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="28sp"
         android:layout_marginTop="8sp"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="@+id/etNombreCat_GestionCategorias"
@@ -74,10 +75,10 @@
         android:layout_width="210sp"
         android:layout_height="35sp"
         android:layout_marginEnd="8sp"
-        android:layout_marginTop="8sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        android:layout_marginTop="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline28"
         app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline28"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <android.support.constraint.Guideline
