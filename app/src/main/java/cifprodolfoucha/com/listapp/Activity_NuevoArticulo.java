@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -280,13 +281,15 @@ public class Activity_NuevoArticulo extends Activity {
                     articulos2.add(a);
                     añadido=true;
                 }else{
-                    Toast.makeText(this,getResources().getString(R.string.str_nuevalista_mensaxe_erro1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getResources().getString(R.string.str_nuevoarticulo_erro1), Toast.LENGTH_SHORT).show();
                 }
 
 
             }else{
-                Toast.makeText(this,getResources().getString(R.string.str_nuevalista_mensaxe_erro2), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getResources().getString(R.string.str_nuevoarticulo_erro2), Toast.LENGTH_SHORT).show();
             }
+        }else{
+            Toast.makeText(this,getResources().getString(R.string.str_nuevoarticulo_erro3), Toast.LENGTH_SHORT).show();
         }
 
 

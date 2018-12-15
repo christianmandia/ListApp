@@ -2,7 +2,7 @@
 <resources>
     <string name="str_nuevoarticulo_erro1">Error creando o artículo</string>
     <string name="str_nuevoarticulo_erro2">Non se pode crear un artículo sen nome</string>
-
+    <string name="str_nuevoarticulo_erro3">Xa existe un artículo con ese nome</string>
     <string name="hint_nuevoarticulo_nombre">Nome artículo</string>
     <string name="hint_nuevoarticulo_nota">Notas do articulo</string>
 </resources>
