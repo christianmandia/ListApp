@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_mislistas_mensaxe_permisos">A aplicación necesita dos permisos</string>
+    <string name="str_mislistas_mensaxe_eliminar">Eliminar lista</string>
+    <string name="str_mislistas_mensaxe_eliminar2">Está seguro de que desexa eliminar a lista :</string>
+    <string name="str_mislistas_mensaxe_eliminarLista_erro1">Non se eliminou a lista</string>
+    <string name="str_mislistas_mensaxe_eliminarLista_erro2">Non podes eliminar unha lista sen que os seus artículos estean comprados</string>
+    <string name="str_mislistas_mensaxe_descargaError">Erro ao descargar</string>
+    <string name="str_mislistas_categoriasImportadas">Categorias importadas</string>
+</resources>

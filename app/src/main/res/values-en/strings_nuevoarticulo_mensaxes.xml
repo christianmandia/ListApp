@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_nuevoarticulo_erro1">Error creating item</string>
+    <string name="str_nuevoarticulo_erro2">Can´t create an item without name</string>
+</resources>

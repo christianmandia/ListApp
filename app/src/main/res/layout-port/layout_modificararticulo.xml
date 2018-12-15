@@ -133,8 +133,8 @@
 
     <ImageView
         android:id="@+id/ivImagenArticulo_ModificarArticulo"
-        android:layout_width="120sp"
-        android:layout_height="112sp"
+        android:layout_width="@dimen/iv_both_all"
+        android:layout_height="@dimen/iv_both_all"
         android:layout_marginTop="8sp"
         android:src="@android:drawable/ic_menu_report_image"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"

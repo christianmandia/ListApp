@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_gestioncategoria_mensaxe_engadir">Non se añadió la categoria, ya existe</string>
+    <string name="str_gestioncategoria_mensaxe_erro">No puedes añadir una categoría sin nombre</string>
+    <string name="str_gestioncategoria_mensaxe_modificar">No se modificó la categoria, ya existe</string>
+    <string name="str_gestioncategoria_mensaxe_eliminar">Eliminar categoria</string>
+    <string name="str_gestioncategoria_mensaxe_eliminar2">Quiere eliminar la categoría: </string>
+    <string name="str_gestioncategoria_mensaxe_eliminarCategoria_erro1">La categoría no se elimino</string>
+    <string name="str_gestioncategoria_mensaxe_eliminarCategoria_erro2">No se puede eliminar una categoría que tenga listas asignadas</string>
+</resources>

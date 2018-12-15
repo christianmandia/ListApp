@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_nuevalista_mensaxe_erro1">Xa existe unha lista chamada así nesa categoría</string>
+    <string name="str_nuevalista_mensaxe_erro2">Non escribiches nada</string>
+</resources>

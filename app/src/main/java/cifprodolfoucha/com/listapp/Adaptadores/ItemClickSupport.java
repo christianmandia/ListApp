@@ -15,6 +15,8 @@ public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
+
+
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -24,6 +26,8 @@ public class ItemClickSupport {
             }
         }
     };
+
+
     private View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
@@ -34,6 +38,8 @@ public class ItemClickSupport {
             return false;
         }
     };
+
+
     private RecyclerView.OnChildAttachStateChangeListener mAttachListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
@@ -52,6 +58,7 @@ public class ItemClickSupport {
         }
     };
 
+
     private ItemClickSupport(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mRecyclerView.setTag(R.id.item_click_support, this);
@@ -67,6 +74,7 @@ public class ItemClickSupport {
         return support;
     }
 
+
     public static ItemClickSupport removeFrom(RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support != null) {
@@ -75,25 +83,30 @@ public class ItemClickSupport {
         return support;
     }
 
+
     public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
         return this;
     }
+
 
     public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;
     }
 
+
     private void detach(RecyclerView view) {
         view.removeOnChildAttachStateChangeListener(mAttachListener);
         view.setTag(R.id.item_click_support, null);
     }
 
+
     public interface OnItemClickListener {
 
         void onItemClicked(RecyclerView recyclerView, int position, View v);
     }
+
 
     public interface OnItemLongClickListener {
 

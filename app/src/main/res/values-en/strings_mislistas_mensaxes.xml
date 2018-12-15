@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_mislistas_mensaxe_permisos">App needs the permissions</string>
+    <string name="str_mislistas_mensaxe_eliminar">Remove List</string>
+    <string name="str_mislistas_mensaxe_eliminar2">Do you want to remove list: </string>
+    <string name="str_mislistas_mensaxe_eliminarLista_erro1">List haven´t been removed</string>
+    <string name="str_mislistas_mensaxe_eliminarLista_erro2">Can´t delete a list without buying all items</string>
+    <string name="str_mislistas_mensaxe_descargaError">Error when dowloading</string>
+    <string name="str_mislistas_categoriasImportadas">Imported categories</string>
+</resources>

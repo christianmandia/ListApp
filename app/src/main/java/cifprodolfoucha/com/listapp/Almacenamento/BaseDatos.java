@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.io.File;
 import java.io.Serializable;
@@ -14,6 +13,11 @@ import java.util.ArrayList;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
+
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
 
 public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 

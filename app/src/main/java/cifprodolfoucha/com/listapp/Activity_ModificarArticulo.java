@@ -32,39 +32,40 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
+
 public class Activity_ModificarArticulo extends Activity {
 
 
     /**
-     *
-     **/
-    private String nomeFoto="";
-    /**
-     *
+     *      Serán referencias ás rutas das imaxes.
      **/
     private String rutaArquivo="",rutaArquivoRecibido="";
     /**
-     *
+     * nomeSobrescribir será unha referencia por se o articulo tiña unha foto previamente, eliminala se sacamos outra e renombrala.
      **/
     private String nomeSobrescribir="";
     /**
-     *
+     * MY_CAMERA_REQUEST_CODE será un código que se utilice ao chamar á cámara e poder recibir datos dela.
      **/
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     /**
-     *
+     *      Serán os cartafoles da aplicación, das imaxes e os ficheiros da imaxes, se xa tiña unha, e de otra imaxen por si queremos sobreescribir a anterior.
      **/
-    private File img,imaxeRecibida,imaxe,directorio,temp;
+    private File img,imaxeRecibida,imaxe,directorio;
     /**
-     *
+     * articulo será o arquivo recibido da Activity_Lista.
      **/
     private Loxica_Articulo articulo;
     /**
-     *
+     * idL será unha referencia ao id da lista, dato que recibirá da Activity_Lista.
      **/
     private int idL;
     /**
-     * modFoto
+     * modFoto será unha referencia para indicar se se modificará a imaxe.
      **/
     private boolean modFoto=false;
     /**
@@ -128,7 +129,7 @@ public class Activity_ModificarArticulo extends Activity {
         ibtn_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("prueba", articulo.getNombre()+"");
+                //Log.i("prueba", articulo.getNombre()+"");
                 Loxica_Articulo a=modificarArticulo(articulo);
 
                 if(imaxeRecibida!=null){
@@ -253,7 +254,8 @@ public class Activity_ModificarArticulo extends Activity {
         if(requestCode ==MY_CAMERA_REQUEST_CODE && resultCode == RESULT_OK)
         { {
 
-            File arquivo = new File(img, nomeFoto);
+            //File arquivo = new File(img, nomeFoto);
+            File arquivo;
             Loxica_GardarImaxe lg=new Loxica_GardarImaxe();
 
 

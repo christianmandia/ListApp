@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_nuevalista_mensaxe_erro1">List with than name already exists with selected category</string>
+    <string name="str_nuevalista_mensaxe_erro2">Dind´t introduced a name</string>
+</resources>

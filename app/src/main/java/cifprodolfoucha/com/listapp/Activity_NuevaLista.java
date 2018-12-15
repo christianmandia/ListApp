@@ -1,21 +1,15 @@
 package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +21,11 @@ import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
+
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
 
 public class Activity_NuevaLista extends Activity {
 
@@ -88,10 +87,10 @@ public class Activity_NuevaLista extends Activity {
                         baseDatos.engadirLista(nL, id);
                         finish();
                     }else{
-                        Toast.makeText(getApplicationContext(),"Xa existe unha lista chamada así  en esa categoría",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_nuevalista_mensaxe_erro1),Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(),"Non escribiches nada",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_nuevalista_mensaxe_erro2),Toast.LENGTH_LONG).show();
                 }
             }
         });

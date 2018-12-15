@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.util.Xml;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -219,7 +218,7 @@ public class Activity_MisListas extends Activity {
             outputstream.close();
             //Toast.makeText(getApplicationContext(), "BASE DE DATOS COPIADA", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "Mensage de error", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Mensage de error", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
@@ -442,10 +441,10 @@ public class Activity_MisListas extends Activity {
 
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
-                d.setTitle("Eliminar");
-                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setTitle(R.string.str_mislistas_mensaxe_eliminar);
+                d.setMessage(R.string.str_mislistas_mensaxe_eliminar2+listaE.getNombre()+" ?");
                 d.setCancelable(false);
-                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
 
 
@@ -466,7 +465,7 @@ public class Activity_MisListas extends Activity {
                                 Adaptador_MisListas.notifyDataSetChanged();
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "Non se eliminou", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_mislistas_mensaxe_eliminarLista_erro1), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -474,21 +473,20 @@ public class Activity_MisListas extends Activity {
 
                     });
 
-                    d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    d.setNegativeButton(R.string.str_all_mensaxe_no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int boton) {
                         }
                     });
                     dialog=d.create();
                     d.show();
                 }else{
-                    Toast.makeText(getApplicationContext(), "Non podes eliminar unha lista sen ter comprado todo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_mislistas_mensaxe_eliminarLista_erro2), Toast.LENGTH_SHORT).show();
                 }
                 return;
                 case PROGRESS:
 
                 String infService = Context.LAYOUT_INFLATER_SERVICE;
                 LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(infService);
-                // Inflamos o compoñente composto definido no XML
                 d=new AlertDialog.Builder(this);
                 View inflador = li.inflate(R.layout.dlg_progressbarr, null);
                 d.setView(inflador);
@@ -506,8 +504,6 @@ public class Activity_MisListas extends Activity {
                 d.setTitle(R.string.menu_botones_titulo)
                         .setItems(R.array.menu_botones, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int posicion) {
-                                // O usuario selecciona unha das opcións do listado
-                                Log.i("prueba3", "P");
                                 switch(posicion){
                                     case 0:
                                         thread = new Thread(){
@@ -703,7 +699,7 @@ public class Activity_MisListas extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    Toast.makeText(this,"SON NECESARIOS OS PERMISOS",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,String.valueOf(R.string.str_mislistas_mensaxe_permisos),Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -752,7 +748,7 @@ public class Activity_MisListas extends Activity {
             }
             else if (response != HttpURLConnection.HTTP_OK){
                 // Algo foi mal, deberíamos informar a Activity cunha mensaxe
-                msg="Erro ao descargar";
+                msg=String.valueOf(R.string.str_mislistas_mensaxe_descargaError);
                 return;
             }
 
@@ -767,10 +763,10 @@ public class Activity_MisListas extends Activity {
             os.close();
             in.close();
             conn.disconnect();
-            msg="Categorias importadas";
+            msg=String.valueOf(R.string.str_mislistas_categoriasImportadas);
         }
         catch (FileNotFoundException e) {
-            msg="Non atopado ficheiro";
+            //msg="Non atopado ficheiro";
         } catch (IOException e) {
             //msg="";
             e.printStackTrace();

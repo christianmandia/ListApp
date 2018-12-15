@@ -1,13 +1,14 @@
 package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -16,11 +17,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import cifprodolfoucha.com.listapp.Adaptadores.Adaptador_Categorias;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Categoria;
+
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
 
 public class Activity_GestionCategoria extends Activity {
 
@@ -50,6 +57,7 @@ public class Activity_GestionCategoria extends Activity {
      * sModificarCategoria é un String que garda como referencia o contenido do EditText do nome da Categoría a modificar.
      **/
     private String sModificarCategoria;
+    final Activity_GestionCategoria GCategoria=this;
 
     /**
      * Controla os clicks que se realicen nos elementos da Activity.
@@ -73,10 +81,10 @@ public class Activity_GestionCategoria extends Activity {
 
                         nombreCategoria.setText("");
                     } else {
-                        Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_engadir), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Non escribiches", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_erro), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -106,7 +114,7 @@ public class Activity_GestionCategoria extends Activity {
                     Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
                     spnCat.setSelection(posC);
                 }else{
-                    Toast.makeText(getApplicationContext(), "Non se engadiu a categoria, xa existe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_modificar), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,14 +126,30 @@ public class Activity_GestionCategoria extends Activity {
                 int f;
                 if((f=baseDatos.obterNumListas(cat.get(posC)))==0){
 
-                    if(baseDatos.eliminarCategoria(cat.get(posC).getId())>0) {
-                        cargarCategorias2();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Non se puido eliminar",Toast.LENGTH_SHORT).show();
-                    }
+
+                    AlertDialog.Builder d = new AlertDialog.Builder(GCategoria);
+                    d.setTitle(R.string.str_gestioncategoria_mensaxe_eliminar);
+                    d.setMessage(R.string.str_gestioncategoria_mensaxe_eliminar2+cat.get(posC).getNombre()+" ?");
+                    d.setCancelable(false);
+                    d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int boton) {
+                            if(baseDatos.eliminarCategoria(cat.get(posC).getId())>0) {
+                                cargarCategorias2();
+                            }else{
+                                Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro1),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    d.setNegativeButton(R.string.str_all_mensaxe_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int boton) {
+                        }
+                    });
+                    d.create();
+                    d.show();
+
 
                 }else{
-                    Toast.makeText(getApplicationContext(),"Non se pode eliminar unha categoria con listas asignadas",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro2),Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/etNombreArticulo_ModificarArticulo"
-        android:layout_width="300sp"
+        android:layout_width="371dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8sp"
         android:ems="10"
@@ -37,6 +37,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="423sp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
         android:id="@+id/guideline16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,20 +71,15 @@
         android:layout_width="@dimen/ibtn_both_all"
         android:layout_height="@dimen/ibtn_both_all"
         android:layout_marginBottom="8sp"
+        android:layout_marginEnd="8sp"
         android:layout_marginStart="8sp"
+        android:layout_marginTop="15sp"
         android:src="@android:drawable/ic_menu_revert"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline15" />
-
-    <ImageButton
-        android:id="@+id/ibtn_GuardarModificarArticulo"
-        android:layout_width="@dimen/ibtn_both_all"
-        android:layout_height="@dimen/ibtn_both_all"
-        android:layout_marginBottom="8sp"
-        android:layout_marginEnd="8sp"
-        android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toBottomOf="@+id/guideline21" />
 
     <TextView
         android:id="@+id/tvCantidadArticulo_ModificarArticulo"
@@ -89,12 +93,12 @@
 
     <EditText
         android:id="@+id/etCantidadArticulo_ModificarArticulo"
-        android:layout_width="91sp"
+        android:layout_width="163dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
         android:layout_marginTop="8sp"
         android:ems="10"
         android:inputType="number"
+        android:textSize="@dimen/text_size_all"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticulo_ModificarArticulo" />
 
@@ -110,12 +114,12 @@
 
     <EditText
         android:id="@+id/etPrecioArticulo_ModificarArticulo"
-        android:layout_width="129sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
         android:layout_marginTop="8sp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textSize="@dimen/text_size_all"
         app:layout_constraintStart_toStartOf="@+id/guideline17"
         app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo_ModificarArticulo" />
 
@@ -129,15 +133,18 @@
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="@+id/ivImagenArticulo_ModificarArticulo"
         app:layout_constraintStart_toEndOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/ivImagenArticulo_ModificarArticulo" />
+        app:layout_constraintTop_toTopOf="@+id/ivImagenArticulo_ModificarArticulo"
+        app:layout_constraintVertical_bias="0.395" />
 
     <ImageView
         android:id="@+id/ivImagenArticulo_ModificarArticulo"
         android:layout_width="@dimen/iv_both_all"
         android:layout_height="@dimen/iv_both_all"
-        android:layout_marginStart="28sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="100sp"
         android:layout_marginTop="16sp"
         android:src="@android:drawable/ic_menu_report_image"
+        app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/etNotasArticulo_ModificarArticulo" />
 
@@ -162,4 +169,17 @@
         android:text="@string/str_all_control_GestionArticulo_notasArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_ModificarArticulo" />
+
+    <ImageButton
+        android:id="@+id/ibtn_GuardarModificarArticulo"
+        android:layout_width="@dimen/ibtn_both_all"
+        android:layout_height="@dimen/ibtn_both_all"
+        android:layout_marginEnd="8sp"
+        android:layout_marginStart="8sp"
+        android:layout_marginTop="15sp"
+        android:src="@android:drawable/ic_menu_save"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/guideline21" />
 </android.support.constraint.ConstraintLayout>

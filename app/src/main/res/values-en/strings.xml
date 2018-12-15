@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">ListApp</string>
 
+    <string name="str_all_mensaxe_si">Yes</string>
+    <string name="str_all_mensaxe_no">No</string>
+
     <string name="menu_botones_titulo">You need a categorie before</string>
     <string-array name="menu_botones">
         <item>Import Categories</item>

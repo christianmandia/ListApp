@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/bgFondo_ModificarArticulo"
-    tools:context=".Activity_ModificarArticulo">
-
-    <EditText
-        android:id="@+id/etNombreArticulo_ModificarArticulo"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8sp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textSize="@dimen/text_size_all"
-        app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tvArticulo_ModificarAticulo" />
+    android:id="@+id/bgFondo_MostrarArticulo"
+    tools:context=".Activity_MostrarArticulo"
+    >
 
     <TextView
-        android:id="@+id/tvArticulo_ModificarAticulo"
+        android:id="@+id/tvNombreArticuloMostrado_MostrarArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:textSize="@dimen/text_size_all"
+        app:layout_constraintStart_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toBottomOf="@+id/tvArticulo_MostrarAticulo" />
+
+    <TextView
+        android:id="@+id/tvArticulo_MostrarAticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_all"
@@ -35,6 +34,15 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.052083332"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="423sp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline16"
@@ -58,108 +66,82 @@
         app:layout_constraintGuide_percent="0.95" />
 
     <ImageButton
-        android:id="@+id/ibtn_VolverModificarArticulo"
+        android:id="@+id/ibtn_VolverMostrarArticulo"
         android:layout_width="@dimen/ibtn_both_all"
         android:layout_height="@dimen/ibtn_both_all"
-        android:layout_marginBottom="8sp"
-        android:layout_marginStart="8sp"
-        android:src="@android:drawable/ic_menu_revert"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline15" />
-
-    <ImageButton
-        android:id="@+id/ibtn_GuardarModificarArticulo"
-        android:layout_width="@dimen/ibtn_both_all"
-        android:layout_height="@dimen/ibtn_both_all"
-        android:layout_marginBottom="8sp"
         android:layout_marginEnd="8sp"
-        android:src="@android:drawable/ic_menu_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18" />
+        android:layout_marginTop="8sp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/guideline21" />
 
     <TextView
-        android:id="@+id/tvCantidadArticulo_ModificarArticulo"
+        android:id="@+id/tvCantidadArticulo_MostrarArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_all"
         android:layout_marginTop="24sp"
         android:text="@string/str_all_control_GestionArticulo_cantidadArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_ModificarArticulo" />
-
-    <EditText
-        android:id="@+id/etCantidadArticulo_ModificarArticulo"
-        android:layout_width="91sp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
-        android:layout_marginTop="8sp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticulo_ModificarArticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreArticuloMostrado_MostrarArticulo" />
 
     <TextView
-        android:id="@+id/tvPrecioArticulo_ModificarArticulo"
+        android:id="@+id/tvCantidadArticuloMostrado_MostrarArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:textSize="@dimen/text_size_all"
+        app:layout_constraintStart_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticulo_MostrarArticulo" />
+
+    <TextView
+        android:id="@+id/tvPrecioArticulo_MostrarArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_all"
         android:layout_marginTop="24sp"
         android:text="@string/str_all_control_GestionArticulo_precioArtículo"
         app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreArticulo_ModificarArticulo" />
-
-    <EditText
-        android:id="@+id/etPrecioArticulo_ModificarArticulo"
-        android:layout_width="129sp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
-        android:layout_marginTop="8sp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo_ModificarArticulo" />
-
-    <ImageButton
-        android:id="@+id/ibtn_Foto_ModificarArticulo"
-        android:layout_width="@dimen/ibtn_both_all"
-        android:layout_height="@dimen/ibtn_both_all"
-        android:layout_marginBottom="8sp"
-        android:layout_marginStart="48sp"
-        android:layout_marginTop="8sp"
-        android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/ivImagenArticulo_ModificarArticulo"
-        app:layout_constraintStart_toEndOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/ivImagenArticulo_ModificarArticulo" />
-
-    <ImageView
-        android:id="@+id/ivImagenArticulo_ModificarArticulo"
-        android:layout_width="@dimen/iv_both_all"
-        android:layout_height="@dimen/iv_both_all"
-        android:layout_marginStart="28sp"
-        android:layout_marginTop="16sp"
-        android:src="@android:drawable/ic_menu_report_image"
-        app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/etNotasArticulo_ModificarArticulo" />
-
-    <EditText
-        android:id="@+id/etNotasArticulo_ModificarArticulo"
-        android:layout_width="0sp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
-        android:layout_marginTop="8sp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18"
-        app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/tvNotasArticulo_ModificarArticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreArticuloMostrado_MostrarArticulo" />
 
     <TextView
-        android:id="@+id/tvNotasArticulo_ModificarArticulo"
+        android:id="@+id/tvPrecioArticuloMostrado_MostrarArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:textSize="@dimen/text_size_all"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/tvPrecioArticulo_MostrarArticulo" />
+
+    <ImageView
+        android:id="@+id/ivImagenArticulo_MostrarArticulo"
+        android:layout_width="110sp"
+        android:layout_height="110sp"
+        android:layout_marginEnd="8sp"
+        android:layout_marginTop="16sp"
+        android:src="@android:drawable/ic_menu_report_image"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/tvNotasArticuloMostrado_MostrarArticulo" />
+
+    <TextView
+        android:id="@+id/tvNotasArticuloMostrado_MostrarArticulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_all"
+        android:layout_marginTop="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintStart_toEndOf="@+id/guideline15"
+        app:layout_constraintTop_toBottomOf="@+id/tvNotasArticulo_MostrarArticulo" />
+
+    <TextView
+        android:id="@+id/tvNotasArticulo_MostrarArticulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_all"
         android:layout_marginTop="16sp"
         android:text="@string/str_all_control_GestionArticulo_notasArtículo"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/etCantidadArticulo_ModificarArticulo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCantidadArticuloMostrado_MostrarArticulo" />
 </android.support.constraint.ConstraintLayout>

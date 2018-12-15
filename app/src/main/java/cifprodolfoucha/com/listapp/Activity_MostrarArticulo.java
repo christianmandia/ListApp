@@ -17,6 +17,11 @@ import android.widget.TextView;
 
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
+
 public class Activity_MostrarArticulo extends Activity {
 
     /**

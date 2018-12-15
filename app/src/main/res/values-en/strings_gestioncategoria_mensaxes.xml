@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="str_gestioncategoria_mensaxe_engadir">No se añadio la categoria, ya existe</string>
+    <string name="str_gestioncategoria_mensaxe_erro">No se introdujo un nombre para la categoría</string>
+    <string name="str_gestioncategoria_mensaxe_modificar">No se modifico la categoria, ya existe</string>
+    <string name="str_gestioncategoria_mensaxe_eliminar">Remove Category</string>
+    <string name="str_gestioncategoria_mensaxe_eliminar2">Do you want to remove category: </string>
+    <string name="str_gestioncategoria_mensaxe_eliminarCategoria_erro1">Category haven´t been removed</string>
+    <string name="str_gestioncategoria_mensaxe_eliminarCategoria_erro2">Can´t delete a category if has lists</string>
+</resources>

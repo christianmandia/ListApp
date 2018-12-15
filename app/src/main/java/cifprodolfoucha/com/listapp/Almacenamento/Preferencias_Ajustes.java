@@ -31,7 +31,7 @@ public class Preferencias_Ajustes extends Activity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();
-        setTitle(getResources().getString(R.string.pref_main_nomeActivity));
+        //setTitle(getResources().getString(R.string.pref_main_nomeActivity));
     }
 
 }

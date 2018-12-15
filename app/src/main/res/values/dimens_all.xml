@@ -4,6 +4,7 @@
     <dimen name="ibtn_width_big_all">100sp</dimen>
 
     <dimen name="ibtn_both_all">55sp</dimen>
+    <dimen name="iv_both_all">110sp</dimen>
 
     <dimen name="text_size_all">17sp</dimen>
     <dimen name="text_l_small_size_all">15sp</dimen>

@@ -38,7 +38,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Lista" />
-        <activity android:name=".Almacenamento.Preferencias_Ajustes" />
+        <activity android:name=".Almacenamento.Preferencias_Ajustes"
+            android:label="@string/pref_main_nomeActivity"/>
         <activity
             android:name=".Activity_NuevaLista"
             android:label="@string/labelCrearLista" />

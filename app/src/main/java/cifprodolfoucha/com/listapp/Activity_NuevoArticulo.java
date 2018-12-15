@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,29 +27,34 @@ import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_GardarImaxe;
 
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
+
 public class Activity_NuevoArticulo extends Activity {
 
     //private String nomeFoto="";
     //private boolean pasaFoto;
 
     /**
-     * rutaArquivo
+     * rutaArquivo será unha referencia á ruta da imaxe.
      **/
     private String rutaArquivo="";
     /**
-     * nomeSobrescribir
+     * nomeSobrescribir será unha referencia á ruta da imaxe, por se sacamos otra, eliminar a primeira.
      **/
     private String nomeSobrescribir="";
     /**
-     * gardar
+     * gardar é unha referencia que indica que se sacou unha foto.
      **/
     private static boolean gardar=false;
     /**
-     * MY_CAMERA_REQUEST_CODE
+     * MY_CAMERA_REQUEST_CODE é un código utilizado ao chamar á camara e recibir os datos dela.
      **/
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     /**
-     *
+     *      Serán os cartafoles dá aplicación e o ficheiro da imaxe.
      **/
     private File img,imaxe,directorio;
     /**
@@ -139,6 +143,8 @@ public class Activity_NuevoArticulo extends Activity {
             public void onClick(View v) {
                 if(añadirArticulo()) {
                     borrarDatos();
+                    imaxe=null;
+                    gardar=false;
                 }
             }
         });
@@ -274,12 +280,12 @@ public class Activity_NuevoArticulo extends Activity {
                     articulos2.add(a);
                     añadido=true;
                 }else{
-                    Toast.makeText(this,"No se pudo añadir el articulo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,String.valueOf(R.string.str_nuevalista_mensaxe_erro1), Toast.LENGTH_SHORT).show();
                 }
 
 
             }else{
-                Toast.makeText(this,"No puedes crear un articulo sin nombre, animal", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,String.valueOf(R.string.str_nuevalista_mensaxe_erro2), Toast.LENGTH_SHORT).show();
             }
         }
 

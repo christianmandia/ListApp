@@ -2,7 +2,6 @@ package cifprodolfoucha.com.listapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +28,11 @@ import cifprodolfoucha.com.listapp.Adaptadores.ItemClickSupport;
 import cifprodolfoucha.com.listapp.Almacenamento.BaseDatos;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Articulo;
 import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
+
+/**
+ * @author Christian López Martín
+ * @version 1
+ **/
 
 public class Activity_Lista extends Activity {
 
@@ -327,10 +328,10 @@ public class Activity_Lista extends Activity {
                 final Activity_Lista ALista=((Activity_Lista)this);
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
-                d.setTitle("Eliminar");
-                d.setMessage("Está seguro de que desea eliminar este elemento?");
+                d.setTitle(R.string.str_lista_mensaxe_eliminar);
+                d.setMessage(String.valueOf(R.string.str_lista_mensaxe_eliminar2)+articuloSeleccionado.getNombre()+" ?");
                 d.setCancelable(false);
-                d.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
                         baseDatos.eliminarArticulo(articuloSeleccionado, listaRecibida.getId());
                         if(!articuloSeleccionado.getRutaImagen().equals("")){
@@ -346,13 +347,12 @@ public class Activity_Lista extends Activity {
 
                     }
                 });
-                d.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                d.setNegativeButton(R.string.str_all_mensaxe_no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {
                     }
                 });
                 d.create();
                 d.show();
-
         }
     }
 
