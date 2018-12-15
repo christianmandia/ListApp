@@ -129,7 +129,7 @@ public class Activity_GestionCategoria extends Activity {
 
                     AlertDialog.Builder d = new AlertDialog.Builder(GCategoria);
                     d.setTitle(R.string.str_gestioncategoria_mensaxe_eliminar);
-                    d.setMessage(R.string.str_gestioncategoria_mensaxe_eliminar2+cat.get(posC).getNombre()+" ?");
+                    d.setMessage(getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminar2)+cat.get(posC).getNombre()+" ?");
                     d.setCancelable(false);
                     d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int boton) {
