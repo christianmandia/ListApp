@@ -112,7 +112,7 @@ public class ItemClickSupport {
     /**
      *
      * @param listener
-     * @return 
+     * @return
      **/
     public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
