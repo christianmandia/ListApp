@@ -106,15 +106,19 @@ public class Activity_GestionCategoria extends Activity {
             public void onClick(View v) {
                 TextView modificarCategoria=(TextView)findViewById(R.id.etModificarCategoria_GestionCategorias);
                 String sMC=modificarCategoria.getText().toString();
-                Loxica_Categoria c = baseDatos.obterCategoria(sMC);
+                if(cat.size()!=0) {
+                    if (!sMC.equals("")) {
+                        Loxica_Categoria c = baseDatos.obterCategoria(sMC);
 
-                if(c.getNombre()==null) {
-                    long a = baseDatos.modificarCategoria(cat.get(posC).getId(),sMC);
-                    cargarCategorias2();
-                    Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
-                    spnCat.setSelection(posC);
-                }else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_modificar), Toast.LENGTH_SHORT).show();
+                        if (c.getNombre() == null) {
+                            long a = baseDatos.modificarCategoria(cat.get(posC).getId(), sMC);
+                            cargarCategorias2();
+                            Spinner spnCat = (Spinner) findViewById(R.id.spnCategorias_GestionCategorias);
+                            spnCat.setSelection(posC);
+                        } else {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_modificar), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
@@ -124,34 +128,37 @@ public class Activity_GestionCategoria extends Activity {
             @Override
             public void onClick(View v) {
                 int f;
-                if((f=baseDatos.obterNumListas(cat.get(posC)))==0){
+                if (cat.size() != 0) {
+                    if ((f = baseDatos.obterNumListas(cat.get(posC))) == 0) {
 
 
-                    AlertDialog.Builder d = new AlertDialog.Builder(GCategoria);
-                    d.setTitle(R.string.str_gestioncategoria_mensaxe_eliminar);
-                    d.setMessage(getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminar2)+cat.get(posC).getNombre()+" ?");
-                    d.setCancelable(false);
-                    d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int boton) {
-                            if(baseDatos.eliminarCategoria(cat.get(posC).getId())>0) {
-                                cargarCategorias2();
-                            }else{
-                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro1),Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder d = new AlertDialog.Builder(GCategoria);
+                        d.setTitle(R.string.str_gestioncategoria_mensaxe_eliminar);
+                        d.setMessage(getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminar2) + cat.get(posC).getNombre() + " ?");
+                        d.setCancelable(false);
+                        d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int boton) {
+                                if (baseDatos.eliminarCategoria(cat.get(posC).getId()) > 0) {
+                                    ((EditText)findViewById(R.id.etModificarCategoria_GestionCategorias)).setText("");
+                                    cargarCategorias2();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro1), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
-                    d.setNegativeButton(R.string.str_all_mensaxe_no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int boton) {
-                        }
-                    });
-                    d.create();
-                    d.show();
+                        });
+                        d.setNegativeButton(R.string.str_all_mensaxe_no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int boton) {
+                            }
+                        });
+                        d.create();
+                        d.show();
 
 
-                }else{
-                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro2),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro2), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-
             }
         });
 
@@ -201,6 +208,9 @@ public class Activity_GestionCategoria extends Activity {
         Spinner categorias=findViewById(R.id.spnCategorias_GestionCategorias);
         if(cat.get(0).getId()==0) {
             cat.remove(0);
+        }
+        if(cat.size()==0){
+
         }
 
         Adaptador_Categorias miAdaptador=new Adaptador_Categorias(this,cat);
