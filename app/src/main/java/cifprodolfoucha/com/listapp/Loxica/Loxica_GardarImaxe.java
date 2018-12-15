@@ -107,13 +107,13 @@ public class Loxica_GardarImaxe {
      * Chámaselle cando non se puido gardar a imaxe.
      **/
     private void UnableToSave() {
-        Toast.makeText(TheThis, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(TheThis, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Chámaselle cando se puido gardar a imaxe.
      **/
     private void AbleToSave() {
-        Toast.makeText(TheThis, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(TheThis, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
     }
 }
