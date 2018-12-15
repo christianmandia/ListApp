@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="str_registro_control_registroCorreo">O teu correo electrónico</string>
-    <string name="str_registro_control_registroContraseña">O teu contrasinal</string>
-    <string name="str_registro_control_registroBotón">Crear conta</string>
-    <string name="str_registro_control_IrALogin">Xa teño unha conta</string>
-</resources>

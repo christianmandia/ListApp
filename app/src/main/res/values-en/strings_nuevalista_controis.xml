@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tvNombre_CrearLista">Name</string>
-    <string name="tvCategoria_CrearLista">Category</string>
+    <string name="tvNombre_NuevaLista">Name</string>
+    <string name="tvCategoria_NuevaLista">Category</string>
+
+    <string name="hint_nuevalista_nombre_lista">List name</string>
 </resources>

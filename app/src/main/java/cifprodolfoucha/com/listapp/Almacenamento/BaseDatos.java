@@ -21,14 +21,37 @@ import cifprodolfoucha.com.listapp.Loxica.Loxica_Lista;
 
 public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
+    /**
+     * PATH_BD é unha referencia á ruta onde se garda a bd internamente.
+     **/
     public final static String PATH_BD="/data/data/cifprodolfoucha.com.listapp/databases";
+    /**
+     * NOME_BD é unha referencia ó nome da base de datos.
+     **/
     public final static String NOME_BD="ListApp.db";
+    /**
+     * VERSION_BD é unha referenci á version da base de datos.
+     **/
     public final static int VERSION_BD=1;
+    /**
+     * sInstance será unha referencia para as instancias que se fagan á base de datos, para ter sempre o mesmo acceso.
+     **/
     private static BaseDatos sInstance;
+    /**
+     * sqlLiteDB será unha referencia ó obxeto que se encarga das consultas á base de datos.
+     **/
     public SQLiteDatabase sqlLiteDB;
-
+    /**
+     * TABOA_LISTAS é unha referencia ó nome da taboa lista da base de datos.
+     **/
     private final String TABOA_LISTAS="Lista";
+    /**
+     * TABOA_CATEGORIAS é unha referencia ó nome da taboa categoria da base de datos.
+     **/
     private final String TABOA_CATEGORIAS="Categoria";
+    /**
+     * TABOA_ARTICULOS é unha referencia ó nome da taboa artículo da base de datos.
+     **/
     private final String TABOA_ARTICULOS="Articulo";
 
 
@@ -37,6 +60,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     *  É o que devolverá a instancia da base de datos.
+     * @param context
+     * @return a instancia da base de datos para que outras acitivities podan facer uso dos métodos de esta clase.
+     **/
     public static synchronized BaseDatos getInstance(Context context) {
         if (sInstance == null) {
             sInstance = new BaseDatos(context.getApplicationContext());
@@ -44,6 +72,12 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return sInstance;
     }
 
+    /**
+     * Modifica unha categoría da base de datos.
+     * @param idC o id da categoría a modificar.
+     * @param nMC o nome que se lle quere dar á categoría.
+     * @return o número de filas afectadas pola consulta.
+     **/
     public int modificarCategoria(int idC, String nMC){
         ContentValues datos = new ContentValues();
         datos.put("nombre_categoria",nMC);
@@ -53,12 +87,23 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return res;
     }
 
+    /**
+     * Elimina unh categoría da base de datos.
+     * @param idC o id da categoría a eliminar.
+     * @return o número de filas eliminadas.
+     **/
     public int eliminarCategoria(int idC){
         String condicionwhere = "id_categoria=?";
         String[] parametros = new String[]{idC+""};
         int rexistrosafectados = sqlLiteDB.delete(TABOA_CATEGORIAS,condicionwhere,parametros);
         return rexistrosafectados;
     }
+
+    /**
+     * Consulta para obter o número de listas asociadas a unha categoría.
+     * @param categoria a Categoría pola cal se quere consultar.
+     * @return o número de listas que teñen a categoría.
+     **/
     public int obterNumListas(Loxica_Categoria categoria) {
         int res=0;
         String[] parametros = new String[]{categoria.getId()+""};
@@ -72,6 +117,12 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return res;
     }
 
+    /**
+     * Engade unha lista á base de datos.
+     * @param nL nome da lista a engadir.
+     * @param idC id da categoía á que se asociará á lista.
+     * @return Un long que é o numero de fila da insercion.
+     **/
     public long engadirLista(String nL,int idC){
         ContentValues valores = new ContentValues();
         valores.put("nombre_lista",nL);
@@ -81,6 +132,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    /**
+     * Engade unha categoría á base de datos.
+     * @param c a categoría que se quere engadir.
+     * @return Un long que é o numero de fila da insercion.
+     **/
     public long engadirCategoria(Loxica_Categoria c){
         ContentValues valores = new ContentValues();
         valores.put("id_categoria",c.getId());
@@ -89,15 +145,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
-    /**
-     * Este metodo garda na BD unha nova categoria
-     *
-     * @params size, o int co tamaño
-     * @params nc, o que sexa
-     * @returns Un long que é o numero de fila da insercion
-     * @author Christian
-     * @version 1
-     **/
+    /*
     public long engadirCategoria(int size,String nC){
         size+=1;
         ContentValues valores = new ContentValues();
@@ -107,7 +155,13 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
 
         return id;
     }
+    */
 
+    /**
+     * Engade unha categoría á base de datos.
+     * @param nC nome da categoría que se quere engadir.
+     * @return Un long que é o numero de fila da insercion.
+     **/
     public long engadirCategoria(String nC){
         ContentValues valores = new ContentValues();
         //valores.put("id_categoria",null);
@@ -117,6 +171,12 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    /**
+     * Engade un artículo á base de datos.
+     * @param a o obxeto Artículo cos datos que se queren engadir.
+     * @param idL o id da Lista á que irá asociado o artículo.
+     * @return Un long que é o numero de fila da insercion.
+     **/
     public long engadirArticulo(Loxica_Articulo a, int idL){
         ContentValues valores = new ContentValues();
         valores.put("id_articulo",a.getId());
@@ -132,6 +192,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    /**
+     * Marcará un artículo como comprado.
+     * @param idA o id do artículo a modificar.
+     * @param idL o id da lista asociada ao artículo.
+     **/
     public void setComprado(int idA,int idL){
         ContentValues datos = new ContentValues();
         int comprado =1;
@@ -141,6 +206,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
     }
 
+    /**
+     * marcará un artículo como non comprado.
+     * @param idA o id do artículo a modificar.
+     * @param idL o id da lista asociada ao artículo.
+     **/
     public void setNoComprado(int idA,int idL){
         ContentValues datos = new ContentValues();
         int comprado=0;
@@ -150,12 +220,22 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         int res = sqlLiteDB.update(TABOA_ARTICULOS,datos,condicionwhere,parametros);
     }
 
+    /**
+     * Elimina un Artículo da base de datos.
+     * @param a O artículo a eliminar.
+     * @param idL o id da lista asociada ao arículo.
+     **/
     public void eliminarArticulo(Loxica_Articulo a, int idL){
         String condicionwhere = "id_articulo=? and id_lista=?";
         String[] parametros = new String[]{a.getId()+"",idL+""};
         int rexistrosafectados = sqlLiteDB.delete(TABOA_ARTICULOS,condicionwhere,parametros);
     }
 
+    /**
+     * Elimina unha lista da base de datos.
+     * @param idL o id da lista a elimina.
+     * @return o número de dilas afectadas pola consulta.
+     */
     public int eliminarLista(int idL){
         String condicionwhere = "id_lista=?";
         String[] parametros = new String[]{idL+""};
@@ -163,6 +243,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return rexistrosafectados;
     }
 
+    /**
+     * Obten os artículos asociados a unha lista.
+     * @param idL o id da lista da que se queren obter os artículos.
+     * @return un ArrayList cos artículos da lista.
+     **/
     public ArrayList<Loxica_Articulo> obterArticulos(int idL) {
         ArrayList<Loxica_Articulo> articulos = new ArrayList<Loxica_Articulo>();
 
@@ -183,6 +268,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return articulos;
     }
 
+    /**
+     * Xera un id para un artículo a partir do maior id de artículo asociado a unha lista.
+     * @param idL id da lista da cal obter os artículo.
+     * @return un novo id para un artículo.
+     **/
     public int obterNovoIdArticulo(int idL) {
         int id=0;
         String[] parametros = new String[]{idL+""};
@@ -198,6 +288,10 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id+1;
     }
 
+    /**
+     * Obtén as cateorías da base de datos.
+     * @return un ArrayList coas categorías almacenadasa na base de datos.
+     **/
     public ArrayList<Loxica_Categoria> obterCategorias() {
         ArrayList<Loxica_Categoria> categorias = new ArrayList<Loxica_Categoria>();
 
@@ -214,6 +308,18 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return categorias;
     }
 
+    /**
+     * Modifica un artículo na base de datos
+     * @param idA o id do artíuclo a modificar.
+     * @param idL o id da lista á cal está asociado o atíuculo.
+     * @param nA o nome do artículo.
+     * @param cant a cantidade do artículo.
+     * @param p o precio do artículo.
+     * @param notas as notas do artículo.
+     * @param img a ruta da imaxe do art´culo.
+     * @param comp se o artículo foi comprado ou non.
+     * @return o número de filas afectadas.
+     **/
     public int modArticulo(int idA,int idL, String nA,int cant,double p,String notas,String img,boolean comp){
         int comprado=0;
         if(comp){
@@ -236,6 +342,7 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return res;
     }
 
+/*
     public Loxica_Lista obterIdLista(String nL, int idC, Loxica_Categoria C) {
         Loxica_Lista lista =new Loxica_Lista();
 
@@ -251,7 +358,14 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         }
         return lista;
     }
+*/
 
+    /**
+     * Obten unha lista a partir do nome e a categoría.
+     * @param nL o nome da lista que se quere buscar.
+     * @param c a Categoríada lista.
+     * @return a lista atopada.
+     **/
     public Loxica_Lista obterLista(String nL, Loxica_Categoria c) {
         Loxica_Lista lista =new Loxica_Lista();
 
@@ -268,6 +382,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return lista;
     }
 
+    /**
+     * Obten o id dunha categoría.
+     * @param nC o nome da categoría a buscar.
+     * @return o id da categoría.
+     **/
     public int obterIdCategoria(String nC) {
         int id=0;
         String[] parametros = new String[]{nC};
@@ -282,6 +401,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return id;
     }
 
+    /**
+     * Obten unha categoría a partir dun id.
+     * @param id o id da categoría a buscar.
+     * @return a categoría con dito id.
+     **/
     public Loxica_Categoria obterCategoria(int id) {
         Loxica_Categoria categoria =new Loxica_Categoria();
 
@@ -298,6 +422,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return categoria;
     }
 
+    /**
+     * Obtén unha categoría a partir dun nome.
+     * @param nC o nome da Categoría.
+     * @return a Categoria co nome .
+     **/
     public Loxica_Categoria obterCategoria(String nC) {
         Loxica_Categoria categoria =new Loxica_Categoria();
 
@@ -314,7 +443,11 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return categoria;
     }
 
-
+    /**
+     * Obten ás listas que están asociadas a unhas categoría.
+     * @param categorias As categorías das cales se queren obter as listas.
+     * @return un ArrayList coas Listas asociadas á categoría.
+     **/
     public ArrayList<Loxica_Lista> obterListas(ArrayList<Loxica_Categoria> categorias) {
         ArrayList<Loxica_Lista> listas = new ArrayList<Loxica_Lista>();
         ArrayList<Loxica_Articulo> articulos;
@@ -337,6 +470,12 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         }
         return listas;
     }
+
+    /**
+     * Obten ás listas que están asociadas a unha categoría.
+     * @param categoria A categoría pola cal se queren filtrar as listas.
+     * @return un ArrayList coas Listas asociadas á categoría.
+     **/
     public ArrayList<Loxica_Lista> obterListas(Loxica_Categoria categoria) {
         ArrayList<Loxica_Lista> listas = new ArrayList<Loxica_Lista>();
         ArrayList<Loxica_Articulo> articulos;
@@ -359,12 +498,18 @@ public class BaseDatos extends SQLiteOpenHelper implements Serializable{
         return listas;
     }
 
+    /**
+     * Abre a instancia da base de datos.
+     **/
     public void abrirBD(){
         if (sqlLiteDB==null || !sqlLiteDB.isOpen()){
             sqlLiteDB = sInstance.getWritableDatabase();
         }
     }
 
+    /**
+     * Pecha a instancia da base de datos.
+     **/
     public void pecharBD(){
         if (sqlLiteDB!=null && sqlLiteDB.isOpen()){
             sqlLiteDB.close();

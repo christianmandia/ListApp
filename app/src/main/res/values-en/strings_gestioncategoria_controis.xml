@@ -3,4 +3,5 @@
     <string name="tvCategorias_GestionCategorias">Categories</string>
     <string name="tvNombre_GestionCategorias">New Category</string>
     <string name="tvImagen_GestionCategorias">Image of the Category</string>
+    <string name="hint_gestioncategorias">Category name</string>
 </resources>

@@ -81,10 +81,10 @@ public class Activity_GestionCategoria extends Activity {
 
                         nombreCategoria.setText("");
                     } else {
-                        Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_engadir), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_engadir), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_erro), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_erro), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -114,7 +114,7 @@ public class Activity_GestionCategoria extends Activity {
                     Spinner spnCat=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
                     spnCat.setSelection(posC);
                 }else{
-                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_gestioncategoria_mensaxe_modificar), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_gestioncategoria_mensaxe_modificar), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -136,7 +136,7 @@ public class Activity_GestionCategoria extends Activity {
                             if(baseDatos.eliminarCategoria(cat.get(posC).getId())>0) {
                                 cargarCategorias2();
                             }else{
-                                Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro1),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro1),Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -149,7 +149,7 @@ public class Activity_GestionCategoria extends Activity {
 
 
                 }else{
-                    Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro2),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_gestioncategoria_mensaxe_eliminarCategoria_erro2),Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -230,7 +230,7 @@ public class Activity_GestionCategoria extends Activity {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         constraintLayout = (ConstraintLayout) findViewById(R.id.bgFondo_GestionCategorias);
 
-        Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
+        //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_GestionCategorias);
 
         EditText etNombreCategoria=(EditText)findViewById(R.id.etNombreCat_GestionCategorias);
         EditText etmodificarCategoria=(EditText)findViewById(R.id.etModificarCategoria_GestionCategorias);
@@ -241,7 +241,7 @@ public class Activity_GestionCategoria extends Activity {
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
             etmodificarCategoria.setTextColor(getResources().getColor(R.color.white));
             etmodificarCategoria.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             etNombreCategoria.setTextColor(getResources().getColor(R.color.white));
@@ -250,7 +250,7 @@ public class Activity_GestionCategoria extends Activity {
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
 
 
         }

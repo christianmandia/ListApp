@@ -11,10 +11,11 @@
         android:id="@+id/etNombreArticulo_NuevoArticulo"
         android:layout_width="151sp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_all"
         android:layout_marginTop="8sp"
         android:ems="10"
+        android:hint="@string/hint_nuevoarticulo_nombre"
         android:inputType="textPersonName"
+        android:textSize="@dimen/text_size_all"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/tvNombreArticulo_NuevoAticulo" />
 
@@ -155,9 +156,10 @@
         android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8sp"
-        android:textSize="@dimen/text_size_all"
         android:ems="10"
+        android:hint="@string/hint_nuevoarticulo_nota"
         android:inputType="textPersonName"
+        android:textSize="@dimen/text_size_all"
         app:layout_constraintEnd_toStartOf="@+id/guideline18"
         app:layout_constraintStart_toEndOf="@+id/guideline15"
         app:layout_constraintTop_toBottomOf="@+id/tvNotasArticulo_NuevoArticulo" />

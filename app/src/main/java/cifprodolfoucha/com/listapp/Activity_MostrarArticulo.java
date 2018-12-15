@@ -105,7 +105,10 @@ public class Activity_MostrarArticulo extends Activity {
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
-
+            tvNombreM.setTextColor(getResources().getColor(R.color.blue));
+            tvNotasM.setTextColor(getResources().getColor(R.color.blue));
+            tvPrecioM.setTextColor(getResources().getColor(R.color.blue));
+            tvCantidadM.setTextColor(getResources().getColor(R.color.blue));
 
         }
 

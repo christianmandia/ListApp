@@ -18,6 +18,9 @@
     </style>
 
 
+
+
+
     <!-- Activity Dia -->
     <style name="Diurno" parent="ActivityTheme.Primary.Base.Light">
         <item name="android:windowBackground">@android:color/background_light</item>

@@ -329,7 +329,7 @@ public class Activity_Lista extends Activity {
                 d = new AlertDialog.Builder(this);
                 d.setIcon(android.R.drawable.ic_dialog_info);
                 d.setTitle(R.string.str_lista_mensaxe_eliminar);
-                d.setMessage(String.valueOf(R.string.str_lista_mensaxe_eliminar2)+articuloSeleccionado.getNombre()+" ?");
+                d.setMessage(getResources().getString(R.string.str_lista_mensaxe_eliminar2)+articuloSeleccionado.getNombre()+" ?");
                 d.setCancelable(false);
                 d.setPositiveButton(R.string.str_all_mensaxe_si, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int boton) {

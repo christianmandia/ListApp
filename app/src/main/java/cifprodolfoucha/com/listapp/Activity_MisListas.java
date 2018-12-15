@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -465,7 +466,7 @@ public class Activity_MisListas extends Activity {
                                 Adaptador_MisListas.notifyDataSetChanged();
 
                             } else {
-                                Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_mislistas_mensaxe_eliminarLista_erro1), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_mislistas_mensaxe_eliminarLista_erro1), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -480,7 +481,7 @@ public class Activity_MisListas extends Activity {
                     dialog=d.create();
                     d.show();
                 }else{
-                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.str_mislistas_mensaxe_eliminarLista_erro2), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.str_mislistas_mensaxe_eliminarLista_erro2), Toast.LENGTH_SHORT).show();
                 }
                 return;
                 case PROGRESS:
@@ -677,7 +678,7 @@ public class Activity_MisListas extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (baseDatos!=null){    // Pechamos a base de datos.
-//            Log.i("PROBA-1",String.valueOf(baseDatos.sqlLiteDB.isOpen()));
+//            Log.i("PROBA-1",getResources().getString(baseDatos.sqlLiteDB.isOpen()));
             baseDatos.pecharBD();
             baseDatos=null;
         }
@@ -699,7 +700,7 @@ public class Activity_MisListas extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    Toast.makeText(this,String.valueOf(R.string.str_mislistas_mensaxe_permisos),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,getResources().getString(R.string.str_mislistas_mensaxe_permisos),Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -748,7 +749,7 @@ public class Activity_MisListas extends Activity {
             }
             else if (response != HttpURLConnection.HTTP_OK){
                 // Algo foi mal, deberíamos informar a Activity cunha mensaxe
-                msg=String.valueOf(R.string.str_mislistas_mensaxe_descargaError);
+                msg= getResources().getString(R.string.str_mislistas_mensaxe_descargaError);
                 return;
             }
 
@@ -763,7 +764,7 @@ public class Activity_MisListas extends Activity {
             os.close();
             in.close();
             conn.disconnect();
-            msg=String.valueOf(R.string.str_mislistas_categoriasImportadas);
+            msg=getResources().getString(R.string.str_mislistas_categoriasImportadas);
         }
         catch (FileNotFoundException e) {
             //msg="Non atopado ficheiro";
@@ -834,7 +835,7 @@ public class Activity_MisListas extends Activity {
      **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
+        //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_mislistas);
 
         Boolean fondo= preferencias.getBoolean("preferencia_idFondo", false);
 
@@ -843,11 +844,11 @@ public class Activity_MisListas extends Activity {
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
         }
     }
 

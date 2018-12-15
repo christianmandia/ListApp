@@ -12,8 +12,17 @@ public class ItemClickSupport {
      **/
 
 
+    /**
+     * Referencia RecyclerView.
+     **/
     private final RecyclerView mRecyclerView;
+    /**
+     * Referencia ao obxecto OnItemClickListener.
+     **/
     private OnItemClickListener mOnItemClickListener;
+    /**
+     * Referencia ao obxecto OnItemLongClickListener.
+     **/
     private OnItemLongClickListener mOnItemLongClickListener;
 
 
@@ -66,6 +75,11 @@ public class ItemClickSupport {
     }
 
 
+    /**
+     *
+     * @param view o RecyclerView ao cal se lle quere asociar o CLick ou o LongClick.
+     * @return
+     **/
     public static ItemClickSupport addTo(RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support == null) {
@@ -74,6 +88,11 @@ public class ItemClickSupport {
         return support;
     }
 
+    /**
+     *
+     * @param view o RecyclerView ao cal se lle quere eliminar a asociacion de CLick ou de LongClick.
+     * @return
+     **/
 
     public static ItemClickSupport removeFrom(RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
@@ -90,6 +109,11 @@ public class ItemClickSupport {
     }
 
 
+    /**
+     *
+     * @param listener
+     * @return 
+     **/
     public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;

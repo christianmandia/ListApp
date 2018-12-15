@@ -87,10 +87,10 @@ public class Activity_NuevaLista extends Activity {
                         baseDatos.engadirLista(nL, id);
                         finish();
                     }else{
-                        Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_nuevalista_mensaxe_erro1),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_nuevalista_mensaxe_erro1),Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(),String.valueOf(R.string.str_nuevalista_mensaxe_erro2),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.str_nuevalista_mensaxe_erro2),Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -124,7 +124,7 @@ public class Activity_NuevaLista extends Activity {
      **/
     private void aplicarPreferencias() {
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_NuevaLista);
+        //Spinner spnC=(Spinner)findViewById(R.id.spnCategorias_NuevaLista);
 
         EditText etNombreLista=(EditText)findViewById(R.id.etNombreLista_NuevaLista);
         TextView tvNombreLista=(TextView)findViewById(R.id.tvNombreLista_NuevaLista);
@@ -135,7 +135,7 @@ public class Activity_NuevaLista extends Activity {
         if(fondo){
             setTheme(R.style.Nocturno);
             constraintLayout.setBackgroundColor(Color.BLACK);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
 
             etNombreLista.setTextColor(getResources().getColor(R.color.white));
             etNombreLista.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -145,7 +145,7 @@ public class Activity_NuevaLista extends Activity {
         }else{
             setTheme(R.style.Diurno);
             constraintLayout.setBackgroundColor(Color.WHITE);
-            spnC.setBackgroundColor(Color.DKGRAY);
+            //spnC.setBackgroundColor(Color.DKGRAY);
         }
     }
 

@@ -280,12 +280,12 @@ public class Activity_NuevoArticulo extends Activity {
                     articulos2.add(a);
                     añadido=true;
                 }else{
-                    Toast.makeText(this,String.valueOf(R.string.str_nuevalista_mensaxe_erro1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getResources().getString(R.string.str_nuevalista_mensaxe_erro1), Toast.LENGTH_SHORT).show();
                 }
 
 
             }else{
-                Toast.makeText(this,String.valueOf(R.string.str_nuevalista_mensaxe_erro2), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getResources().getString(R.string.str_nuevalista_mensaxe_erro2), Toast.LENGTH_SHORT).show();
             }
         }
 

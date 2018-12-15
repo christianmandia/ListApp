@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_main_nomeActivity">Ajustes</string>
+    <string name="pref_main_ajustesListas">Listas</string>
+    <string name="pref_main_cambiarFondo">Modo Nocturno</string>
+    <string name="pref_main_ajustesGenerales">Generales</string>
+    <string name="pref_main_version">Versión</string>
+    <string name="pref_main_versionActual">0.0.1</string>
+</resources>

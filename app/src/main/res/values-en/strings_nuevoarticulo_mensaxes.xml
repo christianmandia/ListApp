@@ -2,4 +2,7 @@
 <resources>
     <string name="str_nuevoarticulo_erro1">Error creating item</string>
     <string name="str_nuevoarticulo_erro2">Can´t create an item without name</string>
+
+    <string name="hint_nuevoarticulo_nombre">Item name</string>
+    <string name="hint_nuevoarticulo_nota">Item notes</string>
 </resources>

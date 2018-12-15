@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="registroCorreo">Tu correo electrónico</string>
-    <string name="registroContraseña">Tu contraseña</string>
-    <string name="registroBotón">Crear cuenta</string>
-    <string name="str_registro_control_IrALogin">Ya tengo una cuenta</string>
-</resources>
