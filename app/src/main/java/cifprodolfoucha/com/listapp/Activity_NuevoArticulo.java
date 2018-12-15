@@ -279,6 +279,7 @@ public class Activity_NuevoArticulo extends Activity {
                 long res = baseDatos.engadirArticulo(a, idListaRecibida);
                 if (res > 0) {
                     articulos2.add(a);
+                    articulos.add(a);
                     añadido=true;
                 }else{
                     Toast.makeText(this,getResources().getString(R.string.str_nuevoarticulo_erro1), Toast.LENGTH_SHORT).show();
